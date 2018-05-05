@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(partical_system)
+project(particle_system)
 
 find_package(OpenCL REQUIRED)
 include_directories(${OpenCL_INCLUDE_DIRS})
@@ -23,10 +23,10 @@ set(
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
-add_executable(partical_system ${SOURCE_FILES})
+add_executable(particle_system ${SOURCE_FILES})
 
-target_include_directories(partical_system PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(particle_system PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(partical_system nanogui ${NANOGUI_EXTRA_LIBS})
-target_link_libraries(partical_system OpenCL::OpenCL)
+target_link_libraries(particle_system nanogui ${NANOGUI_EXTRA_LIBS})
+target_link_libraries(particle_system OpenCL::OpenCL)
 

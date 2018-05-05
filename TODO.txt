@@ -1,4 +1,0 @@
-TODO
-
-1. Make Cyles time aware
-2. Cycle::function to interpolate between each KeyFrame

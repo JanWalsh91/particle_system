@@ -72,7 +72,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/partical_system.dir/DependInfo.cmake"
+  "CMakeFiles/particle_system.dir/DependInfo.cmake"
   "libs/nanogui/CMakeFiles/nanogui.dir/DependInfo.cmake"
   "libs/nanogui/CMakeFiles/nanogui-obj.dir/DependInfo.cmake"
   "libs/nanogui/ext_build/glfw/src/CMakeFiles/glfw_objects.dir/DependInfo.cmake"

@@ -133,7 +133,7 @@ CMAKE_OSX_DEPLOYMENT_TARGET:STRING=
 CMAKE_OSX_SYSROOT:STRING=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=partical_system
+CMAKE_PROJECT_NAME:STATIC=particle_system
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib
@@ -314,6 +314,12 @@ partical_system_BINARY_DIR:STATIC=/Users/jwalsh/Documents/42/particle_system/bui
 
 //Value Computed by CMake
 partical_system_SOURCE_DIR:STATIC=/Users/jwalsh/Documents/42/particle_system
+
+//Value Computed by CMake
+particle_system_BINARY_DIR:STATIC=/Users/jwalsh/Documents/42/particle_system/build
+
+//Value Computed by CMake
+particle_system_SOURCE_DIR:STATIC=/Users/jwalsh/Documents/42/particle_system
 
 
 ########################

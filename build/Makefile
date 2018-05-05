@@ -157,17 +157,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named partical_system
+# Target rules for targets named particle_system
 
 # Build rule for target.
-partical_system: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 partical_system
-.PHONY : partical_system
+particle_system: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 particle_system
+.PHONY : particle_system
 
 # fast build rule for target.
-partical_system/fast:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/build
-.PHONY : partical_system/fast
+particle_system/fast:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/build
+.PHONY : particle_system/fast
 
 #=============================================================================
 # Target rules for targets named nanogui
@@ -227,7 +227,7 @@ libs/nanogui/ext/glad/src/glad.o: libs/nanogui/ext/glad/src/glad.c.o
 
 # target to build an object file
 libs/nanogui/ext/glad/src/glad.c.o:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/libs/nanogui/ext/glad/src/glad.c.o
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.o
 .PHONY : libs/nanogui/ext/glad/src/glad.c.o
 
 libs/nanogui/ext/glad/src/glad.i: libs/nanogui/ext/glad/src/glad.c.i
@@ -236,7 +236,7 @@ libs/nanogui/ext/glad/src/glad.i: libs/nanogui/ext/glad/src/glad.c.i
 
 # target to preprocess a source file
 libs/nanogui/ext/glad/src/glad.c.i:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/libs/nanogui/ext/glad/src/glad.c.i
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.i
 .PHONY : libs/nanogui/ext/glad/src/glad.c.i
 
 libs/nanogui/ext/glad/src/glad.s: libs/nanogui/ext/glad/src/glad.c.s
@@ -245,7 +245,7 @@ libs/nanogui/ext/glad/src/glad.s: libs/nanogui/ext/glad/src/glad.c.s
 
 # target to generate assembly for a file
 libs/nanogui/ext/glad/src/glad.c.s:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/libs/nanogui/ext/glad/src/glad.c.s
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.s
 .PHONY : libs/nanogui/ext/glad/src/glad.c.s
 
 src/ExceptionMsg.o: src/ExceptionMsg.cpp.o
@@ -254,7 +254,7 @@ src/ExceptionMsg.o: src/ExceptionMsg.cpp.o
 
 # target to build an object file
 src/ExceptionMsg.cpp.o:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/ExceptionMsg.cpp.o
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o
 .PHONY : src/ExceptionMsg.cpp.o
 
 src/ExceptionMsg.i: src/ExceptionMsg.cpp.i
@@ -263,7 +263,7 @@ src/ExceptionMsg.i: src/ExceptionMsg.cpp.i
 
 # target to preprocess a source file
 src/ExceptionMsg.cpp.i:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/ExceptionMsg.cpp.i
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.i
 .PHONY : src/ExceptionMsg.cpp.i
 
 src/ExceptionMsg.s: src/ExceptionMsg.cpp.s
@@ -272,7 +272,7 @@ src/ExceptionMsg.s: src/ExceptionMsg.cpp.s
 
 # target to generate assembly for a file
 src/ExceptionMsg.cpp.s:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/ExceptionMsg.cpp.s
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.s
 .PHONY : src/ExceptionMsg.cpp.s
 
 src/GUI.o: src/GUI.cpp.o
@@ -281,7 +281,7 @@ src/GUI.o: src/GUI.cpp.o
 
 # target to build an object file
 src/GUI.cpp.o:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/GUI.cpp.o
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/GUI.cpp.o
 .PHONY : src/GUI.cpp.o
 
 src/GUI.i: src/GUI.cpp.i
@@ -290,7 +290,7 @@ src/GUI.i: src/GUI.cpp.i
 
 # target to preprocess a source file
 src/GUI.cpp.i:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/GUI.cpp.i
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/GUI.cpp.i
 .PHONY : src/GUI.cpp.i
 
 src/GUI.s: src/GUI.cpp.s
@@ -299,7 +299,7 @@ src/GUI.s: src/GUI.cpp.s
 
 # target to generate assembly for a file
 src/GUI.cpp.s:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/GUI.cpp.s
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/GUI.cpp.s
 .PHONY : src/GUI.cpp.s
 
 src/OpenGLWindow.o: src/OpenGLWindow.cpp.o
@@ -308,7 +308,7 @@ src/OpenGLWindow.o: src/OpenGLWindow.cpp.o
 
 # target to build an object file
 src/OpenGLWindow.cpp.o:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/OpenGLWindow.cpp.o
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.o
 .PHONY : src/OpenGLWindow.cpp.o
 
 src/OpenGLWindow.i: src/OpenGLWindow.cpp.i
@@ -317,7 +317,7 @@ src/OpenGLWindow.i: src/OpenGLWindow.cpp.i
 
 # target to preprocess a source file
 src/OpenGLWindow.cpp.i:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/OpenGLWindow.cpp.i
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.i
 .PHONY : src/OpenGLWindow.cpp.i
 
 src/OpenGLWindow.s: src/OpenGLWindow.cpp.s
@@ -326,7 +326,7 @@ src/OpenGLWindow.s: src/OpenGLWindow.cpp.s
 
 # target to generate assembly for a file
 src/OpenGLWindow.cpp.s:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/OpenGLWindow.cpp.s
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.s
 .PHONY : src/OpenGLWindow.cpp.s
 
 src/Shader.o: src/Shader.cpp.o
@@ -335,7 +335,7 @@ src/Shader.o: src/Shader.cpp.o
 
 # target to build an object file
 src/Shader.cpp.o:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/Shader.cpp.o
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/Shader.cpp.o
 .PHONY : src/Shader.cpp.o
 
 src/Shader.i: src/Shader.cpp.i
@@ -344,7 +344,7 @@ src/Shader.i: src/Shader.cpp.i
 
 # target to preprocess a source file
 src/Shader.cpp.i:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/Shader.cpp.i
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/Shader.cpp.i
 .PHONY : src/Shader.cpp.i
 
 src/Shader.s: src/Shader.cpp.s
@@ -353,7 +353,7 @@ src/Shader.s: src/Shader.cpp.s
 
 # target to generate assembly for a file
 src/Shader.cpp.s:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/Shader.cpp.s
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/Shader.cpp.s
 .PHONY : src/Shader.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -362,7 +362,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/main.cpp.o
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -371,7 +371,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/main.cpp.i
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -380,7 +380,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/src/main.cpp.s
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 # Help Target
@@ -391,11 +391,11 @@ help:
 	@echo "... depend"
 	@echo "... install/local"
 	@echo "... install/strip"
-	@echo "... partical_system"
 	@echo "... install"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... particle_system"
 	@echo "... nanogui"
 	@echo "... nanogui-obj"
 	@echo "... glfw_objects"

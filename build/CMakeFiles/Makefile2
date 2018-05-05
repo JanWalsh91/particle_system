@@ -60,39 +60,39 @@ CMAKE_SOURCE_DIR = /Users/jwalsh/Documents/42/particle_system
 CMAKE_BINARY_DIR = /Users/jwalsh/Documents/42/particle_system/build
 
 #=============================================================================
-# Target rules for target CMakeFiles/partical_system.dir
+# Target rules for target CMakeFiles/particle_system.dir
 
 # All Build rule for target.
-CMakeFiles/partical_system.dir/all: libs/nanogui/CMakeFiles/nanogui.dir/all
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/depend
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=48,49,50,51,52,53,54 "Built target partical_system"
-.PHONY : CMakeFiles/partical_system.dir/all
+CMakeFiles/particle_system.dir/all: libs/nanogui/CMakeFiles/nanogui.dir/all
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/depend
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=48,49,50,51,52,53,54 "Built target particle_system"
+.PHONY : CMakeFiles/particle_system.dir/all
 
 # Include target in all.
-all: CMakeFiles/partical_system.dir/all
+all: CMakeFiles/particle_system.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/partical_system.dir/rule: cmake_check_build_system
+CMakeFiles/particle_system.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles 53
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/partical_system.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/particle_system.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles 0
-.PHONY : CMakeFiles/partical_system.dir/rule
+.PHONY : CMakeFiles/particle_system.dir/rule
 
 # Convenience name for target.
-partical_system: CMakeFiles/partical_system.dir/rule
+particle_system: CMakeFiles/particle_system.dir/rule
 
-.PHONY : partical_system
-
-# clean rule for target.
-CMakeFiles/partical_system.dir/clean:
-	$(MAKE) -f CMakeFiles/partical_system.dir/build.make CMakeFiles/partical_system.dir/clean
-.PHONY : CMakeFiles/partical_system.dir/clean
+.PHONY : particle_system
 
 # clean rule for target.
-clean: CMakeFiles/partical_system.dir/clean
+CMakeFiles/particle_system.dir/clean:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/clean
+.PHONY : CMakeFiles/particle_system.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/particle_system.dir/clean
 
 .PHONY : clean
 

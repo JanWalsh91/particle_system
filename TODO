@@ -1,0 +1,8 @@
+- Practice Making NanoGUI windows and widgets
+- Learn OpenCL
+	- make basic kernel
+	- pass between OpenGL and OpenCL
+- organize program
+- Calculate fps
+- Use opengl math library
+- Prepare Camera, perspective matrix etc... (in opengl math lib?)
