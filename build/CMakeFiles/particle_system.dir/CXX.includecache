@@ -1306,6 +1306,22 @@ GUI.hpp
 OpenGLWindow.hpp
 /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp
 
+/Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.cpp
+OpenCLContext.hpp
+/Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
+
+/Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
+cl.hpp
+/Users/jwalsh/Documents/42/particle_system/src/cl.hpp
+string
+-
+iostream
+-
+fstream
+-
+sstream
+-
+
 /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.cpp
 OpenGLWindow.hpp
 /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp
@@ -1387,4 +1403,6 @@ vector
 -
 cl.hpp
 /Users/jwalsh/Documents/42/particle_system/src/cl.hpp
+OpenCLContext.hpp
+/Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
 

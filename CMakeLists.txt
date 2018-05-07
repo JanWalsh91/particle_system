@@ -16,6 +16,7 @@ set(
 	src/main.cpp
 	src/Shader.cpp
 	src/OpenGLWindow.cpp
+	src/OpenCLContext.cpp
 	src/GUI.cpp
 	libs/nanogui/ext/glad/src/glad.c
 	src/ExceptionMsg.cpp

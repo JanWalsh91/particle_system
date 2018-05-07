@@ -302,6 +302,33 @@ src/GUI.cpp.s:
 	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/GUI.cpp.s
 .PHONY : src/GUI.cpp.s
 
+src/OpenCLContext.o: src/OpenCLContext.cpp.o
+
+.PHONY : src/OpenCLContext.o
+
+# target to build an object file
+src/OpenCLContext.cpp.o:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o
+.PHONY : src/OpenCLContext.cpp.o
+
+src/OpenCLContext.i: src/OpenCLContext.cpp.i
+
+.PHONY : src/OpenCLContext.i
+
+# target to preprocess a source file
+src/OpenCLContext.cpp.i:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.i
+.PHONY : src/OpenCLContext.cpp.i
+
+src/OpenCLContext.s: src/OpenCLContext.cpp.s
+
+.PHONY : src/OpenCLContext.s
+
+# target to generate assembly for a file
+src/OpenCLContext.cpp.s:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.s
+.PHONY : src/OpenCLContext.cpp.s
+
 src/OpenGLWindow.o: src/OpenGLWindow.cpp.o
 
 .PHONY : src/OpenGLWindow.o
@@ -409,6 +436,9 @@ help:
 	@echo "... src/GUI.o"
 	@echo "... src/GUI.i"
 	@echo "... src/GUI.s"
+	@echo "... src/OpenCLContext.o"
+	@echo "... src/OpenCLContext.i"
+	@echo "... src/OpenCLContext.s"
 	@echo "... src/OpenGLWindow.o"
 	@echo "... src/OpenGLWindow.i"
 	@echo "... src/OpenGLWindow.s"

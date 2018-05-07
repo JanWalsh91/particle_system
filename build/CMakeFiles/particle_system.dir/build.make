@@ -96,9 +96,22 @@ CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.cpp -o CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.s
 
+CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o: CMakeFiles/particle_system.dir/flags.make
+CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o: ../src/OpenCLContext.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o -c /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.cpp
+
+CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.cpp > CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.i
+
+CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.cpp -o CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.s
+
 CMakeFiles/particle_system.dir/src/GUI.cpp.o: CMakeFiles/particle_system.dir/flags.make
 CMakeFiles/particle_system.dir/src/GUI.cpp.o: ../src/GUI.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/particle_system.dir/src/GUI.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/particle_system.dir/src/GUI.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_system.dir/src/GUI.cpp.o -c /Users/jwalsh/Documents/42/particle_system/src/GUI.cpp
 
 CMakeFiles/particle_system.dir/src/GUI.cpp.i: cmake_force
@@ -111,7 +124,7 @@ CMakeFiles/particle_system.dir/src/GUI.cpp.s: cmake_force
 
 CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.o: CMakeFiles/particle_system.dir/flags.make
 CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.o: ../libs/nanogui/ext/glad/src/glad.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.o   -c /Users/jwalsh/Documents/42/particle_system/libs/nanogui/ext/glad/src/glad.c
 
 CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.i: cmake_force
@@ -124,7 +137,7 @@ CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.s: cmake_force
 
 CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o: CMakeFiles/particle_system.dir/flags.make
 CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o: ../src/ExceptionMsg.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o -c /Users/jwalsh/Documents/42/particle_system/src/ExceptionMsg.cpp
 
 CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.i: cmake_force
@@ -140,6 +153,7 @@ particle_system_OBJECTS = \
 "CMakeFiles/particle_system.dir/src/main.cpp.o" \
 "CMakeFiles/particle_system.dir/src/Shader.cpp.o" \
 "CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.o" \
+"CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o" \
 "CMakeFiles/particle_system.dir/src/GUI.cpp.o" \
 "CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.o" \
 "CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o"
@@ -150,13 +164,14 @@ particle_system_EXTERNAL_OBJECTS =
 particle_system: CMakeFiles/particle_system.dir/src/main.cpp.o
 particle_system: CMakeFiles/particle_system.dir/src/Shader.cpp.o
 particle_system: CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.o
+particle_system: CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o
 particle_system: CMakeFiles/particle_system.dir/src/GUI.cpp.o
 particle_system: CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.o
 particle_system: CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o
 particle_system: CMakeFiles/particle_system.dir/build.make
 particle_system: libs/nanogui/libnanogui.dylib
 particle_system: CMakeFiles/particle_system.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable particle_system"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable particle_system"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/particle_system.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
