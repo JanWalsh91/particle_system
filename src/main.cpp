@@ -18,7 +18,7 @@ int    main ( void ) {
 	// 6. Create Data Buffers
 	cl::Buffer buffer_A(CL.context, CL_MEM_READ_WRITE, sizeof(int) * 10, nullptr, &err);
 	CL.checkError(err, "new buffer A");
-	cl::Buffer buffer_B(CL.context, CL_MEM_READ_WRITE, sizeof(int) * 10, &err);
+	cl::Buffer buffer_B(CL.context, CL_MEM_READ_WRITE, sizeof(int) * 10, nullptr, &err);
 	CL.checkError(err, "new buffer B");
 	
 	int *A = (int *)malloc(sizeof(int) * 10);
@@ -41,7 +41,7 @@ int    main ( void ) {
 	err = CL.queue.finish();
 	CL.checkError(err, "finish queue");
 	
-	int B[10];
+	int *B = (int *)malloc(sizeof(int) * 10);
 	
 	err = CL.queue.enqueueReadBuffer(buffer_B, CL_TRUE, 0, sizeof(int) * 10, B);
 	CL.checkError(err, "enqueueReadBuffer");
