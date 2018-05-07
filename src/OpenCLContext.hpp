@@ -30,3 +30,5 @@ class OpenCLContext {
 };
 
 #endif
+
+// include_directories(cl_gl.h)

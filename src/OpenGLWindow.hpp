@@ -30,12 +30,6 @@ private:
 	int			width;
 	int			height;
 	double		lastTimeFrame;
-	// Matrix		viewMatrix;
-	// Vector		camPos;
-	// Vector		camDir;
-	// Vector		camRight;
-	// Vector		camUp;
-	// Matrix		PMatrix;
 
 	// double poubelle;
 };

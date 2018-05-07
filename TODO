@@ -6,3 +6,12 @@
 - Calculate fps
 - Use opengl math library
 - Prepare Camera, perspective matrix etc... (in opengl math lib?)
+
+
+
+- Initialize array of particles on GPU with openCL
+- Retrieve pointer
+- Pass pointer to OpenGL
+- Render particle
+- Affect particle with openCL kernel and force
+- Pass pointer back to OpenGL and render

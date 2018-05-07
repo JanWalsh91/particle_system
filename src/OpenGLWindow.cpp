@@ -2,6 +2,8 @@
 #include "ExceptionMsg.hpp"
 
 OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): nanogui::Screen(), width(width), height(height) {
+	
+	std::cout << "creating window with height: " << height << " width: " << width << " title: " << title << std::endl;
 	if (!(this->window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr))) {
 		throw ExceptionMsg("Failed to create window");
 	}
@@ -22,55 +24,55 @@ OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): 
 
 	bool enabled = true;
 
-	this->gui = new GUI(this);
-	this->gui->createSettings();
+	// this->gui = new GUI(this);
+	// this->gui->createSettings();
 
-	this->setVisible(true);
-	this->performLayout();
+	// this->setVisible(true);
+	// this->performLayout();
 
-	glfwSetWindowUserPointer(this->window, this);
+	// glfwSetWindowUserPointer(this->window, this);
 
-	glfwSetCursorPosCallback(window, [](GLFWwindow *win, double x, double y) {
-		OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
-			 screen->cursorPosCallbackEvent(x, y);
-		 }
-	);
+	// glfwSetCursorPosCallback(window, [](GLFWwindow *win, double x, double y) {
+	// 	OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
+	// 		 screen->cursorPosCallbackEvent(x, y);
+	// 	 }
+	// );
 
-	glfwSetMouseButtonCallback(window, [](GLFWwindow *win, int button, int action, int modifiers) {
-		OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
-			screen->mouseButtonCallbackEvent(button, action, modifiers);
-		}
-	);
+	// glfwSetMouseButtonCallback(window, [](GLFWwindow *win, int button, int action, int modifiers) {
+	// 	OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
+	// 		screen->mouseButtonCallbackEvent(button, action, modifiers);
+	// 	}
+	// );
 
-	glfwSetKeyCallback(window, [](GLFWwindow *win, int key, int scancode, int action, int mods) {
-		OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
-   			screen->keyCallbackEvent(key, scancode, action, mods);
-	   }
-	);
+	// glfwSetKeyCallback(window, [](GLFWwindow *win, int key, int scancode, int action, int mods) {
+	// 	OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
+   	// 		screen->keyCallbackEvent(key, scancode, action, mods);
+	//    }
+	// );
 
-	glfwSetCharCallback(window, [](GLFWwindow *win, unsigned int codepoint) {
-		OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
-			screen->charCallbackEvent(codepoint);
-		}
-	);
+	// glfwSetCharCallback(window, [](GLFWwindow *win, unsigned int codepoint) {
+	// 	OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
+	// 		screen->charCallbackEvent(codepoint);
+	// 	}
+	// );
 
-	glfwSetDropCallback(window, [](GLFWwindow *win, int count, const char **filenames) {
-		OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
-			screen->dropCallbackEvent(count, filenames);
-		}
-	);
+	// glfwSetDropCallback(window, [](GLFWwindow *win, int count, const char **filenames) {
+	// 	OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
+	// 		screen->dropCallbackEvent(count, filenames);
+	// 	}
+	// );
 
-	glfwSetScrollCallback(window, [](GLFWwindow *win, double x, double y) {
-		OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
-			screen->scrollCallbackEvent(x, y);
-		}
-	);
+	// glfwSetScrollCallback(window, [](GLFWwindow *win, double x, double y) {
+	// 	OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
+	// 		screen->scrollCallbackEvent(x, y);
+	// 	}
+	// );
 
-	glfwSetFramebufferSizeCallback(window, [](GLFWwindow *win, int width, int height) {
-		OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
-			screen->resizeCallbackEvent(width, height);
-	   }
-	);
+	// glfwSetFramebufferSizeCallback(window, [](GLFWwindow *win, int width, int height) {
+	// 	OpenGLWindow* screen = (OpenGLWindow*)glfwGetWindowUserPointer(win);
+	// 		screen->resizeCallbackEvent(width, height);
+	//    }
+	// );
 }
 
 OpenGLWindow::OpenGLWindow( OpenGLWindow const & Window ) {
@@ -106,10 +108,10 @@ void OpenGLWindow::loop() {
 		
 		glfwPollEvents();
 
-		glClearColor(0.2f, 0.2f, .5f, 1.0f);
+		glClearColor(.0f, .0f, .0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		this->drawContents();
+		// this->drawContents();
 
 //		this->shaderProgram.setVector("color", Vector(1, 0.5, 0));
 
@@ -130,7 +132,7 @@ void OpenGLWindow::loop() {
 //		glBindVertexArray(VAO);
 //		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		this->drawWidgets();
+		// this->drawWidgets();
 		glfwSwapBuffers(this->window);
 	}
 }

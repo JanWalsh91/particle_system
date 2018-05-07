@@ -9,6 +9,7 @@ add_subdirectory(libs/nanogui)
 include_directories(libs/nanogui/include)
 include_directories(libs/nanogui/ext/glad/include)
 include_directories(${NANOGUI_EXTRA_INCS})
+include_directories(include)
 add_definitions(${NANOGUI_EXTRA_DEFS})
 
 set(
@@ -18,6 +19,7 @@ set(
 	src/OpenGLWindow.cpp
 	src/OpenCLContext.cpp
 	src/GUI.cpp
+	src/Camera.cpp
 	libs/nanogui/ext/glad/src/glad.c
 	src/ExceptionMsg.cpp
 )

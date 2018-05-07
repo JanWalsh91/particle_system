@@ -1,4 +1,5 @@
 #include "OpenCLContext.hpp"
+#include "OpenGLWindow.hpp"
 
 OpenCLContext::OpenCLContext( bool verbose ) {
 	cl_int err;
@@ -27,6 +28,17 @@ OpenCLContext::OpenCLContext( bool verbose ) {
 	if (verbose)
 		std::cout << "Using device: " << this->device.getInfo<CL_DEVICE_NAME>() << std::endl;
 
+
+	// needed to initialize gl and cl. 
+
+	// cl_context_properties	properties[] = {
+	// 	// CL_GL_CONTEXT_KHR, (cl_context_properties)wglGetCurrentContext(),
+	// 	CL_WGL_HDC_KHR, (cl_context_properties)wglGetCurrentDC(),
+	// 	CL_CONTEXT_PLATFORM, (cl_context_properties)platform(),
+	// 	0
+	// };
+
+
 	// 3. Create Context and Command Queue on that device
 	this->context = cl::Context(this->device, nullptr, nullptr, nullptr, &err);
 	this->checkError(err, "Create Context");
@@ -45,6 +57,7 @@ void	OpenCLContext::addKernelFromString(std::string kernelCode) {
 }
 
 void	OpenCLContext::addKernelFromFile(std::string kernelPath) {
+	// std::cout << "addKernelFromFile" << std::endl;
 	std::ifstream		kernelFile;
 	std::string			kernelCode;
 	std::stringstream	kernelStream;
@@ -63,6 +76,7 @@ void	OpenCLContext::addKernelFromFile(std::string kernelPath) {
 		std::cout << "Failed to read kernel from file" << std::endl;
 	}
 	this->addKernelFromString(kernelCode);
+	// std::cout << "done" << std::endl;
 }
 
 void	OpenCLContext::buildProgram() {

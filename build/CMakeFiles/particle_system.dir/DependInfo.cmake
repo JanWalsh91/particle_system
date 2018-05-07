@@ -24,9 +24,11 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   "../libs/nanogui/ext/glfw/include"
   "../libs/nanogui/ext/nanovg/src"
   "../libs/nanogui/ext/eigen"
+  "../include"
   "../"
   )
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/Users/jwalsh/Documents/42/particle_system/src/Camera.cpp" "/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/particle_system.dir/src/Camera.cpp.o"
   "/Users/jwalsh/Documents/42/particle_system/src/ExceptionMsg.cpp" "/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o"
   "/Users/jwalsh/Documents/42/particle_system/src/GUI.cpp" "/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/particle_system.dir/src/GUI.cpp.o"
   "/Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.cpp" "/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o"
@@ -51,6 +53,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../libs/nanogui/ext/glfw/include"
   "../libs/nanogui/ext/nanovg/src"
   "../libs/nanogui/ext/eigen"
+  "../include"
   "../"
   )
 

@@ -248,6 +248,33 @@ libs/nanogui/ext/glad/src/glad.c.s:
 	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.s
 .PHONY : libs/nanogui/ext/glad/src/glad.c.s
 
+src/Camera.o: src/Camera.cpp.o
+
+.PHONY : src/Camera.o
+
+# target to build an object file
+src/Camera.cpp.o:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/Camera.cpp.o
+.PHONY : src/Camera.cpp.o
+
+src/Camera.i: src/Camera.cpp.i
+
+.PHONY : src/Camera.i
+
+# target to preprocess a source file
+src/Camera.cpp.i:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/Camera.cpp.i
+.PHONY : src/Camera.cpp.i
+
+src/Camera.s: src/Camera.cpp.s
+
+.PHONY : src/Camera.s
+
+# target to generate assembly for a file
+src/Camera.cpp.s:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/Camera.cpp.s
+.PHONY : src/Camera.cpp.s
+
 src/ExceptionMsg.o: src/ExceptionMsg.cpp.o
 
 .PHONY : src/ExceptionMsg.o
@@ -430,6 +457,9 @@ help:
 	@echo "... libs/nanogui/ext/glad/src/glad.o"
 	@echo "... libs/nanogui/ext/glad/src/glad.i"
 	@echo "... libs/nanogui/ext/glad/src/glad.s"
+	@echo "... src/Camera.o"
+	@echo "... src/Camera.i"
+	@echo "... src/Camera.s"
 	@echo "... src/ExceptionMsg.o"
 	@echo "... src/ExceptionMsg.i"
 	@echo "... src/ExceptionMsg.s"
