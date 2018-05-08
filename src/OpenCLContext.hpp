@@ -26,14 +26,16 @@ class OpenCLContext {
 		void	buildProgram(std::string name);
 
 		static void checkError(cl_int error, std::string loc="");
-
-
+		
 		cl::Context				context;
 		cl::CommandQueue		queue;
-		std::map<std::string, cl::Program>	program;
 		cl::Platform			platform;
-
+		
+		// getters
+		cl::Kernel getKernel(std::string name) { return this->kernels[name]; }
+	
 	private:
+		std::map<std::string, cl::Kernel>	kernels;
 		cl::Device				device;
 		cl::Program::Sources	sources;
 };

@@ -15,8 +15,9 @@ int    main ( void ) {
 
 	CL.addKernelFromFile("../src/kernels/particle.h.cl");
 	CL.addKernelFromFile("../src/kernels/test.cl");
-	// CL.addKernelFromFile("../src/kernels/update_particle.cl");
 	CL.buildProgram("test");
+	CL.addKernelFromFile("../src/kernels/init_particles.cl");
+	CL.buildProgram("init_particles");
 	
 	GLuint VAO, VBO;
 	glGenVertexArrays(1, &VAO);
@@ -28,8 +29,11 @@ int    main ( void ) {
 	
 	cl::BufferGL clbuf = cl::BufferGL(CL.context, CL_MEM_READ_WRITE, VBO, &err);
 	CL.checkError(err, "BufferGL");
-	GL.loop();
+	
 
+	// err = CL.queue.enqueueNDRangeKernel(init_particles, cl::NullRange, cl::NDRange(1), cl::NullRange);
+	
+	GL.loop();
 
 
 	// == OPENCL tests == 

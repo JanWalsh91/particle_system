@@ -78,17 +78,18 @@ void	OpenCLContext::addKernelFromFile(std::string kernelPath) {
 	// std::cout << "done" << std::endl;
 }
 
-void	OpenCLContext::buildProgram(std::string programName) {
+void	OpenCLContext::buildProgram(std::string kernelName) {
 	cl_int err;
 
-	this->program[programName] = cl::Program(this->context, this->sources, &err);
+	cl::Program program = cl::Program(this->context, this->sources, &err);
 	checkError(err, "Create program");
 
-	err = this->program[programName].build({this->device});
-	// err = this->program.build();
+	err = program.build({this->device});
 	checkError(err, "Build program");
 
 	this->sources.clear();
+
+	this->kernels[kernelName] = cl::Kernel(program, "init_particles", &err);
 }
 
 void	OpenCLContext::checkError(cl_int error, std::string loc) {
