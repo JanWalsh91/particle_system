@@ -15,3 +15,11 @@
 - Render particle
 - Affect particle with openCL kernel and force
 - Pass pointer back to OpenGL and render
+
+
+glMapBuffer to map pointer and be able to access and modify values in the GPU from the CPU
+
+To execute openCL kernel:
+	clEnqueueAcquireGLObjects
+	clEnqueueNDRangeKernel
+	clEnqueueReleaseGLObjects

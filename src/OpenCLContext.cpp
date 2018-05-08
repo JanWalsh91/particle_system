@@ -14,13 +14,13 @@ OpenCLContext::OpenCLContext( bool verbose ) {
 	}
 	this->platform = all_platforms[0];
 	if (verbose)
-	std::cout << "Using platform: " << this->platform.getInfo<CL_PLATFORM_NAME>() << std::endl;
+		std::cout << "Using platform: " << this->platform.getInfo<CL_PLATFORM_NAME>() << std::endl;
 	
 	// 2. Find a GPU device
 	std::vector<cl::Device> all_devices;
 	err = this->platform.getDevices(CL_DEVICE_TYPE_ALL, &all_devices);
 	this->checkError(err, "Get Devices");
-	if (all_devices.size() == 0){
+	if (all_devices.size() == 0) {
 		std::cout << " No devices found. Check OpenCL installation!" << std::endl;
 		exit(1);
 	}
@@ -28,20 +28,19 @@ OpenCLContext::OpenCLContext( bool verbose ) {
 	if (verbose)
 		std::cout << "Using device: " << this->device.getInfo<CL_DEVICE_NAME>() << std::endl;
 
+	// 3. Create Context
+	CGLContextObj glContext = (CGLContextObj)CGLGetCurrentContext();
+	CGLShareGroupObj shareGroup = CGLGetShareGroup(glContext);
+	cl_context_properties properties[] = {
+		CL_CONTEXT_PROPERTY_USE_CGL_SHAREGROUP_APPLE,
+		(cl_context_properties)shareGroup,
+		0
+	};
 
-	// needed to initialize gl and cl. 
-
-	// cl_context_properties	properties[] = {
-	// 	// CL_GL_CONTEXT_KHR, (cl_context_properties)wglGetCurrentContext(),
-	// 	CL_WGL_HDC_KHR, (cl_context_properties)wglGetCurrentDC(),
-	// 	CL_CONTEXT_PLATFORM, (cl_context_properties)platform(),
-	// 	0
-	// };
-
-
-	// 3. Create Context and Command Queue on that device
-	this->context = cl::Context(this->device, nullptr, nullptr, nullptr, &err);
+	// 4. Command Queue on that device
+	this->context = cl::Context(this->device, properties, nullptr, nullptr, &err);
 	this->checkError(err, "Create Context");
+
 	this->queue = cl::CommandQueue(this->context, this->device, 0, &err);
 	this->checkError(err, "Create Queue");
 }
@@ -79,15 +78,17 @@ void	OpenCLContext::addKernelFromFile(std::string kernelPath) {
 	// std::cout << "done" << std::endl;
 }
 
-void	OpenCLContext::buildProgram() {
+void	OpenCLContext::buildProgram(std::string programName) {
 	cl_int err;
 
-	this->program = cl::Program(this->context, this->sources, &err);
+	this->program[programName] = cl::Program(this->context, this->sources, &err);
 	checkError(err, "Create program");
 
-	err = this->program.build({this->device});
+	err = this->program[programName].build({this->device});
 	// err = this->program.build();
 	checkError(err, "Build program");
+
+	this->sources.clear();
 }
 
 void	OpenCLContext::checkError(cl_int error, std::string loc) {

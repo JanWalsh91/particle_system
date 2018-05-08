@@ -1,10 +1,5 @@
 #include <sstream>
 #include <vector>
-#include <cl.hpp>
-#include <glm/fwd.hpp>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <cl_gl.h> // is this necessary?
 
 #include "OpenGLWindow.hpp"
 #include "OpenCLContext.hpp"
@@ -13,16 +8,15 @@ int    main ( void ) {
 	cl_int err = 0;
 
 	std::cout << "=== Particle System ===" << std::endl;
+	OpenGLWindow::initOpenGL();
+	OpenGLWindow GL(100, 100, "test");
+
 	OpenCLContext CL;
 
 	CL.addKernelFromFile("../src/kernels/particle.h.cl");
 	CL.addKernelFromFile("../src/kernels/test.cl");
 	// CL.addKernelFromFile("../src/kernels/update_particle.cl");
-	CL.buildProgram();
-	
-	
-	OpenGLWindow::initOpenGL();
-	OpenGLWindow GL(100, 100, "test");
+	CL.buildProgram("test");
 	
 	GLuint VAO, VBO;
 	glGenVertexArrays(1, &VAO);
@@ -30,13 +24,10 @@ int    main ( void ) {
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-	float *particle = nullptr;
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3, particle, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3, nullptr, GL_STATIC_DRAW);
 	
-	// cl::BufferGL clbuf = cl::BufferGL(CL.context, CL_MEM_READ_WRITE, VAO, &err);
+	cl::BufferGL clbuf = cl::BufferGL(CL.context, CL_MEM_READ_WRITE, VBO, &err);
 	CL.checkError(err, "BufferGL");
-
 	GL.loop();
 
 

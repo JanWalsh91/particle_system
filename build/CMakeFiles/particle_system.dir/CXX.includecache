@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-..//cl_gl.h
-OpenCL/cl.h
--
-CL/cl.h
--
-
 ../include/cl.hpp
 malloc.h
 -
@@ -44,6 +38,14 @@ string
 alloca.h
 -
 cstring
+-
+
+../include/cl_gl.h
+OpenCL/cl.h
+-
+OpenGL/CGLDevice.h
+-
+CL/cl.h
 -
 
 ../include/glm/common.hpp
@@ -2100,7 +2102,13 @@ OpenGLWindow.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
 cl.hpp
-/Users/jwalsh/Documents/42/particle_system/src/cl.hpp
+-
+OpenCL/opencl.h
+-
+OpenGL/CGLCurrent.h
+-
+cl_gl.h
+-
 string
 -
 iostream
@@ -2108,6 +2116,8 @@ iostream
 fstream
 -
 sstream
+-
+map
 -
 
 /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.cpp
@@ -2120,6 +2130,12 @@ ExceptionMsg.hpp
 glad/glad.h
 -
 GLFW/glfw3.h
+-
+glm/fwd.hpp
+-
+glm/glm.hpp
+-
+glm/gtc/matrix_transform.hpp
 -
 string
 -
@@ -2152,16 +2168,6 @@ iostream
 sstream
 -
 vector
--
-cl.hpp
--
-glm/fwd.hpp
--
-glm/glm.hpp
--
-glm/gtc/matrix_transform.hpp
--
-cl_gl.h
 -
 OpenGLWindow.hpp
 /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp

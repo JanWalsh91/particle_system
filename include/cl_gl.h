@@ -26,7 +26,7 @@
  * MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
  **********************************************************************************/
 
-/* $Revision: 11707 $ on $Date: 2010-06-13 23:30:16 -0700 (Sun, 13 Jun 2010) $ */
+/* $Revision: 11708 $ on $Date: 2010-06-13 23:36:24 -0700 (Sun, 13 Jun 2010) $ */
 
 /*
  * cl_gl.h contains Khronos-approved (KHR) OpenCL extensions which have
@@ -39,9 +39,10 @@
  
  #ifdef __APPLE__
  #include <OpenCL/cl.h>
+ #include <OpenGL/CGLDevice.h>
  #else
  #include <CL/cl.h>
- #endif
+ #endif	
  
  #ifdef __cplusplus
  extern "C" {
@@ -50,6 +51,7 @@
  typedef cl_uint     cl_gl_object_type;
  typedef cl_uint     cl_gl_texture_info;
  typedef cl_uint     cl_gl_platform_info;
+ typedef struct __GLsync *cl_GLsync;
  
  /* cl_gl_object_type */
  #define CL_GL_OBJECT_BUFFER             0x2000
@@ -93,7 +95,7 @@
  clGetGLObjectInfo(cl_mem                /* memobj */,
 				   cl_gl_object_type *   /* gl_object_type */,
 				   cl_GLuint *              /* gl_object_name */) CL_API_SUFFIX__VERSION_1_0;
- 
+				   
  extern CL_API_ENTRY cl_int CL_API_CALL
  clGetGLTextureInfo(cl_mem               /* memobj */,
 					cl_gl_texture_info   /* param_name */,
