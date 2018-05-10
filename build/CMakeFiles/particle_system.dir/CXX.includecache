@@ -2127,6 +2127,10 @@ ExceptionMsg.hpp
 /Users/jwalsh/Documents/42/particle_system/src/ExceptionMsg.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp
+string
+-
+vector
+-
 glad/glad.h
 -
 GLFW/glfw3.h
@@ -2137,14 +2141,26 @@ glm/glm.hpp
 -
 glm/gtc/matrix_transform.hpp
 -
-string
--
 nanogui/nanogui.h
 -
 Shader.hpp
 /Users/jwalsh/Documents/42/particle_system/src/Shader.hpp
 GUI.hpp
 /Users/jwalsh/Documents/42/particle_system/src/GUI.hpp
+
+/Users/jwalsh/Documents/42/particle_system/src/ParticleSystem.cpp
+ParticleSystem.hpp
+/Users/jwalsh/Documents/42/particle_system/src/ParticleSystem.hpp
+
+/Users/jwalsh/Documents/42/particle_system/src/ParticleSystem.hpp
+string
+-
+OpenGLWindow.hpp
+/Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp
+OpenCLContext.hpp
+/Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
+Camera.hpp
+/Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/Shader.cpp
 Shader.hpp
@@ -2169,8 +2185,6 @@ sstream
 -
 vector
 -
-OpenGLWindow.hpp
-/Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp
-OpenCLContext.hpp
-/Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
+ParticleSystem.hpp
+/Users/jwalsh/Documents/42/particle_system/src/ParticleSystem.hpp
 

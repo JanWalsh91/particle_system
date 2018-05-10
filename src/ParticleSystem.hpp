@@ -1,21 +1,31 @@
 #ifndef PARTICLE_SYSTEM_HPP
 # define PARTICLE_SYSTEM_HPP
 
+# include <string>
+
+# include "OpenGLWindow.hpp"
+# include "OpenCLContext.hpp"
 # include "Camera.hpp"
 
 class ParticleSystem {
 
 	public:
-		// init with preset:
-		// 	number of particles, 
-		//  paticle setup (position)
-		ParticleSystem(int numParticles = 1, std::string initLayout = "");
+		ParticleSystem();
 		~ParticleSystem();
 
 		Camera	camera;
 
+		void init(int numParticles = 1, std::string initLayout = "");
+		void loop();
+
 	private:
-		// array of particle positions need to be on GPU
+		int				numParticles;
+		OpenCLContext	*CL;
+		OpenGLWindow	*GL;
+		GLuint			VAO;
+		GLuint			VBO;
+		// cl::BufferGL	*clbuf;
+
 };
 
 #endif

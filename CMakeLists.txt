@@ -20,6 +20,7 @@ set(
 	src/OpenCLContext.cpp
 	src/GUI.cpp
 	src/Camera.cpp
+	src/ParticleSystem.cpp
 	libs/nanogui/ext/glad/src/glad.c
 	src/ExceptionMsg.cpp
 )

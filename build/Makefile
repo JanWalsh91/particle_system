@@ -383,6 +383,33 @@ src/OpenGLWindow.cpp.s:
 	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.s
 .PHONY : src/OpenGLWindow.cpp.s
 
+src/ParticleSystem.o: src/ParticleSystem.cpp.o
+
+.PHONY : src/ParticleSystem.o
+
+# target to build an object file
+src/ParticleSystem.cpp.o:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o
+.PHONY : src/ParticleSystem.cpp.o
+
+src/ParticleSystem.i: src/ParticleSystem.cpp.i
+
+.PHONY : src/ParticleSystem.i
+
+# target to preprocess a source file
+src/ParticleSystem.cpp.i:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.i
+.PHONY : src/ParticleSystem.cpp.i
+
+src/ParticleSystem.s: src/ParticleSystem.cpp.s
+
+.PHONY : src/ParticleSystem.s
+
+# target to generate assembly for a file
+src/ParticleSystem.cpp.s:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.s
+.PHONY : src/ParticleSystem.cpp.s
+
 src/Shader.o: src/Shader.cpp.o
 
 .PHONY : src/Shader.o
@@ -472,6 +499,9 @@ help:
 	@echo "... src/OpenGLWindow.o"
 	@echo "... src/OpenGLWindow.i"
 	@echo "... src/OpenGLWindow.s"
+	@echo "... src/ParticleSystem.o"
+	@echo "... src/ParticleSystem.i"
+	@echo "... src/ParticleSystem.s"
 	@echo "... src/Shader.o"
 	@echo "... src/Shader.i"
 	@echo "... src/Shader.s"

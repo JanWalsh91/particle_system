@@ -1,7 +1,7 @@
 #include "OpenCLContext.hpp"
 #include "OpenGLWindow.hpp"
 
-OpenCLContext::OpenCLContext( bool verbose ) {
+OpenCLContext::OpenCLContext( bool verbose, bool openGlShare ) {
 	cl_int err;
 
 	// 1. Get platform
@@ -29,18 +29,23 @@ OpenCLContext::OpenCLContext( bool verbose ) {
 		std::cout << "Using device: " << this->device.getInfo<CL_DEVICE_NAME>() << std::endl;
 
 	// 3. Create Context
-	CGLContextObj glContext = (CGLContextObj)CGLGetCurrentContext();
-	CGLShareGroupObj shareGroup = CGLGetShareGroup(glContext);
-	cl_context_properties properties[] = {
-		CL_CONTEXT_PROPERTY_USE_CGL_SHAREGROUP_APPLE,
-		(cl_context_properties)shareGroup,
-		0
-	};
-
-	// 4. Command Queue on that device
-	this->context = cl::Context(this->device, properties, nullptr, nullptr, &err);
+	if (openGlShare) {
+		CGLContextObj glContext = (CGLContextObj)CGLGetCurrentContext();
+		CGLShareGroupObj shareGroup = CGLGetShareGroup(glContext);
+		cl_context_properties properties[] = {
+			CL_CONTEXT_PROPERTY_USE_CGL_SHAREGROUP_APPLE,
+			(cl_context_properties)shareGroup,
+			0
+		};
+		this->context = cl::Context(this->device, properties, nullptr, nullptr, &err);
+	}
+	else {
+		this->context = cl::Context(this->device, nullptr, nullptr, nullptr, &err);
+	}
 	this->checkError(err, "Create Context");
 
+	
+	// 4. Command Queue on that device
 	this->queue = cl::CommandQueue(this->context, this->device, 0, &err);
 	this->checkError(err, "Create Queue");
 }

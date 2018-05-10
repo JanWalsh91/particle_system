@@ -23,3 +23,5 @@ To execute openCL kernel:
 	clEnqueueAcquireGLObjects
 	clEnqueueNDRangeKernel
 	clEnqueueReleaseGLObjects
+
+- init list of particles

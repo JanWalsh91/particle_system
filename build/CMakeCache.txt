@@ -273,12 +273,6 @@ OpenCL_INCLUDE_DIR:PATH=/System/Library/Frameworks/OpenCL.framework
 //Path to a library.
 OpenCL_LIBRARY:FILEPATH=/System/Library/Frameworks/OpenCL.framework
 
-//Value Computed by CMake
-Project_BINARY_DIR:STATIC=/Users/jwalsh/Documents/42/particle_system/build
-
-//Value Computed by CMake
-Project_SOURCE_DIR:STATIC=/Users/jwalsh/Documents/42/particle_system
-
 //Path to a file.
 VULKAN_INCLUDE_DIR:PATH=VULKAN_INCLUDE_DIR-NOTFOUND
 
@@ -294,12 +288,6 @@ corevideo_library:FILEPATH=/System/Library/Frameworks/CoreVideo.framework
 //Dependencies for the target
 glfw_LIB_DEPENDS:STATIC=general;/System/Library/Frameworks/Cocoa.framework;general;/System/Library/Frameworks/IOKit.framework;general;/System/Library/Frameworks/CoreFoundation.framework;general;/System/Library/Frameworks/CoreVideo.framework;
 
-//Value Computed by CMake
-human_gl_BINARY_DIR:STATIC=/Users/jwalsh/Documents/42/particle_system/build
-
-//Value Computed by CMake
-human_gl_SOURCE_DIR:STATIC=/Users/jwalsh/Documents/42/particle_system
-
 //Path to a library.
 iokit_library:FILEPATH=/System/Library/Frameworks/IOKit.framework
 
@@ -308,12 +296,6 @@ nanogui_LIB_DEPENDS:STATIC=general;/System/Library/Frameworks/Cocoa.framework;ge
 
 //Path to a library.
 opengl_library:FILEPATH=/System/Library/Frameworks/OpenGL.framework
-
-//Value Computed by CMake
-partical_system_BINARY_DIR:STATIC=/Users/jwalsh/Documents/42/particle_system/build
-
-//Value Computed by CMake
-partical_system_SOURCE_DIR:STATIC=/Users/jwalsh/Documents/42/particle_system
 
 //Value Computed by CMake
 particle_system_BINARY_DIR:STATIC=/Users/jwalsh/Documents/42/particle_system/build

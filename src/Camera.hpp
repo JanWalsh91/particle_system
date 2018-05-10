@@ -8,7 +8,7 @@ class Camera {
 
 	public:
 		Camera(
-			glm::vec3 position = glm::vec3(.0f, .0f, .0f),
+			glm::vec3 position = glm::vec3(.0f, .0f, -2.0f),
 			glm::vec3 target = glm::vec3(.0f, .0f, 1.0f)
 		);
 		~Camera();

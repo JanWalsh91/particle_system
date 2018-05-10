@@ -18,7 +18,7 @@
 
 class OpenCLContext {
 	public:
-		OpenCLContext( bool verbose = false);
+		OpenCLContext( bool verbose = false, bool openGLShare = false );
 		~OpenCLContext();
 
 		void	addKernelFromString(std::string kernelCode);
@@ -32,7 +32,7 @@ class OpenCLContext {
 		cl::Platform			platform;
 		
 		// getters
-		cl::Kernel getKernel(std::string name) { return this->kernels[name]; }
+		cl::Kernel &getKernel(std::string name) { return this->kernels[name]; }
 	
 	private:
 		std::map<std::string, cl::Kernel>	kernels;

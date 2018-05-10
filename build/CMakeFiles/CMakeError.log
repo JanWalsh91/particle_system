@@ -1,16 +1,16 @@
 Determining if the CL_VERSION_2_2 exist failed with the following output:
 Change Dir: /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_36939/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_36939.dir/build.make CMakeFiles/cmTC_36939.dir/build
-Building C object CMakeFiles/cmTC_36939.dir/CheckSymbolExists.c.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -o CMakeFiles/cmTC_36939.dir/CheckSymbolExists.c.o   -c /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Run Build Command:"/usr/bin/make" "cmTC_ccc48/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_ccc48.dir/build.make CMakeFiles/cmTC_ccc48.dir/build
+Building C object CMakeFiles/cmTC_ccc48.dir/CheckSymbolExists.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -o CMakeFiles/cmTC_ccc48.dir/CheckSymbolExists.c.o   -c /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
 /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:8:19: error: use of undeclared identifier 'CL_VERSION_2_2'
   return ((int*)(&CL_VERSION_2_2))[argc];
                   ^
 1 error generated.
-make[1]: *** [CMakeFiles/cmTC_36939.dir/CheckSymbolExists.c.o] Error 1
-make: *** [cmTC_36939/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_ccc48.dir/CheckSymbolExists.c.o] Error 1
+make: *** [cmTC_ccc48/fast] Error 2
 
 File /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
 /* */
@@ -30,16 +30,16 @@ int main(int argc, char** argv)
 Determining if the CL_VERSION_2_1 exist failed with the following output:
 Change Dir: /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ef2f9/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_ef2f9.dir/build.make CMakeFiles/cmTC_ef2f9.dir/build
-Building C object CMakeFiles/cmTC_ef2f9.dir/CheckSymbolExists.c.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -o CMakeFiles/cmTC_ef2f9.dir/CheckSymbolExists.c.o   -c /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Run Build Command:"/usr/bin/make" "cmTC_46876/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_46876.dir/build.make CMakeFiles/cmTC_46876.dir/build
+Building C object CMakeFiles/cmTC_46876.dir/CheckSymbolExists.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -o CMakeFiles/cmTC_46876.dir/CheckSymbolExists.c.o   -c /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
 /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:8:19: error: use of undeclared identifier 'CL_VERSION_2_1'
   return ((int*)(&CL_VERSION_2_1))[argc];
                   ^
 1 error generated.
-make[1]: *** [CMakeFiles/cmTC_ef2f9.dir/CheckSymbolExists.c.o] Error 1
-make: *** [cmTC_ef2f9/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_46876.dir/CheckSymbolExists.c.o] Error 1
+make: *** [cmTC_46876/fast] Error 2
 
 File /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
 /* */
@@ -59,16 +59,16 @@ int main(int argc, char** argv)
 Determining if the CL_VERSION_2_0 exist failed with the following output:
 Change Dir: /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_fa778/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_fa778.dir/build.make CMakeFiles/cmTC_fa778.dir/build
-Building C object CMakeFiles/cmTC_fa778.dir/CheckSymbolExists.c.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -o CMakeFiles/cmTC_fa778.dir/CheckSymbolExists.c.o   -c /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Run Build Command:"/usr/bin/make" "cmTC_9a0da/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_9a0da.dir/build.make CMakeFiles/cmTC_9a0da.dir/build
+Building C object CMakeFiles/cmTC_9a0da.dir/CheckSymbolExists.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -o CMakeFiles/cmTC_9a0da.dir/CheckSymbolExists.c.o   -c /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
 /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:8:19: error: use of undeclared identifier 'CL_VERSION_2_0'
   return ((int*)(&CL_VERSION_2_0))[argc];
                   ^
 1 error generated.
-make[1]: *** [CMakeFiles/cmTC_fa778.dir/CheckSymbolExists.c.o] Error 1
-make: *** [cmTC_fa778/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_9a0da.dir/CheckSymbolExists.c.o] Error 1
+make: *** [cmTC_9a0da/fast] Error 2
 
 File /Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
 /* */

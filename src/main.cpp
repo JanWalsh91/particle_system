@@ -1,42 +1,22 @@
 #include <sstream>
 #include <vector>
 
-#include "OpenGLWindow.hpp"
-#include "OpenCLContext.hpp"
+#include "ParticleSystem.hpp"
 
 int    main ( void ) {
-	cl_int err = 0;
 
-	std::cout << "=== Particle System ===" << std::endl;
-	OpenGLWindow::initOpenGL();
-	OpenGLWindow GL(100, 100, "test");
+	ParticleSystem PS;
+	PS.init(/* numParticles, initLayout */);
+	PS.loop();
 
-	OpenCLContext CL;
 
-	CL.addKernelFromFile("../src/kernels/particle.h.cl");
-	CL.addKernelFromFile("../src/kernels/test.cl");
-	CL.buildProgram("test");
-	CL.addKernelFromFile("../src/kernels/init_particles.cl");
-	CL.buildProgram("init_particles");
+
+
+
 	
-	GLuint VAO, VBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3, nullptr, GL_STATIC_DRAW);
-	
-	cl::BufferGL clbuf = cl::BufferGL(CL.context, CL_MEM_READ_WRITE, VBO, &err);
-	CL.checkError(err, "BufferGL");
-	
-
-	// err = CL.queue.enqueueNDRangeKernel(init_particles, cl::NullRange, cl::NDRange(1), cl::NullRange);
-	
-	GL.loop();
-
 
 	// == OPENCL tests == 
+	// cl_int err = 0;
 	// // 6. Create Data Buffers
 	// cl::Buffer buffer_A(CL.context, CL_MEM_READ_WRITE, sizeof(int) * 10, nullptr, &err);
 	// CL.checkError(err, "new buffer A");
