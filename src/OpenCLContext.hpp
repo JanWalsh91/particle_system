@@ -22,9 +22,6 @@ class OpenCLContext {
 		~OpenCLContext();
 
 		// make private if possible
-		cl::Context				context;
-		cl::CommandQueue		queue;
-		cl::Platform			platform;
 
 		// Kernel management
 		void		addKernelFromString(std::string kernelCode);
@@ -39,17 +36,21 @@ class OpenCLContext {
 		static void checkError(cl_int error, std::string loc="");
 		
 		// getters
+		cl::CommandQueue		&getQueue();
 		cl::Kernel				&getKernel(std::string name);
 		cl::Memory				&getBuffer(std::string name);
 		std::vector<cl::Memory>	&getBuffers();
 
-		cl::Program							program;
 	private:
+		cl::Platform						platform;
+		cl::Device							device;
+		cl::Context							context;
+		cl::CommandQueue					queue;
+		cl::Program::Sources				sources;
+		cl::Program							program;
 		std::map<std::string, cl::Kernel>	kernels;
 		std::map<std::string, int>			bufferIdx;
 		std::vector<cl::Memory>				buffers;
-		cl::Device							device;
-		cl::Program::Sources				sources;
 };
 
 #endif

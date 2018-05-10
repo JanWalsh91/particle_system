@@ -3,6 +3,7 @@
 
 # include <string>
 # include <vector>
+# include <map>
 
 # include <glad/glad.h>
 # include <GLFW/glfw3.h>
@@ -26,22 +27,29 @@ public:
 
 	// void createWidget();
 	void addShaders(std::vector<std::string> paths);
+	
+	void addVBO(std::string);
+	void addVAO(std::string);
 
 	static void initOpenGL();
-	
-	// Getters
-	GLFWwindow  *getWindow() { return this->window; }
-	Shader  	&getShaderProgram() { return this->shaderProgram; }
-	int			getWidth() { return this->width; }
-	int			getHeight() { return this->height; }
+	static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
 
+	// Getters
+	GLFWwindow  *getWindow();
+	Shader  	&getShaderProgram(); 
+	int			getWidth();
+	int			getHeight();
+	GLuint		getVAO(std::string);
+	GLuint		getVBO(std::string);
 
 private:
-	GLFWwindow	*window;
-	GUI*		gui;
-	Shader		shaderProgram;
-	int			width;
-	int			height;
+	GLFWwindow						*window;
+	GUI*							gui;
+	Shader							shaderProgram;
+	int								width;
+	int								height;
+	std::map<std::string, GLuint>	VBOs;
+	std::map<std::string, GLuint>	VAOs;
 	// double		lastTimeFrame;
 };
 

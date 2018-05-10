@@ -39,12 +39,10 @@ OpenCLContext::OpenCLContext( bool verbose, bool openGlShare ) {
 		};
 		this->context = cl::Context(this->device, properties, nullptr, nullptr, &err);
 	}
-	else {
+	else
 		this->context = cl::Context(this->device, nullptr, nullptr, nullptr, &err);
-	}
 	this->checkError(err, "Create Context");
 
-	
 	// 4. Command Queue on that device
 	this->queue = cl::CommandQueue(this->context, this->device, 0, &err);
 	this->checkError(err, "Create Queue");
@@ -54,14 +52,13 @@ OpenCLContext::~OpenCLContext( void ) {}
 
 void	OpenCLContext::addKernelFromString(std::string kernelCode) {
 	if (kernelCode == "") {
-		std::cout << "Empty Kernel" << std::endl;
+		std::cout << "Empty Kernel Code" << std::endl;
 		exit(1);
 	}
 	this->sources.push_back({strdup(kernelCode.c_str()), kernelCode.length()});
 }
 
 void	OpenCLContext::addKernelFromFile(std::string kernelPath) {
-	// std::cout << "addKernelFromFile" << std::endl;
 	std::ifstream		kernelFile;
 	std::string			kernelCode;
 	std::stringstream	kernelStream;
@@ -80,7 +77,6 @@ void	OpenCLContext::addKernelFromFile(std::string kernelPath) {
 		std::cout << "Failed to read kernel from file" << std::endl;
 	}
 	this->addKernelFromString(kernelCode);
-	// std::cout << "done" << std::endl;
 }
 
 void	OpenCLContext::buildProgram() {
@@ -92,7 +88,7 @@ void	OpenCLContext::buildProgram() {
 	err = this->program.build({this->device});
 	checkError(err, "Build program");
 
-	// this->sources.clear();
+	this->sources.clear();
 }
 
 void	OpenCLContext::setKernel(std::string kernelName) {
@@ -103,16 +99,12 @@ void	OpenCLContext::setKernel(std::string kernelName) {
 }
 
 void	OpenCLContext::addBuffer(std::string bufferName, GLuint VBO) {
-	std::cout << "addBuffer: " << bufferName << std::endl;
 	cl_int err;
 
 	this->buffers.push_back(cl::BufferGL(this->context, CL_MEM_READ_WRITE, VBO, &err));
 	this->checkError(err, "BufferGL");
 	this->bufferIdx[bufferName] = this->buffers.size() - 1;
-	std::cout << "size: " << this->bufferIdx[bufferName] << std::endl;
-
 }
-
 
 void	OpenCLContext::checkError(cl_int error, std::string loc) {
 	if (error) {
@@ -197,8 +189,11 @@ void	OpenCLContext::checkError(cl_int error, std::string loc) {
 }
 
 // Getters
+cl::CommandQueue	&OpenCLContext::getQueue() {
+	return this->queue;
+}
+
 cl::Kernel	&OpenCLContext::getKernel(std::string name) {
-	std::cout << "getKernel: " << name << std::endl;
 	return this->kernels[name];
 }
 

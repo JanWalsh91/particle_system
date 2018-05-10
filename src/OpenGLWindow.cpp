@@ -19,8 +19,8 @@ OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): 
 	glfwGetFramebufferSize(window, &w, &h);
 	glViewport(0, 0, w, h);
 	glfwSwapInterval(0);
-	glfwSwapBuffers(window);
-
+	glfwSwapBuffers(this->window);
+	glfwSetFramebufferSizeCallback(this->window, this->framebufferSizeCallback);
 	bool enabled = true;
 }
 
@@ -49,6 +49,20 @@ void OpenGLWindow::addShaders(std::vector<std::string> shaderPaths) {
 	this->shaderProgram.use();
 }
 
+void OpenGLWindow::addVBO(std::string name) {
+	GLuint VBO;
+
+	glGenBuffers(1, &VBO);
+	this->VBOs[name] = VBO;
+}
+
+void OpenGLWindow::addVAO(std::string name) {
+	GLuint VAO;
+
+	glGenVertexArrays(1, &VAO);
+	this->VAOs[name] = VAO;
+}
+
 void OpenGLWindow::initOpenGL() {
 	if (!glfwInit()) {
 		throw ExceptionMsg("Failed to initialize GLFW");
@@ -57,4 +71,41 @@ void OpenGLWindow::initOpenGL() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+}
+
+void	OpenGLWindow::framebufferSizeCallback(GLFWwindow *window, int width, int height)
+{
+	(void)window;
+	glViewport(0, 0, width, height);
+
+	// TODO: how to update perspective matrix properly (outside of this class's scope)
+	// this->getShaderProgram().setMatrix("projectionMatrix",
+	// 	glm::perspective(glm::radians(45.0f), (float)this->getWidth() / (float)this->getHeight(), 0.1f, 100.0f)
+	// );
+}
+
+// Getters
+
+GLFWwindow  *OpenGLWindow::getWindow() {
+	return this->window;
+}
+
+Shader  	&OpenGLWindow::getShaderProgram() {
+	return this->shaderProgram;
+}
+
+int			OpenGLWindow::getWidth() {
+	return this->width;
+}
+
+int			OpenGLWindow::getHeight() {
+	return this->height;
+}
+
+GLuint		OpenGLWindow::getVAO(std::string name) {
+	return this->VAOs[name];
+}
+
+GLuint		OpenGLWindow::getVBO(std::string name) {
+	return this->VBOs[name];
 }

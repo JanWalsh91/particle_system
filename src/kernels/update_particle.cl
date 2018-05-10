@@ -4,7 +4,7 @@ kernel void update_particle(global Particle * p) {
 	float3 forcePos = (float3)(0.0f, 0.0f, 0.0f);
 	float3 relPos = forcePos - p[i].position;
 
-	p[i].speed = p[i].speed + normalize(relPos) * 0.005f;
+	p[i].speed = p[i].speed + normalize(relPos) * 0.0005f;
 
 	p[i].position += p[i].speed;
 }

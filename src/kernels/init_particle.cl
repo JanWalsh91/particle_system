@@ -1,4 +1,4 @@
-kernel void init_particles(global Particle *P) {
+kernel void init_particle(global Particle *P) {
 	size_t i = get_global_id(0);
 
 	// position

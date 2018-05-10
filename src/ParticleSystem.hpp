@@ -15,7 +15,7 @@ class ParticleSystem {
 
 		Camera	camera;
 
-		void init(int numParticles = 1, std::string initLayout = "");
+		void init(int numParticles = 1, std::string initLayout = "cube");
 		void loop();
 		void updateParticles();
 
@@ -23,8 +23,8 @@ class ParticleSystem {
 		int				numParticles;
 		OpenCLContext	*CL;
 		OpenGLWindow	*GL;
-		GLuint			VAO;
-		GLuint			VBO;
+		// GLuint			VAO;
+		// GLuint			VBO;
 		// cl::BufferGL	*clbuf;
 
 };
