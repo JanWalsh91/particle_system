@@ -21,21 +21,30 @@ class OpenCLContext {
 		OpenCLContext( bool verbose = false, bool openGLShare = false );
 		~OpenCLContext();
 
-		void	addKernelFromString(std::string kernelCode);
-		void	addKernelFromFile(std::string kernelPath);
-		void	buildProgram(std::string name);
-
-		static void checkError(cl_int error, std::string loc="");
-		
+		// make private if possible
 		cl::Context				context;
 		cl::CommandQueue		queue;
 		cl::Platform			platform;
+
+		// Kernel management
+		void	addKernelFromString(std::string kernelCode);
+		void	addKernelFromFile(std::string kernelPath);
+		void	buildProgram(std::string kernelName);
+
+		// Buffer management
+		void	addBuffer(std::string name, GLuint VBO);
+
+		static void checkError(cl_int error, std::string loc="");
 		
 		// getters
-		cl::Kernel &getKernel(std::string name) { return this->kernels[name]; }
-	
+		cl::Kernel	&getKernel(std::string name);
+		cl::Memory	&getBuffer(std::string name);
+		std::vector<cl::Memory>			&getBuffers();
+
 	private:
 		std::map<std::string, cl::Kernel>	kernels;
+		std::map<std::string, int>			bufferIdx;
+		std::vector<cl::Memory>				buffers;
 		cl::Device				device;
 		cl::Program::Sources	sources;
 };

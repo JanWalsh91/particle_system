@@ -9,7 +9,8 @@
 		"typeinfo": "cpp",
 		"algorithm": "cpp",
 		"ios": "cpp",
-		"random": "cpp"
+		"random": "cpp",
+		"list": "cpp"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false

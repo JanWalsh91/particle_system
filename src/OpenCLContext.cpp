@@ -97,6 +97,15 @@ void	OpenCLContext::buildProgram(std::string kernelName) {
 	this->kernels[kernelName] = cl::Kernel(program, "init_particles", &err);
 }
 
+void	OpenCLContext::addBuffer(std::string bufferName, GLuint VBO) {
+	cl_int err;
+
+	this->buffers.push_back(cl::BufferGL(this->context, CL_MEM_READ_WRITE, VBO, &err));
+	this->checkError(err, "BufferGL");
+	this->bufferIdx[bufferName] = this->buffers.size() - 1;
+}
+
+
 void	OpenCLContext::checkError(cl_int error, std::string loc) {
 	if (error) {
 		if (loc != "")
@@ -177,4 +186,19 @@ void	OpenCLContext::checkError(cl_int error, std::string loc) {
 		}
 		exit(0);
 	}
+}
+
+
+// Getters
+
+cl::Kernel	&OpenCLContext::getKernel(std::string name) {
+	return this->kernels[name];
+}
+
+cl::Memory	&OpenCLContext::getBuffer(std::string name) {
+	return this->buffers[this->bufferIdx[name]];
+}
+
+std::vector<cl::Memory>	&OpenCLContext::getBuffers() {
+	return this->buffers;
 }

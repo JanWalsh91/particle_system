@@ -48,23 +48,19 @@ void ParticleSystem::init(int numParticles, std::string initLayout) {
 	// Initialize size of Buffer
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3, nullptr, GL_STATIC_DRAW);
 	
+	// is it necessary ?
 	glFinish();
 
 	// Create openCL Buffer form openGL Buffer (VBO)
-	cl::BufferGL clbuf = cl::BufferGL(this->CL->context, CL_MEM_READ_WRITE, this->VBO, &err);
-	this->CL->checkError(err, "BufferGL");
-
-	// Convert to list of cl::Memory to acquire GLObejcts and launch kernel
-	std::vector<cl::Memory> cl_vbos;
-	cl_vbos.push_back(clbuf);
-
+	this->CL->addBuffer("particles", this->VBO);
+	
 	// initialize particles with kernel program on GPU
-	err = this->CL->queue.enqueueAcquireGLObjects(&cl_vbos, NULL, NULL);
+	err = this->CL->queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "init: enqueueAcquireGLObjects");
-	this->CL->getKernel("init_particles").setArg(0, clbuf);
+	this->CL->getKernel("init_particles").setArg(0, this->CL->getBuffer("particles"));
 	err = this->CL->queue.enqueueNDRangeKernel(this->CL->getKernel("init_particles"), cl::NullRange, cl::NDRange(1), cl::NullRange);
 	this->CL->checkError(err, "init: enqueueNDRangeKernel");
-	err = this->CL->queue.enqueueReleaseGLObjects(&cl_vbos, NULL, NULL);
+	err = this->CL->queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "init: enqueueReleaseGLObjects");
 }
 
