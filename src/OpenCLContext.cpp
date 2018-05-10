@@ -188,9 +188,7 @@ void	OpenCLContext::checkError(cl_int error, std::string loc) {
 	}
 }
 
-
 // Getters
-
 cl::Kernel	&OpenCLContext::getKernel(std::string name) {
 	return this->kernels[name];
 }

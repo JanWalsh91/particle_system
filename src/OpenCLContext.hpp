@@ -34,6 +34,7 @@ class OpenCLContext {
 		// Buffer management
 		void	addBuffer(std::string name, GLuint VBO);
 
+		// OpenCL error checking
 		static void checkError(cl_int error, std::string loc="");
 		
 		// getters

@@ -10,7 +10,8 @@
 		"algorithm": "cpp",
 		"ios": "cpp",
 		"random": "cpp",
-		"list": "cpp"
+		"list": "cpp",
+		"string": "cpp"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false

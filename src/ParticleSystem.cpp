@@ -9,8 +9,10 @@ ParticleSystem::ParticleSystem() {
 	std::cout << "Particle System constructor" << std::endl;
 
 	cl_int err = 0;
+
 	// init OpenGL
 	OpenGLWindow::initOpenGL();
+
 	// Create Window
 	this->GL = new OpenGLWindow(100, 100, "test");
 
@@ -22,6 +24,7 @@ ParticleSystem::ParticleSystem() {
 
 	// Create OpenCL Context
 	this->CL = new OpenCLContext(false, true);
+
 	// Add Kernels, init Kernel programs
 	this->CL->addKernelFromFile("../src/kernels/particle.h.cl");
 	this->CL->addKernelFromFile("../src/kernels/test.cl");
@@ -34,6 +37,16 @@ ParticleSystem::ParticleSystem() {
 	glGenBuffers(1, &this->VBO);
 	glBindVertexArray(this->VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+
+	// define attribute pointers 
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+	glEnableVertexAttribArray(0);
+
+	// set polygon mode to points
+	glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+
+	// enable depth testing
+	glEnable(GL_DEPTH_TEST);
 }
 
 /**
@@ -53,7 +66,7 @@ void ParticleSystem::init(int numParticles, std::string initLayout) {
 
 	// Create openCL Buffer form openGL Buffer (VBO)
 	this->CL->addBuffer("particles", this->VBO);
-	
+
 	// initialize particles with kernel program on GPU
 	err = this->CL->queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "init: enqueueAcquireGLObjects");
@@ -69,12 +82,19 @@ ParticleSystem::~ParticleSystem() {
 
 void ParticleSystem::loop() {
 	while (!glfwWindowShouldClose(this->GL->getWindow()) && glfwGetKey(this->GL->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS) {
-		glEnable(GL_DEPTH_TEST);
-		
-		glfwPollEvents();
-
+		// clear
 		glClearColor(.0f, .0f, .0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		// update position with OpenCL
+		
+
+		// draw arrays with OpenGL
+		glDrawArrays(GL_POINTS, 0, this->numParticles);
+
+
+		// swap buffers
 		glfwSwapBuffers(this->GL->getWindow());
+		glfwPollEvents();
 	}
 }
