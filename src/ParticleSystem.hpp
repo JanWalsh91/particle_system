@@ -17,6 +17,7 @@ class ParticleSystem {
 
 		void init(int numParticles = 1, std::string initLayout = "");
 		void loop();
+		void updateParticles();
 
 	private:
 		int				numParticles;

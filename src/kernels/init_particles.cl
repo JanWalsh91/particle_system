@@ -1,7 +1,8 @@
-kernel void init_particles(global float *P) {
+kernel void init_particles(global Particle *P) {
 	size_t i = get_global_id(0);
 
-	P[i] = 0.5f;
-	P[i + 1] = 0.5f;
-	P[i + 2] = 0.5f;
+	// position
+	P[i].position = (float3) (0.5f, 0.5f, 0.0f);
+	// speed
+	P[i].speed = (float3) (0.01f, 0.0f, 0.0f);
 }

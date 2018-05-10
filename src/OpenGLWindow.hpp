@@ -28,8 +28,13 @@ public:
 	void addShaders(std::vector<std::string> paths);
 
 	static void initOpenGL();
+	
+	// Getters
 	GLFWwindow  *getWindow() { return this->window; }
 	Shader  	&getShaderProgram() { return this->shaderProgram; }
+	int			getWidth() { return this->width; }
+	int			getHeight() { return this->height; }
+
 
 private:
 	GLFWwindow	*window;

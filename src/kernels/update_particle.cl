@@ -1,11 +1,10 @@
-kernel void update_particle(Particle * p, Force * f) {
+kernel void update_particle(global Particle * p) {
 	size_t i = get_global_id(0);
 
-	p[i].position = f->position;
+	float3 forcePos = (float3)(0.0f, 0.0f, 0.0f);
+	float3 relPos = forcePos - p[i].position;
 
-	// while ( f != NULL ) {
-		// p[i].speed += (f->mass / pow(f->position - p[i].position, 2));
-		// ++f;
-	// }
-	// p[i].position += speed;
+	p[i].speed = p[i].speed + normalize(relPos) * 0.005f;
+
+	p[i].position += p[i].speed;
 }

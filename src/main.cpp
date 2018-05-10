@@ -10,11 +10,6 @@ int    main ( void ) {
 	PS.loop();
 
 
-
-
-
-	
-
 	// == OPENCL tests == 
 	// cl_int err = 0;
 	// // 6. Create Data Buffers

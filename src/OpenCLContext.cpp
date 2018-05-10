@@ -83,26 +83,34 @@ void	OpenCLContext::addKernelFromFile(std::string kernelPath) {
 	// std::cout << "done" << std::endl;
 }
 
-void	OpenCLContext::buildProgram(std::string kernelName) {
+void	OpenCLContext::buildProgram() {
 	cl_int err;
 
-	cl::Program program = cl::Program(this->context, this->sources, &err);
+	this->program = cl::Program(this->context, this->sources, &err);
 	checkError(err, "Create program");
 
-	err = program.build({this->device});
+	err = this->program.build({this->device});
 	checkError(err, "Build program");
 
-	this->sources.clear();
+	// this->sources.clear();
+}
 
-	this->kernels[kernelName] = cl::Kernel(program, "init_particles", &err);
+void	OpenCLContext::setKernel(std::string kernelName) {
+	cl_int err;
+
+	this->kernels[kernelName] = cl::Kernel(this->program, kernelName.c_str(), &err);
+	checkError(err, "Set Kernel");
 }
 
 void	OpenCLContext::addBuffer(std::string bufferName, GLuint VBO) {
+	std::cout << "addBuffer: " << bufferName << std::endl;
 	cl_int err;
 
 	this->buffers.push_back(cl::BufferGL(this->context, CL_MEM_READ_WRITE, VBO, &err));
 	this->checkError(err, "BufferGL");
 	this->bufferIdx[bufferName] = this->buffers.size() - 1;
+	std::cout << "size: " << this->bufferIdx[bufferName] << std::endl;
+
 }
 
 
@@ -190,6 +198,7 @@ void	OpenCLContext::checkError(cl_int error, std::string loc) {
 
 // Getters
 cl::Kernel	&OpenCLContext::getKernel(std::string name) {
+	std::cout << "getKernel: " << name << std::endl;
 	return this->kernels[name];
 }
 

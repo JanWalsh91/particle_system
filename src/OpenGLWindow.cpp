@@ -3,7 +3,7 @@
 
 OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): nanogui::Screen(), width(width), height(height) {
 	
-	std::cout << "OpenGLWindow constructor" << std::endl;
+	// std::cout << "OpenGLWindow constructor" << std::endl;
 	if (!(this->window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr))) {
 		throw ExceptionMsg("Failed to create window");
 	}

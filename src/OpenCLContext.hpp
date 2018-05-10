@@ -27,27 +27,29 @@ class OpenCLContext {
 		cl::Platform			platform;
 
 		// Kernel management
-		void	addKernelFromString(std::string kernelCode);
-		void	addKernelFromFile(std::string kernelPath);
-		void	buildProgram(std::string kernelName);
+		void		addKernelFromString(std::string kernelCode);
+		void		addKernelFromFile(std::string kernelPath);
+		void		buildProgram();
+		void		setKernel(std::string kernelName);
 
 		// Buffer management
-		void	addBuffer(std::string name, GLuint VBO);
+		void		addBuffer(std::string name, GLuint VBO);
 
 		// OpenCL error checking
 		static void checkError(cl_int error, std::string loc="");
 		
 		// getters
-		cl::Kernel	&getKernel(std::string name);
-		cl::Memory	&getBuffer(std::string name);
-		std::vector<cl::Memory>			&getBuffers();
+		cl::Kernel				&getKernel(std::string name);
+		cl::Memory				&getBuffer(std::string name);
+		std::vector<cl::Memory>	&getBuffers();
 
+		cl::Program							program;
 	private:
 		std::map<std::string, cl::Kernel>	kernels;
 		std::map<std::string, int>			bufferIdx;
 		std::vector<cl::Memory>				buffers;
-		cl::Device				device;
-		cl::Program::Sources	sources;
+		cl::Device							device;
+		cl::Program::Sources				sources;
 };
 
 #endif
