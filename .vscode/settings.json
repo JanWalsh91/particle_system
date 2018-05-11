@@ -14,7 +14,16 @@
 		"string": "cpp",
 		"__split_buffer": "cpp",
 		"deque": "cpp",
-		"vector": "cpp"
+		"vector": "cpp",
+		"__locale": "cpp",
+		"bitset": "cpp",
+		"future": "cpp",
+		"memory": "cpp",
+		"typeindex": "cpp",
+		"regex": "cpp",
+		"utility": "cpp",
+		"queue": "cpp",
+		"*.cl": "cpp"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false

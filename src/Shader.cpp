@@ -89,7 +89,7 @@ void Shader::checkCompileErrors( unsigned int shader, std::string type )
 
 void Shader::use( void ) 
 { 
-	glUseProgram(ID); 
+	glUseProgram(this->ID); 
 }
 
 void Shader::setBool( const std::string &name, bool value ) const

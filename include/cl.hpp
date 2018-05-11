@@ -4967,11 +4967,14 @@
 	 template <typename T>
 	 cl_int setArg(cl_uint index, const T &value)
 	 {
+		//  int temp = detail::KernelArgumentHandler<T>::size(value);
+		//  printf("temp: %d\n", temp);
 		 return detail::errHandler(
 			 ::clSetKernelArg(
 				 object_,
 				 index,
 				 detail::KernelArgumentHandler<T>::size(value),
+				//  648,
 				 detail::KernelArgumentHandler<T>::ptr(value)),
 			 __SET_KERNEL_ARGS_ERR);
 	 }

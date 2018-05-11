@@ -95,14 +95,14 @@ void	OpenCLContext::setKernel(std::string kernelName) {
 	cl_int err;
 
 	this->kernels[kernelName] = cl::Kernel(this->program, kernelName.c_str(), &err);
-	checkError(err, "Set Kernel");
+	this->checkError(err, "Set Kernel");
 }
 
 void	OpenCLContext::addBuffer(std::string bufferName, GLuint VBO) {
 	cl_int err;
 
 	this->buffers.push_back(cl::BufferGL(this->context, CL_MEM_READ_WRITE, VBO, &err));
-	this->checkError(err, "BufferGL");
+	this->checkError(err, "BufferGL: " + bufferName);
 	this->bufferIdx[bufferName] = this->buffers.size() - 1;
 }
 

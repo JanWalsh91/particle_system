@@ -2,10 +2,23 @@
 # define PARTICLE_SYSTEM_HPP
 
 # include <string>
+# include <cmath>
 
 # include "OpenGLWindow.hpp"
 # include "OpenCLContext.hpp"
 # include "Camera.hpp"
+# include "FPS.hpp"
+
+typedef struct	Particle {
+	float positionx;
+	float positiony;
+	float positionz;
+	float positionw;
+	float speedx;
+	float speedy;
+	float speedz;
+	float speedw;
+}				Particle;
 
 class ParticleSystem {
 
@@ -20,12 +33,10 @@ class ParticleSystem {
 		void updateParticles();
 
 	private:
-		int				numParticles;
+		cl_uint			numParticles;
 		OpenCLContext	*CL;
 		OpenGLWindow	*GL;
-		// GLuint			VAO;
-		// GLuint			VBO;
-		// cl::BufferGL	*clbuf;
+		FPS				*fps;
 
 };
 

@@ -1,21 +1,33 @@
-- Practice Making NanoGUI windows and widgets
-- Learn OpenCL
-	- make basic kernel
-	- pass between OpenGL and OpenCL
-- organize program
+TODO: 
+
 - Calculate fps
-- Use opengl math library
-- Prepare Camera, perspective matrix etc... (in opengl math lib?)
+	- Requirements: 1 million at 60FPS, 3 million at 20FPS
+	- Display on screen or in window title
+- init multiple particles:
+	- init list of particles as cube
+	- init list of particles as sphere
+	- init list of particles as (Bonus...)
+- Camera:
+	- Move camera around: forward, backward, rotate left, right, up, down. (Based on current position and orientation)
+- Pause
+- Graviational center:
+	- Move graviational center with cursor
+	- Hold graviational center position
+	- Have multiple graviational centers
+- Color:
+	- Color particles based on distance to gravity centers
+	- Other color options
+- Skybox
+- GUI
+- Reset
+- Add particles in real time
+- Temporary particles
 
 
 
-- Initialize array of particles on GPU with openCL
-- Retrieve pointer
-- Pass pointer to OpenGL
-- Render particle
-- Affect particle with openCL kernel and force
-- Pass pointer back to OpenGL and render
 
+
+Notes:
 
 glMapBuffer to map pointer and be able to access and modify values in the GPU from the CPU
 
@@ -23,5 +35,3 @@ To execute openCL kernel:
 	clEnqueueAcquireGLObjects
 	clEnqueueNDRangeKernel
 	clEnqueueReleaseGLObjects
-
-- init list of particles

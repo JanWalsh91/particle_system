@@ -63,6 +63,10 @@ void OpenGLWindow::addVAO(std::string name) {
 	this->VAOs[name] = VAO;
 }
 
+void OpenGLWindow::setWindowName(std::string name) {
+	glfwSetWindowTitle(this->window, name.c_str());
+}
+
 void OpenGLWindow::initOpenGL() {
 	if (!glfwInit()) {
 		throw ExceptionMsg("Failed to initialize GLFW");
@@ -71,6 +75,7 @@ void OpenGLWindow::initOpenGL() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwSwapInterval(1);
 }
 
 void	OpenGLWindow::framebufferSizeCallback(GLFWwindow *window, int width, int height)
@@ -107,5 +112,6 @@ GLuint		OpenGLWindow::getVAO(std::string name) {
 }
 
 GLuint		OpenGLWindow::getVBO(std::string name) {
+	// std::cout << "getVBO: " << this->VBOs[name] << std::endl;
 	return this->VBOs[name];
 }

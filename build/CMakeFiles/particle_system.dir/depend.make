@@ -107,6 +107,10 @@ CMakeFiles/particle_system.dir/src/Camera.cpp.o: ../src/Camera.hpp
 CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o: ../src/ExceptionMsg.cpp
 CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o: ../src/ExceptionMsg.hpp
 
+CMakeFiles/particle_system.dir/src/FPS.cpp.o: ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
+CMakeFiles/particle_system.dir/src/FPS.cpp.o: ../src/FPS.cpp
+CMakeFiles/particle_system.dir/src/FPS.cpp.o: ../src/FPS.hpp
+
 CMakeFiles/particle_system.dir/src/GUI.cpp.o: ../include/glm/common.hpp
 CMakeFiles/particle_system.dir/src/GUI.cpp.o: ../include/glm/detail/_fixes.hpp
 CMakeFiles/particle_system.dir/src/GUI.cpp.o: ../include/glm/detail/_swizzle.hpp
@@ -1469,6 +1473,7 @@ CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../libs/nanogui/include
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../libs/nanogui/include/nanogui/widget.h
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../libs/nanogui/include/nanogui/window.h
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../src/Camera.hpp
+CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../src/FPS.hpp
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../src/GUI.hpp
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../src/OpenCLContext.hpp
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../src/OpenGLWindow.hpp
@@ -1921,6 +1926,7 @@ CMakeFiles/particle_system.dir/src/main.cpp.o: ../libs/nanogui/include/nanogui/v
 CMakeFiles/particle_system.dir/src/main.cpp.o: ../libs/nanogui/include/nanogui/widget.h
 CMakeFiles/particle_system.dir/src/main.cpp.o: ../libs/nanogui/include/nanogui/window.h
 CMakeFiles/particle_system.dir/src/main.cpp.o: ../src/Camera.hpp
+CMakeFiles/particle_system.dir/src/main.cpp.o: ../src/FPS.hpp
 CMakeFiles/particle_system.dir/src/main.cpp.o: ../src/GUI.hpp
 CMakeFiles/particle_system.dir/src/main.cpp.o: ../src/OpenCLContext.hpp
 CMakeFiles/particle_system.dir/src/main.cpp.o: ../src/OpenGLWindow.hpp

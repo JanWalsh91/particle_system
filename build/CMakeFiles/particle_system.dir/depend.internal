@@ -107,6 +107,10 @@ CMakeFiles/particle_system.dir/src/Camera.cpp.o
 CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o
  /Users/jwalsh/Documents/42/particle_system/src/ExceptionMsg.cpp
  /Users/jwalsh/Documents/42/particle_system/src/ExceptionMsg.hpp
+CMakeFiles/particle_system.dir/src/FPS.cpp.o
+ ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
+ /Users/jwalsh/Documents/42/particle_system/src/FPS.cpp
+ /Users/jwalsh/Documents/42/particle_system/src/FPS.hpp
 CMakeFiles/particle_system.dir/src/GUI.cpp.o
  ../include/glm/common.hpp
  ../include/glm/detail/_fixes.hpp
@@ -1470,6 +1474,7 @@ CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o
  ../libs/nanogui/include/nanogui/widget.h
  ../libs/nanogui/include/nanogui/window.h
  /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
+ /Users/jwalsh/Documents/42/particle_system/src/FPS.hpp
  /Users/jwalsh/Documents/42/particle_system/src/GUI.hpp
  /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
  /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp
@@ -1922,6 +1927,7 @@ CMakeFiles/particle_system.dir/src/main.cpp.o
  ../libs/nanogui/include/nanogui/widget.h
  ../libs/nanogui/include/nanogui/window.h
  /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
+ /Users/jwalsh/Documents/42/particle_system/src/FPS.hpp
  /Users/jwalsh/Documents/42/particle_system/src/GUI.hpp
  /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
  /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp

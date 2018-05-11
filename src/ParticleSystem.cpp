@@ -27,10 +27,12 @@ ParticleSystem::ParticleSystem() {
 
 	// Add Kernels, init Kernel programs
 	this->CL->addKernelFromFile("../src/kernels/particle.h.cl");
-	this->CL->addKernelFromFile("../src/kernels/init_particle.cl");
+	// this->CL->addKernelFromFile("../src/kernels/init_particle.cl");
+	this->CL->addKernelFromFile("../src/kernels/init_particle_cube.cl");
 	this->CL->addKernelFromFile("../src/kernels/update_particle.cl");
 	this->CL->buildProgram();
-	this->CL->setKernel("init_particle");
+	// this->CL->setKernel("init_particle");
+	this->CL->setKernel("init_particle_cube");
 	this->CL->setKernel("update_particle");
 	
 	// Create Vertex Arrays and Buffer Objects
@@ -54,47 +56,64 @@ ParticleSystem::ParticleSystem() {
 	);
 }
 
+// TODO: Free stuff
+ParticleSystem::~ParticleSystem() {}
+
 /**
 	Initializes particles and buffers based on number of particles and layout
 */
 void ParticleSystem::init(int numParticles, std::string initLayout) {
 	std::cout << "Particle System init" << std::endl;
-	cl_int err = 0; 
-	this->numParticles = numParticles;
-	
+	cl_int err = 0;
+
+	cl_uint cubeSize = std::ceil(std::cbrt(numParticles));
+	this->numParticles = cubeSize * cubeSize * cubeSize;
+	std::cout << "cubeSize: " << cubeSize << std::endl;
+	std::cout << "this->numParticles: " << this->numParticles << std::endl;
 	// is it necessary ?
 	// glFinish();
 
 	// Initialize size of Buffer
-	size_t buffSize = sizeof(float) * 6 * numParticles;
+	GLuint buffSize = sizeof(Particle) * this->numParticles;
+	std::cout << "this->numParticles: " << this->numParticles << std::endl;
+	std::cout << "sizeof(float): " << sizeof(float) << std::endl;
+	std::cout << "buffSize: " << buffSize << std::endl;
 	glBindVertexArray(this->GL->getVAO("particles"));
 	glBufferData(GL_ARRAY_BUFFER, buffSize, nullptr, GL_STATIC_DRAW);
 
-	// define attribute pointers 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, buffSize, (void *)0);
+	// define attribute pointers
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid *)0);
+	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (GLvoid *)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, buffSize, (void *)0);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid *)(sizeof(float) * 4));
+	// glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (GLvoid *)(sizeof(float) * 3));
 	glEnableVertexAttribArray(1);
+	glBindVertexArray(0);
 
-	// Create openCL Buffer form openGL Buffer (VBO)
+	// Create openCL Buffer from openGL Buffer (VBO)
 	this->CL->addBuffer("particles", this->GL->getVBO("particles"));
 
 	// initialize particles with kernel program on GPU
 	cl::CommandQueue queue = this->CL->getQueue();
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "init: enqueueAcquireGLObjects");
-	this->CL->getKernel("init_particle").setArg(0, this->CL->getBuffer("particles"));
-	err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
+	this->CL->getKernel("init_particle_cube").setArg(0, this->CL->getBuffer("particles"));
+	this->CL->getKernel("init_particle_cube").setArg(1, sizeof(cl_uint), &this->numParticles);
+	this->CL->getKernel("init_particle_cube").setArg(2, sizeof(cl_uint), &cubeSize);
+	err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 	this->CL->checkError(err, "init: enqueueNDRangeKernel");
 	queue.finish();
 	err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "init: enqueueReleaseGLObjects");
 	glBindVertexArray(0);
+
+	// create FPS object
+	std::cout << "num partciles: " << this->numParticles << std::endl;
+	this->fps = new FPS(100);
 }
 
-ParticleSystem::~ParticleSystem() {}
-
 void ParticleSystem::updateParticles() {
+	// std::cout << "updateParticles" << std::endl;
 	cl_int err = 0; 
 	
 	glFinish();
@@ -113,14 +132,17 @@ void ParticleSystem::updateParticles() {
 }
 
 void ParticleSystem::loop() {
+	std::cout << "loopstart" << std::endl;
+	// reset fps counter
+	this->fps->reset();
+
 	while (!glfwWindowShouldClose(this->GL->getWindow()) && glfwGetKey(this->GL->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS) {
-		// std::cout << "loop" << std::endl;
 		// clear
 		glClearColor(.0f, .0f, .0f, .0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		// update position with OpenCL
-		this->updateParticles();
+		// this->updateParticles();
 
 		// draw arrays with OpenGL
 		glBindVertexArray(this->GL->getVAO("particles"));
@@ -130,5 +152,9 @@ void ParticleSystem::loop() {
 		// swap buffers
 		glfwSwapBuffers(this->GL->getWindow());
 		glfwPollEvents();
+
+		// update FPS and window title
+		this->fps->update();
+		this->GL->setWindowName("Particle System\t(FPS: " + std::to_string(this->fps->getFPS()) + ")");
 	}
 }

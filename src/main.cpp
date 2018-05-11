@@ -6,7 +6,7 @@
 int    main ( void ) {
 
 	ParticleSystem PS;
-	PS.init(/* numParticles, initLayout */);
+	PS.init(2);
 	PS.loop();
 
 

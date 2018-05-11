@@ -2150,6 +2150,22 @@ string
 iostream
 -
 
+/Users/jwalsh/Documents/42/particle_system/src/FPS.cpp
+FPS.hpp
+/Users/jwalsh/Documents/42/particle_system/src/FPS.hpp
+
+/Users/jwalsh/Documents/42/particle_system/src/FPS.hpp
+string
+-
+iostream
+-
+list
+-
+cmath
+-
+GLFW/glfw3.h
+-
+
 /Users/jwalsh/Documents/42/particle_system/src/GUI.cpp
 GUI.hpp
 /Users/jwalsh/Documents/42/particle_system/src/GUI.hpp
@@ -2165,11 +2181,11 @@ OpenGLWindow.hpp
 /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
-cl.hpp
--
 OpenCL/opencl.h
 -
 OpenGL/CGLCurrent.h
+-
+cl.hpp
 -
 cl_gl.h
 -
@@ -2223,12 +2239,16 @@ exception
 /Users/jwalsh/Documents/42/particle_system/src/ParticleSystem.hpp
 string
 -
+cmath
+-
 OpenGLWindow.hpp
 /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp
 OpenCLContext.hpp
 /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
 Camera.hpp
 /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
+FPS.hpp
+/Users/jwalsh/Documents/42/particle_system/src/FPS.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/Shader.cpp
 Shader.hpp

@@ -19,13 +19,14 @@ set(
 	src/OpenGLWindow.cpp
 	src/OpenCLContext.cpp
 	src/GUI.cpp
+	src/FPS.cpp
 	src/Camera.cpp
 	src/ParticleSystem.cpp
 	libs/nanogui/ext/glad/src/glad.c
 	src/ExceptionMsg.cpp
 )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g")
 
 add_executable(particle_system ${SOURCE_FILES})
 

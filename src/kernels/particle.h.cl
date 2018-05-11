@@ -1,4 +1,4 @@
 typedef struct	Particle {
-	float3 position;
-	float3 speed;
+	float4 position;
+	float4 speed;
 }				Particle;

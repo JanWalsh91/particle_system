@@ -31,6 +31,8 @@ public:
 	void addVBO(std::string);
 	void addVAO(std::string);
 
+	void	setWindowName(std::string);
+
 	static void initOpenGL();
 	static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
 
@@ -50,7 +52,6 @@ private:
 	int								height;
 	std::map<std::string, GLuint>	VBOs;
 	std::map<std::string, GLuint>	VAOs;
-	// double		lastTimeFrame;
 };
 
 # include "GUI.hpp"

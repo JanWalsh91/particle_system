@@ -302,6 +302,33 @@ src/ExceptionMsg.cpp.s:
 	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.s
 .PHONY : src/ExceptionMsg.cpp.s
 
+src/FPS.o: src/FPS.cpp.o
+
+.PHONY : src/FPS.o
+
+# target to build an object file
+src/FPS.cpp.o:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/FPS.cpp.o
+.PHONY : src/FPS.cpp.o
+
+src/FPS.i: src/FPS.cpp.i
+
+.PHONY : src/FPS.i
+
+# target to preprocess a source file
+src/FPS.cpp.i:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/FPS.cpp.i
+.PHONY : src/FPS.cpp.i
+
+src/FPS.s: src/FPS.cpp.s
+
+.PHONY : src/FPS.s
+
+# target to generate assembly for a file
+src/FPS.cpp.s:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/FPS.cpp.s
+.PHONY : src/FPS.cpp.s
+
 src/GUI.o: src/GUI.cpp.o
 
 .PHONY : src/GUI.o
@@ -490,6 +517,9 @@ help:
 	@echo "... src/ExceptionMsg.o"
 	@echo "... src/ExceptionMsg.i"
 	@echo "... src/ExceptionMsg.s"
+	@echo "... src/FPS.o"
+	@echo "... src/FPS.i"
+	@echo "... src/FPS.s"
 	@echo "... src/GUI.o"
 	@echo "... src/GUI.i"
 	@echo "... src/GUI.s"
