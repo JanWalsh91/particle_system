@@ -7,6 +7,14 @@ OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): 
 	if (!(this->window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr))) {
 		throw ExceptionMsg("Failed to create window");
 	}
+
+	// position on top right of the monitor
+	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+	std::cout << "widthMM: " << mode->width << ", heightMM: " << mode->height << std::endl;
+	glfwSetWindowPos(this->window, mode->width - width - 50, 50);
+
+	// glfwSetWindowPos(this->window, width, height);
 	glfwMakeContextCurrent(this->window);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		throw ExceptionMsg("Failed to initialize GLAD");
@@ -18,7 +26,7 @@ OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): 
 	int w, h;
 	glfwGetFramebufferSize(window, &w, &h);
 	glViewport(0, 0, w, h);
-	glfwSwapInterval(0);
+	glfwSwapInterval(1);
 	glfwSwapBuffers(this->window);
 	glfwSetFramebufferSizeCallback(this->window, this->framebufferSizeCallback);
 	bool enabled = true;

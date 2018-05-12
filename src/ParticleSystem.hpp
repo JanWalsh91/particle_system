@@ -9,17 +9,6 @@
 # include "Camera.hpp"
 # include "FPS.hpp"
 
-typedef struct	Particle {
-	float positionx;
-	float positiony;
-	float positionz;
-	float positionw;
-	float speedx;
-	float speedy;
-	float speedz;
-	float speedw;
-}				Particle;
-
 class ParticleSystem {
 
 	public:

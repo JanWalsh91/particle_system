@@ -23,7 +23,8 @@
 		"regex": "cpp",
 		"utility": "cpp",
 		"queue": "cpp",
-		"*.cl": "cpp"
+		"*.cl": "cpp",
+		"alignedvector3": "cpp"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false

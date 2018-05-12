@@ -30,7 +30,13 @@ OpenCLContext::OpenCLContext( bool verbose, bool openGlShare ) {
 
 	// 3. Create Context
 	if (openGlShare) {
-		CGLContextObj glContext = (CGLContextObj)CGLGetCurrentContext();
+		// cl_context_properties	properties[] = {
+		// 	CL_GL_CONTEXT_KHR, (cl_context_properties)wglGetCurrentContext(),
+		// 	CL_WGL_HDC_KHR, (cl_context_properties)wglGetCurrentDC(),
+		// 	CL_CONTEXT_PLATFORM, (cl_context_properties)platform(),
+		// 	0
+		// };
+		CGLContextObj glContext = CGLGetCurrentContext();
 		CGLShareGroupObj shareGroup = CGLGetShareGroup(glContext);
 		cl_context_properties properties[] = {
 			CL_CONTEXT_PROPERTY_USE_CGL_SHAREGROUP_APPLE,
@@ -86,6 +92,9 @@ void	OpenCLContext::buildProgram() {
 	checkError(err, "Create program");
 
 	err = this->program.build({this->device});
+	// std::cout << "Build Status: " << program.getBuildInfo<CL_PROGRAM_BUILD_STATUS>(this->device) << std::endl;
+	// std::cout << "Build Options:\t" << program.getBuildInfo<CL_PROGRAM_BUILD_OPTIONS>(this->device) << std::endl;
+	// std::cout << "Build Log:\t " << program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(this->device) << std::endl;
 	checkError(err, "Build program");
 
 	this->sources.clear();
