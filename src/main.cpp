@@ -8,17 +8,20 @@ int    main ( int ac, char **av ) {
 
 	std::vector<std::string> args;
 
-	unsigned int pcount = 8;
+	long int pcount = 5000;
 
 	for (int i = 1; i < ac; ++i) {
 		args.push_back(av[i]);
 	}
 	for (std::string &arg : args) {
-		if (arg.find("-p=") != std::string::npos) {
-			std::string sub = arg.substr(3);
+		if (arg.find("p=") != std::string::npos) {
+			std::string sub = arg.substr(2);
 			pcount = std::atoi(sub.c_str());
+			if (!pcount)
+				pcount = 5000;
 		}
 	}
+	std::cout << "pcount: " << pcount << std::endl;
 	ParticleSystem PS;
 	PS.init(pcount);
 	PS.loop();

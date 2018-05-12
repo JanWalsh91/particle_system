@@ -102,6 +102,9 @@ CMakeFiles/particle_system.dir/src/Camera.cpp.o
  ../include/glm/vec3.hpp
  ../include/glm/vec4.hpp
  ../include/glm/vector_relational.hpp
+ ../libs/nanogui/ext/glad/include/KHR/khrplatform.h
+ ../libs/nanogui/ext/glad/include/glad/glad.h
+ ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
  /Users/jwalsh/Documents/42/particle_system/src/Camera.cpp
  /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
 CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o

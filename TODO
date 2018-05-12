@@ -2,14 +2,17 @@ TODO:
 
 - Calculate fps
 	- Requirements: 1 million at 60FPS, 3 million at 20FPS
-	- Display on screen or in window title
+	✔ Display on screen or in window title
+	- update only when minimum time has passed
 - init multiple particles:
-	- init list of particles as cube
-	- init list of particles as sphere
+	✔ init list of particles as cube
+	✔ init list of particles as sphere
+		- improve generation
 	- init list of particles as (Bonus...)
+	- set interesting speed for init particles...
 - Camera:
 	- Move camera around: forward, backward, rotate left, right, up, down. (Based on current position and orientation)
-- Pause
+✔ Pause
 - Graviational center:
 	- Move graviational center with cursor
 	- Hold graviational center position
@@ -22,9 +25,6 @@ TODO:
 - Reset
 - Add particles in real time
 - Temporary particles
-
-
-
 
 
 Notes:

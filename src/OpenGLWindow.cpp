@@ -27,6 +27,7 @@ OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): 
 	glfwGetFramebufferSize(window, &w, &h);
 	glViewport(0, 0, w, h);
 	glfwSwapInterval(1);
+	glfwSetInputMode(this->window, GLFW_STICKY_KEYS, 1);
 	glfwSwapBuffers(this->window);
 	glfwSetFramebufferSizeCallback(this->window, this->framebufferSizeCallback);
 	bool enabled = true;

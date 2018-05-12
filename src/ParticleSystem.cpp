@@ -27,14 +27,12 @@ ParticleSystem::ParticleSystem() {
 
 	// Add Kernels, init Kernel programs
 	this->CL->addKernelFromFile("../src/kernels/particle.h.cl");
-	// this->CL->addKernelFromFile("../src/kernels/init_particle.cl");
 	this->CL->addKernelFromFile("../src/kernels/init_particle_cube.cl");
-	// this->CL->addKernelFromFile("../src/kernels/init_particle_cube2.cl");
+	this->CL->addKernelFromFile("../src/kernels/init_particle_sphere.cl");
 	this->CL->addKernelFromFile("../src/kernels/update_particle.cl");
 	this->CL->buildProgram();
-	// this->CL->setKernel("init_particle");
 	this->CL->setKernel("init_particle_cube");
-	// this->CL->setKernel("init_particle_cube2");
+	this->CL->setKernel("init_particle_sphere");
 	this->CL->setKernel("update_particle");
 	
 	// Create Vertex Arrays and Buffer Objects
@@ -64,8 +62,9 @@ ParticleSystem::~ParticleSystem() {}
 /**
 	Initializes particles and buffers based on number of particles and layout
 */
-void ParticleSystem::init(int numParticles, std::string initLayout) {
+void ParticleSystem::init(int numParticles, std::string initLayout, bool paused) {
 	std::cout << "Particle System init" << std::endl;
+	this->paused = paused;
 	cl_int err = 0;
 
 	cl_uint cubeSize = std::ceil(std::cbrt(numParticles));
@@ -106,8 +105,9 @@ void ParticleSystem::init(int numParticles, std::string initLayout) {
 		this->CL->getKernel("init_particle_cube").setArg(2, sizeof(cl_uint), &cubeSize);
 		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 		// std::cout << "==============" << std::endl;
-		// this->CL->getKernel("init_particle_cube2").setArg(0, this->CL->getBuffer("particles"));
-		// err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube2"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
+		this->CL->getKernel("init_particle_sphere").setArg(0, this->CL->getBuffer("particles"));
+		this->CL->getKernel("init_particle_sphere").setArg(1, sizeof(cl_uint), &this->numParticles);
+		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_sphere"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 		this->CL->checkError(err, "init: enqueueNDRangeKernel");
 		queue.finish();
 		err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
@@ -149,9 +149,18 @@ void ParticleSystem::loop() {
 		glClearColor(.0f, .0f, .0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		// update position with OpenCL
-		this->updateParticles();
+		this->processInput();
 
+		if (!this->paused) {
+			// update position with OpenCL
+			this->updateParticles();
+		}
+
+		this->GL->getShaderProgram().setMatrix("viewMatrix", this->camera.getViewMatrix());
+		this->GL->getShaderProgram().setMatrix("projectionMatrix",
+			glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
+		);
+		
 		// draw arrays with OpenGL
 		glBindVertexArray(this->GL->getVAO("particles"));
 		glDrawArrays(GL_POINTS, 0, this->numParticles);
@@ -165,4 +174,14 @@ void ParticleSystem::loop() {
 		this->fps->update();
 		this->GL->setWindowName("Particle System\t(FPS: " + std::to_string(this->fps->getFPS()) + ")");
 	}
+}
+
+void ParticleSystem::processInput() {
+	static int oldState_P = GLFW_RELEASE;
+	int newState_P = glfwGetKey(this->GL->getWindow(), GLFW_KEY_P);
+	if (newState_P == GLFW_RELEASE && oldState_P == GLFW_PRESS) {
+		this->paused = !this->paused;
+	}
+	oldState_P = newState_P;
+	this->camera.processInput(this->GL->getWindow());
 }

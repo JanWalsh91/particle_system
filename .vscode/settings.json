@@ -24,7 +24,8 @@
 		"utility": "cpp",
 		"queue": "cpp",
 		"*.cl": "cpp",
-		"alignedvector3": "cpp"
+		"alignedvector3": "cpp",
+		"fft": "cpp"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false

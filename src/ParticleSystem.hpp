@@ -17,15 +17,22 @@ class ParticleSystem {
 
 		Camera	camera;
 
-		void init(int numParticles = 1, std::string initLayout = "cube");
+		void init(
+			int numParticles = 1,
+			std::string initLayout = "cube",
+			bool paused = false
+		);
 		void loop();
-		void updateParticles();
 
 	private:
+		void updateParticles();
+		void processInput();
+
 		cl_uint			numParticles;
 		OpenCLContext	*CL;
 		OpenGLWindow	*GL;
 		FPS				*fps;
+		bool			paused;
 
 };
 

@@ -2133,6 +2133,12 @@ Camera.hpp
 /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
+glad/glad.h
+-
+GLFW/glfw3.h
+-
+glm/fwd.hpp
+-
 glm/glm.hpp
 -
 glm/gtc/matrix_transform.hpp
