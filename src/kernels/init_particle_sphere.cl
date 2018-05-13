@@ -9,7 +9,7 @@ kernel void init_particle_sphere(global Particle *P, size_t N) {
 	// pt.w = 1;
 	// pt = normalize(pt);
 	float scale = 0.7;
-	P[i].position = P[i].position * float4(2.0, 2.0, 2.0, 1);
+	P[i].position = P[i].position * float4(4.0, 4.0, 4.0, 1);
 	P[i].position = normalize(P[i].position) * float4(scale, scale, scale, 1);
 	// printf("rand num: (%.2f, %.2f, %.2f)\n", pt.x, pt.y, pt.z);
 }

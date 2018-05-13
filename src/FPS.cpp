@@ -6,7 +6,7 @@ FPS::FPS(unsigned int sampleSize) : fps(NAN), sampleSize(sampleSize) {
 
 FPS::~FPS() {}
 
-void	FPS::reset(double startTime) {
+void	FPS::reset(float startTime) {
 	glfwSetTime(startTime);
 }
 
@@ -19,8 +19,25 @@ void	FPS::update() {
 	this->timeList.push_back(glfwGetTime());
 	// std::cout << "added: " << this->timeList.back() << std::endl;
 	// calculate FPS
-	double elapsedTime = this->timeList.back() - this->timeList.front();
+	float elapsedTime = this->timeList.back() - this->timeList.front();
 	this->fps = this->timeList.size() / elapsedTime;
+}
+
+void	FPS::updateLast() {
+	this->timeList.pop_back();
+	this->timeList.push_back(glfwGetTime());
+}
+
+float	FPS::getDeltaTime() {
+	if (this->timeList.size() > 1) {
+		return this->timeList.back() - *std::prev(this->timeList.end(), 2);;
+	}
+	else if (this->timeList.size() == 1) {
+		return this->timeList.back();
+	}
+	else {
+		return NAN;
+	}
 }
 
 // Getters

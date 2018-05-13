@@ -6,6 +6,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/particle_system.dir/src/GUI.cpp.o"
   "CMakeFiles/particle_system.dir/src/FPS.cpp.o"
   "CMakeFiles/particle_system.dir/src/Camera.cpp.o"
+  "CMakeFiles/particle_system.dir/src/Force.cpp.o"
   "CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o"
   "CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.o"
   "CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o"

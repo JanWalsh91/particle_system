@@ -2133,10 +2133,6 @@ Camera.hpp
 /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
-glad/glad.h
--
-GLFW/glfw3.h
--
 glm/fwd.hpp
 -
 glm/glm.hpp
@@ -2170,6 +2166,16 @@ list
 cmath
 -
 GLFW/glfw3.h
+-
+
+/Users/jwalsh/Documents/42/particle_system/src/Force.cpp
+Force.hpp
+/Users/jwalsh/Documents/42/particle_system/src/Force.hpp
+
+/Users/jwalsh/Documents/42/particle_system/src/Force.hpp
+glm/glm.hpp
+-
+glm/gtc/matrix_transform.hpp
 -
 
 /Users/jwalsh/Documents/42/particle_system/src/GUI.cpp
@@ -2255,6 +2261,8 @@ Camera.hpp
 /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
 FPS.hpp
 /Users/jwalsh/Documents/42/particle_system/src/FPS.hpp
+Force.hpp
+/Users/jwalsh/Documents/42/particle_system/src/Force.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/Shader.cpp
 Shader.hpp

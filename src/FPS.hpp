@@ -13,16 +13,18 @@ class FPS {
 		FPS(unsigned int sampleSize = 100);
 		~FPS();
 		
-		void	reset(double startTime = 0.0f);
+		void	reset(float startTime = 0.0f);
 		void	update();
-		
+		void	updateLast();
+		float	getDeltaTime();
+
 		// Getters
 		int		getFPS() const;
-
+		
 	private:
-		std::list<double>	timeList;
+		std::list<float>	timeList;
 		int					fps;
-		double				sampleSize;
+		float				sampleSize;
 };
 
 #endif

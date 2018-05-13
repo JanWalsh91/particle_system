@@ -12,9 +12,13 @@ ParticleSystem::ParticleSystem() {
 
 	// init OpenGL
 	OpenGLWindow::initOpenGL();
-
+	
 	// Create Window
 	this->GL = new OpenGLWindow(1500, 1000, "Particle System");	
+	
+	// Set callback
+	glfwSetWindowUserPointer(this->GL->getWindow(), this);
+	glfwSetMouseButtonCallback(this->GL->getWindow(), mouseButtonCallback);
 
 	// Add Shaders
 	std::vector<std::string> shaderPaths;
@@ -41,6 +45,11 @@ ParticleSystem::ParticleSystem() {
 	glBindVertexArray(this->GL->getVAO("particles"));
 	glBindBuffer(GL_ARRAY_BUFFER, this->GL->getVBO("particles"));
 	glBindVertexArray(0);
+	// this->GL->addVAO("forces");
+	// this->GL->addVBO("forces");
+	// glBindVertexArray(this->GL->getVAO("forces"));
+	// glBindBuffer(GL_ARRAY_BUFFER, this->GL->getVBO("forces"));
+	// glBindVertexArray(0);
 
 	// set polygon mode to points
 	glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
@@ -65,31 +74,44 @@ ParticleSystem::~ParticleSystem() {}
 void ParticleSystem::init(int numParticles, std::string initLayout, bool paused) {
 	std::cout << "Particle System init" << std::endl;
 	this->paused = paused;
+	this->cursorDepth = glm::length(this->camera.getPosition());
+	// printf("depth: %f\n", this->cursorDepth);
+
+	this->forces.push_back(Force());
+
 	cl_int err = 0;
 
 	cl_uint cubeSize = std::ceil(std::cbrt(numParticles));
 	this->numParticles = cubeSize * cubeSize * cubeSize;
 	std::cout << "cubeSize: " << cubeSize << std::endl;
+	std::cout << "this->numParticles: " << this->numParticles << std::endl;
+	
 	// is it necessary ?
 	// glFinish();
 
-	// Initialize size of Buffer
-	// GLuint buffSize = sizeof(Particle) * this->numParticles;
+	// Initialize particles VBO
 	GLuint buffSize = sizeof(float) * 8 * this->numParticles;
-	std::cout << "this->numParticles: " << this->numParticles << std::endl;
-	// std::cout << "buffSize: " << buffSize << std::endl;
 	glBindVertexArray(this->GL->getVAO("particles"));
 	glBufferData(GL_ARRAY_BUFFER, buffSize, nullptr, GL_DYNAMIC_DRAW);
-	// glBufferData(GL_ARRAY_BUFFER, buffSize, init, GL_DYNAMIC_DRAW);
-
 	// define attribute pointers
-	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid *)0);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (GLvoid *)0);
 	glEnableVertexAttribArray(0);
-	// glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid *)(sizeof(float) * 3));
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (GLvoid *)(sizeof(float) * 4));
 	glEnableVertexAttribArray(1);
 	glBindVertexArray(0);
+
+	// Initialize forces VBO
+	// buffSize = sizeof(float) * 9 * this->forces.size();
+	// glBindVertexArray(this->GL->getVAO("forces"));
+	// glBufferData(GL_ARRAY_BUFFER, buffSize, &this->forces, GL_DYNAMIC_DRAW);
+	// // define attribute pointers
+	// glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (GLvoid *)0);
+	// glEnableVertexAttribArray(0);
+	// glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (GLvoid *)(sizeof(float) * 4));
+	// glEnableVertexAttribArray(1);
+	// glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (GLvoid *)(sizeof(float) * 4));
+	// glEnableVertexAttribArray(2);
+	// glBindVertexArray(0);
 
 	// Create openCL Buffer from openGL Buffer (VBO)
 	this->CL->addBuffer("particles", this->GL->getVBO("particles"));
@@ -145,11 +167,19 @@ void ParticleSystem::loop() {
 	this->fps->reset();
 
 	while (!glfwWindowShouldClose(this->GL->getWindow()) && glfwGetKey(this->GL->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS) {
+		if (this->fps->getDeltaTime() < 0.016) {
+			this->fps->updateLast();
+			continue ;
+		}
 		// clear
 		glClearColor(.0f, .0f, .0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		this->processInput();
+
+		this->GL->getShaderProgram().setVector("camPos", this->camera.getPosition());
+		this->GL->getShaderProgram().setVector("camDir", this->camera.getFront());
+		this->GL->getShaderProgram().setFloat("cursorDepth", this->cursorDepth);
 
 		if (!this->paused) {
 			// update position with OpenCL
@@ -173,15 +203,65 @@ void ParticleSystem::loop() {
 		// update FPS and window title
 		this->fps->update();
 		this->GL->setWindowName("Particle System\t(FPS: " + std::to_string(this->fps->getFPS()) + ")");
+		// std::cout << "Delta Time: " << this->fps->getDeltaTime() << std::endl;
+		// glm::mat4 m = this->camera.getViewMatrix();
+		// printf("===========\n");
+		// for (int i = 0; i < 4; i++) {
+		// 	for (int y = 0; y < 4; y++) {
+		// 		printf("%.2lf, ", m[i][y]);
+		// 	}
+		// 	printf("\n");
+		// }
 	}
 }
 
 void ParticleSystem::processInput() {
+	// Pause
 	static int oldState_P = GLFW_RELEASE;
 	int newState_P = glfwGetKey(this->GL->getWindow(), GLFW_KEY_P);
 	if (newState_P == GLFW_RELEASE && oldState_P == GLFW_PRESS) {
 		this->paused = !this->paused;
 	}
 	oldState_P = newState_P;
-	this->camera.processInput(this->GL->getWindow());
+	
+	// Camera movement
+	if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_UP) == GLFW_PRESS)
+		this->camera.processInput(FORWARD, this->fps->getDeltaTime());
+    if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_DOWN) == GLFW_PRESS)
+		this->camera.processInput(BACKWARD, this->fps->getDeltaTime());
+    if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_LEFT) == GLFW_PRESS)
+		this->camera.processInput(LEFT, this->fps->getDeltaTime());
+    if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_RIGHT) == GLFW_PRESS)
+		this->camera.processInput(RIGHT, this->fps->getDeltaTime());
+	
+	// Camera rotation
+	if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_W) == GLFW_PRESS)
+		this->camera.processInput(TURN_UP, this->fps->getDeltaTime());
+    if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_S) == GLFW_PRESS)
+		this->camera.processInput(TURN_DOWN, this->fps->getDeltaTime());
+    if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_A) == GLFW_PRESS)
+		this->camera.processInput(TURN_LEFT, this->fps->getDeltaTime());
+    if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_D) == GLFW_PRESS)
+		this->camera.processInput(TURN_RIGHT, this->fps->getDeltaTime());
+
+	// Cursor Depth
+	if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_KP_ADD) == GLFW_PRESS)
+		this->cursorDepth += 0.01;
+	if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS)
+		this->cursorDepth -= 0.01;
+	
+}
+
+void ParticleSystem::updateForcePosition(int x, int y) {
+	std::cout << "updateForcePos" << std::endl;
+}
+
+void ParticleSystem::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+	std::cout << "mouseButtonCallback" << std::endl;
+	if (button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS) {
+		ParticleSystem *PS = reinterpret_cast<ParticleSystem *>(glfwGetWindowUserPointer(window));
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+		PS->updateForcePosition(xpos, ypos);
+	}
 }

@@ -25,7 +25,11 @@
 		"queue": "cpp",
 		"*.cl": "cpp",
 		"alignedvector3": "cpp",
-		"fft": "cpp"
+		"fft": "cpp",
+		"array": "cpp",
+		"forward_list": "cpp",
+		"string_view": "cpp",
+		"__string": "cpp"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false

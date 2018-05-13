@@ -329,6 +329,33 @@ src/FPS.cpp.s:
 	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/FPS.cpp.s
 .PHONY : src/FPS.cpp.s
 
+src/Force.o: src/Force.cpp.o
+
+.PHONY : src/Force.o
+
+# target to build an object file
+src/Force.cpp.o:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/Force.cpp.o
+.PHONY : src/Force.cpp.o
+
+src/Force.i: src/Force.cpp.i
+
+.PHONY : src/Force.i
+
+# target to preprocess a source file
+src/Force.cpp.i:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/Force.cpp.i
+.PHONY : src/Force.cpp.i
+
+src/Force.s: src/Force.cpp.s
+
+.PHONY : src/Force.s
+
+# target to generate assembly for a file
+src/Force.cpp.s:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/Force.cpp.s
+.PHONY : src/Force.cpp.s
+
 src/GUI.o: src/GUI.cpp.o
 
 .PHONY : src/GUI.o
@@ -520,6 +547,9 @@ help:
 	@echo "... src/FPS.o"
 	@echo "... src/FPS.i"
 	@echo "... src/FPS.s"
+	@echo "... src/Force.o"
+	@echo "... src/Force.i"
+	@echo "... src/Force.s"
 	@echo "... src/GUI.o"
 	@echo "... src/GUI.i"
 	@echo "... src/GUI.s"

@@ -8,6 +8,7 @@
 # include "OpenCLContext.hpp"
 # include "Camera.hpp"
 # include "FPS.hpp"
+# include "Force.hpp"
 
 class ParticleSystem {
 
@@ -24,16 +25,20 @@ class ParticleSystem {
 		);
 		void loop();
 
+		static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+
 	private:
 		void updateParticles();
 		void processInput();
+		void updateForcePosition(int x, int y);
 
-		cl_uint			numParticles;
-		OpenCLContext	*CL;
-		OpenGLWindow	*GL;
-		FPS				*fps;
-		bool			paused;
-
+		cl_uint				numParticles;
+		OpenCLContext		*CL;
+		OpenGLWindow		*GL;
+		FPS					*fps;
+		bool				paused;
+		float				cursorDepth;
+		std::vector<Force>	forces;
 };
 
 #endif
