@@ -8,7 +8,7 @@
 # include "OpenCLContext.hpp"
 # include "Camera.hpp"
 # include "FPS.hpp"
-# include "Force.hpp"
+# include "Forces.hpp"
 
 class ParticleSystem {
 
@@ -38,7 +38,7 @@ class ParticleSystem {
 		FPS					*fps;
 		bool				paused;
 		float				cursorDepth;
-		std::vector<Force>	forces;
+		Forces				forces;
 };
 
 #endif
