@@ -65,7 +65,9 @@ void ParticleSystem::init(int numParticles, std::string initLayout, bool paused)
 	this->cursorDepth = glm::length(this->camera.getPosition());
 	// printf("depth: %f\n", this->cursorDepth);
 
-	this->forces.addForce(Forces::Force(glm::vec3(1, 2, 3), glm::vec3(5, 6, 7), 4));
+	this->forces.addForce(Forces::Force(glm::vec3(0, 1, 0), glm::vec3(4, 5, 6), 100000));
+	this->forces.addForce(Forces::Force(glm::vec3(0.5, -0.8, 0), glm::vec3(4, 5, 6), 100000));
+	this->forces.addForce(Forces::Force(glm::vec3(-0.5, 0.5, 0), glm::vec3(4, 5, 6), 100000));
 	// Force force = Force();
 	// force.position = glm::vec4(1, 2, 3, 4);
 
@@ -95,21 +97,27 @@ void ParticleSystem::init(int numParticles, std::string initLayout, bool paused)
 	glEnableVertexAttribArray(1);
 	glBindVertexArray(0);
 
+	for (int i = 0; i < 7; ++i) {
+		printf("%.2f, ", this->forces.data()[i]);
+	}
+
+	// exit(0);
+
 	// Initialize forces VBO
 	this->GL->addVAO("forces");
 	this->GL->addVBO("forces");
 	glBindVertexArray(this->GL->getVAO("forces"));
 	glBindBuffer(GL_ARRAY_BUFFER, this->GL->getVBO("forces"));
-	buffSize = sizeof(float) * 9 * this->forces.size();
+	buffSize = sizeof(float) * 7 * this->forces.size();
 	glBindVertexArray(this->GL->getVAO("forces"));
 	std::cout << "forces.size: " << this->forces.size() << std::endl;
 	glBufferData(GL_ARRAY_BUFFER, buffSize, this->forces.data(), GL_DYNAMIC_DRAW);
 	// define attribute pointers
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (GLvoid *)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (GLvoid *)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (GLvoid *)(sizeof(float) * 4));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (GLvoid *)(sizeof(float) * 3));
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (GLvoid *)(sizeof(float) * 4));
+	glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (GLvoid *)(sizeof(float) * 3));
 	glEnableVertexAttribArray(2);
 	glBindVertexArray(0);
 
@@ -128,7 +136,7 @@ void ParticleSystem::init(int numParticles, std::string initLayout, bool paused)
 		this->CL->getKernel("init_particle_cube").setArg(2, sizeof(cl_uint), &cubeSize);
 		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 		queue.finish();
-		// std::cout << "==============" << std::endl;
+		std::cout << "==============" << std::endl;
 		this->CL->getKernel("init_particle_sphere").setArg(0, this->CL->getBuffer("particles"));
 		this->CL->getKernel("init_particle_sphere").setArg(1, sizeof(cl_uint), &this->numParticles);
 		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_sphere"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
@@ -155,6 +163,9 @@ void ParticleSystem::updateParticles() {
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "updateParticles: enqueueAcquireGLObjects");
 	this->CL->getKernel("update_particle").setArg(0, this->CL->getBuffer("particles"));
+	this->CL->getKernel("update_particle").setArg(1, this->CL->getBuffer("forces"));
+	int f_num = this->forces.size();
+	this->CL->getKernel("update_particle").setArg(2, sizeof(int), &f_num);
 	err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 	this->CL->checkError(err, "updateParticles: enqueueNDRangeKernel");
 	queue.finish();
@@ -238,9 +249,9 @@ void ParticleSystem::processInput() {
 	
 	// Camera rotation
 	if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_W) == GLFW_PRESS)
-		this->camera.processInput(TURN_UP, this->fps->getDeltaTime());
-    if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_S) == GLFW_PRESS)
 		this->camera.processInput(TURN_DOWN, this->fps->getDeltaTime());
+    if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_S) == GLFW_PRESS)
+		this->camera.processInput(TURN_UP, this->fps->getDeltaTime());
     if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_A) == GLFW_PRESS)
 		this->camera.processInput(TURN_LEFT, this->fps->getDeltaTime());
     if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_D) == GLFW_PRESS)

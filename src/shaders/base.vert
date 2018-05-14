@@ -18,13 +18,14 @@ void main()
 	vec3 center = vec3(0, 0, 0);
 	vec3 color = vec3(1, 0.2, 0.4);
 	vec3 distance = abs( position.xyz );
-	ObjColor = (0.9 - length(distance)) * color;
+	//ObjColor = (0.9 - length(distance)) * color;
+	ObjColor = color;
 
 
 	vec3 grey = vec3(0.5, 0.5, 0.5);
 	vec3 CP = position.xyz - camPos;
 	float distFromCam = dot(CP, camDir)/length(camDir);
-	if (distFromCam > cursorDepth) {
-		ObjColor = mix(ObjColor, grey, 0.5);
-	}
+	//if (distFromCam > cursorDepth) {
+	//	ObjColor = mix(ObjColor, grey, 0.5);
+	//}
 }
