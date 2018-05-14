@@ -148,18 +148,18 @@ CMakeFiles/particle_system.dir/src/Camera.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/particle_system.dir/src/Camera.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/jwalsh/Documents/42/particle_system/src/Camera.cpp -o CMakeFiles/particle_system.dir/src/Camera.cpp.s
 
-CMakeFiles/particle_system.dir/src/Force.cpp.o: CMakeFiles/particle_system.dir/flags.make
-CMakeFiles/particle_system.dir/src/Force.cpp.o: ../src/Force.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/particle_system.dir/src/Force.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_system.dir/src/Force.cpp.o -c /Users/jwalsh/Documents/42/particle_system/src/Force.cpp
+CMakeFiles/particle_system.dir/src/Forces.cpp.o: CMakeFiles/particle_system.dir/flags.make
+CMakeFiles/particle_system.dir/src/Forces.cpp.o: ../src/Forces.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/particle_system.dir/src/Forces.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_system.dir/src/Forces.cpp.o -c /Users/jwalsh/Documents/42/particle_system/src/Forces.cpp
 
-CMakeFiles/particle_system.dir/src/Force.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/particle_system.dir/src/Force.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/jwalsh/Documents/42/particle_system/src/Force.cpp > CMakeFiles/particle_system.dir/src/Force.cpp.i
+CMakeFiles/particle_system.dir/src/Forces.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/particle_system.dir/src/Forces.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/jwalsh/Documents/42/particle_system/src/Forces.cpp > CMakeFiles/particle_system.dir/src/Forces.cpp.i
 
-CMakeFiles/particle_system.dir/src/Force.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/particle_system.dir/src/Force.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/jwalsh/Documents/42/particle_system/src/Force.cpp -o CMakeFiles/particle_system.dir/src/Force.cpp.s
+CMakeFiles/particle_system.dir/src/Forces.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/particle_system.dir/src/Forces.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/jwalsh/Documents/42/particle_system/src/Forces.cpp -o CMakeFiles/particle_system.dir/src/Forces.cpp.s
 
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: CMakeFiles/particle_system.dir/flags.make
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../src/ParticleSystem.cpp
@@ -209,7 +209,7 @@ particle_system_OBJECTS = \
 "CMakeFiles/particle_system.dir/src/GUI.cpp.o" \
 "CMakeFiles/particle_system.dir/src/FPS.cpp.o" \
 "CMakeFiles/particle_system.dir/src/Camera.cpp.o" \
-"CMakeFiles/particle_system.dir/src/Force.cpp.o" \
+"CMakeFiles/particle_system.dir/src/Forces.cpp.o" \
 "CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o" \
 "CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.o" \
 "CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o"
@@ -224,7 +224,7 @@ particle_system: CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o
 particle_system: CMakeFiles/particle_system.dir/src/GUI.cpp.o
 particle_system: CMakeFiles/particle_system.dir/src/FPS.cpp.o
 particle_system: CMakeFiles/particle_system.dir/src/Camera.cpp.o
-particle_system: CMakeFiles/particle_system.dir/src/Force.cpp.o
+particle_system: CMakeFiles/particle_system.dir/src/Forces.cpp.o
 particle_system: CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o
 particle_system: CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.o
 particle_system: CMakeFiles/particle_system.dir/src/ExceptionMsg.cpp.o

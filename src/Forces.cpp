@@ -1,31 +1,54 @@
-#include "Force.hpp"
+#include "Forces.hpp"
 
-Force::Force() {
-	num = 0;
+Forces::Forces() {}
+
+Forces::Forces( Forces const & forces ) {
+	*this = forces;
 }
 
-Force::Force( Force const & force ) {
-	*this = force;
-}
+Forces::~Forces() {}
 
-Force::~Force() {}
-
-Force &Force::operator=(Force const & rhs) {
+Forces &Forces::operator=(Forces const & rhs) {
 	return *this;
 }
 
+void Forces::addForce(Forces::Force force) {
+	this->forces.push_back(force);
+}
 
+float	*Forces::data() {
+	std::vector<float> *data = new std::vector<float>;
 
-// void Force::addForce(glm::vec3 position, glm::vec3 color = glm::vec3(1, 1, 1), float mass = 1) {
-// 	std::vector<float> newForce;
+	for (Forces::Force & force : this->forces) {
+		data->push_back(force.position.x);
+		data->push_back(force.position.y);
+		data->push_back(force.position.z);
+		data->push_back(force.color.x);
+		data->push_back(force.color.y);
+		data->push_back(force.color.z);
+		data->push_back(force.mass);
+	}
+	return data->data();
+}
 
-// 	newForce[0] = position.x;
-// 	newForce[1] = position.y;
-// 	newForce[2] = position.z;
-// 	newForce[3] = color.x;
-// 	newForce[4] = color.y;
-// 	newForce[5] = color.z;
-// 	newForce[6] = mass;
-// 	this->data.insert( this->data.end(), newForce.begin(), newForce.end() );
-// 	++this->num;
-// }
+std::vector<Forces::Force> &Forces::getForces() {
+	return this->forces;
+}
+
+Forces::Force & Forces::getForce(int i) {
+	if (i < this->forces.size()) {
+		return this->forces[i];
+	}
+	else
+		throw "No force at this index";
+}
+
+int		Forces::size() {
+	return this->forces.size();
+}
+
+// ======== Force ========= //
+Forces::Force::Force(glm::vec3 position, glm::vec3 color, float mass) :
+	position(position),
+	color(color),
+	mass(mass) {}

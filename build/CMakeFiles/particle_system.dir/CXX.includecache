@@ -2168,11 +2168,15 @@ cmath
 GLFW/glfw3.h
 -
 
-/Users/jwalsh/Documents/42/particle_system/src/Force.cpp
-Force.hpp
-/Users/jwalsh/Documents/42/particle_system/src/Force.hpp
+/Users/jwalsh/Documents/42/particle_system/src/Forces.cpp
+Forces.hpp
+/Users/jwalsh/Documents/42/particle_system/src/Forces.hpp
 
-/Users/jwalsh/Documents/42/particle_system/src/Force.hpp
+/Users/jwalsh/Documents/42/particle_system/src/Forces.hpp
+vector
+-
+exception
+-
 glm/glm.hpp
 -
 glm/gtc/matrix_transform.hpp
@@ -2261,8 +2265,8 @@ Camera.hpp
 /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
 FPS.hpp
 /Users/jwalsh/Documents/42/particle_system/src/FPS.hpp
-Force.hpp
-/Users/jwalsh/Documents/42/particle_system/src/Force.hpp
+Forces.hpp
+/Users/jwalsh/Documents/42/particle_system/src/Forces.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/Shader.cpp
 Shader.hpp

@@ -29,7 +29,8 @@
 		"array": "cpp",
 		"forward_list": "cpp",
 		"string_view": "cpp",
-		"__string": "cpp"
+		"__string": "cpp",
+		"iterator": "cpp"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false

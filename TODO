@@ -6,7 +6,7 @@ TODO:
 	- update only when minimum time has passed
 - init multiple particles:
 	✔ init list of particles as cube
-	✔ init list of particles as sphere
+	- init list of particles as sphere
 		- improve generation
 	- init list of particles as (Bonus...)
 	- set interesting speed for init particles...

@@ -2,8 +2,10 @@
 # define FORCES_HPP
 
 # include <vector>
+# include <exception>
 # include <glm/glm.hpp>
 # include <glm/gtc/matrix_transform.hpp>
+
 
 class Forces {
 
@@ -16,20 +18,25 @@ class Forces {
 	
 		class Force {
 			public:
-				Force();
-				Force(glm::vec3 position, glm::vec3 color = glm::vec3(1, 1, 1), float mass = 1);
-				~Force();
+				Force(
+					glm::vec3 position = glm::vec3(1, 1, 1),
+					glm::vec3 color = glm::vec3(1, 1, 1),
+					float mass = 1
+				);
+				~Force() {};
 
 				glm::vec3	position;
 				glm::vec3	color;
 				float		mass;
-		}
+		};
 
-		void	addForce();
-		void	data();
+		void	addForce(Forces::Force force);
+		float	*data();
 
 		// Getters
-		std::vector<Forces::Force>	&getForces() { return this->forces; }
+		std::vector<Forces::Force>	&getForces();
+		Forces::Force & getForce(int i);
+		int	size();
 		
 	private:
 		std::vector<Forces::Force> forces;

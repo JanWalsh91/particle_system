@@ -21,7 +21,7 @@ set(
 	src/GUI.cpp
 	src/FPS.cpp
 	src/Camera.cpp
-	src/Force.cpp
+	src/Forces.cpp
 	src/ParticleSystem.cpp
 	libs/nanogui/ext/glad/src/glad.c
 	src/ExceptionMsg.cpp

@@ -65,7 +65,7 @@ void ParticleSystem::init(int numParticles, std::string initLayout, bool paused)
 	this->cursorDepth = glm::length(this->camera.getPosition());
 	// printf("depth: %f\n", this->cursorDepth);
 
-	this->forces.push_back(Force(glm::vec3(1, 2, 3), 4, glm::vec3(5, 6, 7)));
+	this->forces.addForce(Forces::Force(glm::vec3(1, 2, 3), glm::vec3(5, 6, 7), 4));
 	// Force force = Force();
 	// force.position = glm::vec4(1, 2, 3, 4);
 
@@ -96,30 +96,13 @@ void ParticleSystem::init(int numParticles, std::string initLayout, bool paused)
 	glBindVertexArray(0);
 
 	// Initialize forces VBO
-	float *f = reinterpret_cast<float *>(this->forces.data());
-	for (int i = 0; i < 9; ++i) {
-		printf("%.2f, ", f[i]);
-	}
-	// exit(0);
-
-	// std::vectors<cl_float> forces;
-
-	// forces.push_back(0);
-	// forces.push_back(1);
-	// forces.push_back(2);
-	// forces.push_back(3);
-	// forces.push_back(4);
-	// forces.push_back(5);
-	// forces.push_back(6);
-	// forces.push_back(7);
-	// forces.push_back(8);
-	// forces.push_back(9);
 	this->GL->addVAO("forces");
 	this->GL->addVBO("forces");
 	glBindVertexArray(this->GL->getVAO("forces"));
 	glBindBuffer(GL_ARRAY_BUFFER, this->GL->getVBO("forces"));
 	buffSize = sizeof(float) * 9 * this->forces.size();
 	glBindVertexArray(this->GL->getVAO("forces"));
+	std::cout << "forces.size: " << this->forces.size() << std::endl;
 	glBufferData(GL_ARRAY_BUFFER, buffSize, this->forces.data(), GL_DYNAMIC_DRAW);
 	// define attribute pointers
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (GLvoid *)0);
@@ -132,9 +115,9 @@ void ParticleSystem::init(int numParticles, std::string initLayout, bool paused)
 
 	// Create openCL Buffer from openGL Buffer (VBO)
 	this->CL->addBuffer("particles", this->GL->getVBO("particles"));
-	// this->CL->addBuffer("particles", this->GL->getVBO("forces"));
-
+	this->CL->addBuffer("forces", this->GL->getVBO("forces"));
 	glFinish();
+	// exit(0);
 	if (1) {
 		// initialize particles with kernel program on GPU
 		cl::CommandQueue queue = this->CL->getQueue();
