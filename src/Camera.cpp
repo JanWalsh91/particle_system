@@ -3,7 +3,7 @@
 Camera::Camera( glm::vec3 position ) :
 	position(position)
 {
-	this->yaw = 90.0f; // why 90 and not -90
+	this->yaw = -90.0f; // why 90 and not -90
 	this->pitch = 0.0f;
 	this->up = glm::vec3(.0f, 1.0f, .0f);
 	this->worldUp = this->up;

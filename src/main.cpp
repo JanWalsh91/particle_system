@@ -23,7 +23,7 @@ int    main ( int ac, char **av ) {
 	}
 	std::cout << "pcount: " << pcount << std::endl;
 	ParticleSystem PS;
-	PS.init(pcount);
+	PS.init(pcount, "", true);
 	PS.loop();
 
 

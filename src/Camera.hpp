@@ -20,7 +20,7 @@ class Camera {
 
 	public:
 		Camera(
-			glm::vec3 position = glm::vec3(.0f, .0f, -2.0f)
+			glm::vec3 position = glm::vec3(.0f, .0f, 2.5f)
 		);
 		~Camera();
 

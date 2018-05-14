@@ -10,7 +10,6 @@ kernel void init_particle_cube(global Particle *P, size_t N, size_t n) {
 	add = add / ((float)n - 1);
 	// printf("init_particle_cube (i = %d) : Set add to (%.2f, %.2f, %.2f)\n", i, add.x, add.y, add.z);
 	P[i].position = init + add;
-	P[i].speed = (float4)(0.0001f, 0.001f, 0.001f, 0.0f);
-	P[i].speed = (float4)(0.00f, 0.0f, 0.0f, 0.0f);
+	P[i].speed = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
 	// printf("init_particle_cube (i = %d) : Set pos to (%.2f, %.2f, %.2f)\n", i, P[i].position.x, P[i].position.y, P[i].position.z);
 }

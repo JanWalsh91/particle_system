@@ -4,5 +4,5 @@ kernel void init_particle(global Particle *P) {
 	// position
 	P[i].position = (float3) (0.5f, 0.5f, 0.0f);
 	// speed
-	P[i].speed = (float3) (0.0f, 0.0f, 0.0f);
+	P[i].speed = (float3) (500.5f, 0.0f, 0.0f);
 }
