@@ -96,6 +96,12 @@ void ParticleSystem::init(int numParticles, std::string initLayout, bool paused)
 	glEnableVertexAttribArray(1);
 	glBindVertexArray(0);
 
+	for (int i = 0; i < 7; ++i) {
+		printf("%.2f, ", this->forces.data()[i]);
+	}
+
+	// exit(0);
+
 	// Initialize forces VBO
 	this->GL->addVAO("forces");
 	this->GL->addVBO("forces");

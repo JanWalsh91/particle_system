@@ -25,7 +25,7 @@ void main()
 	vec3 grey = vec3(0.5, 0.5, 0.5);
 	vec3 CP = position.xyz - camPos;
 	float distFromCam = dot(CP, camDir)/length(camDir);
-	if (distFromCam > cursorDepth) {
-		ObjColor = mix(ObjColor, grey, 0.5);
-	}
+	//if (distFromCam > cursorDepth) {
+	//	ObjColor = mix(ObjColor, grey, 0.5);
+	//}
 }
