@@ -26,7 +26,7 @@ class ParticleSystem {
 		void loop();
 
 		static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
-
+		static void cursorPosCallback(GLFWwindow* window, double x, double y);
 	private:
 		void updateParticles();
 		void processInput();

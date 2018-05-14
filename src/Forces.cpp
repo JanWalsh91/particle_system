@@ -2,15 +2,7 @@
 
 Forces::Forces() {}
 
-Forces::Forces( Forces const & forces ) {
-	*this = forces;
-}
-
 Forces::~Forces() {}
-
-Forces &Forces::operator=(Forces const & rhs) {
-	return *this;
-}
 
 void Forces::addForce(Forces::Force force) {
 	this->forces.push_back(force);
@@ -43,6 +35,14 @@ Forces::Force & Forces::getForce(int i) {
 		throw "No force at this index";
 }
 
+void	Forces::delForce(int i) {
+	if (i < this->forces.size()) {
+		this->forces.erase(this->forces.begin() + i);
+	}
+	else
+		throw "No force at this index";
+}
+
 int		Forces::size() {
 	return this->forces.size();
 }
@@ -51,4 +51,5 @@ int		Forces::size() {
 Forces::Force::Force(glm::vec3 position, glm::vec3 color, float mass) :
 	position(position),
 	color(color),
-	mass(mass) {}
+	mass(mass),
+	locked(true) {}

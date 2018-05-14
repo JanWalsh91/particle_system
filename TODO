@@ -16,9 +16,12 @@ TODO:
 	- add gradual increase in speed for movement and for rotation
 ✔ Pause
 - Graviational center:
-	- Move graviational center with cursor
-	- Hold graviational center position
-	- Have multiple graviational centers
+	✔ Move graviational center with cursor
+	- Hold graviational center position (L/click)
+	✔ Have multiple graviational centers
+		✔ Tab to switch between graviational centers
+		✔ N: new center
+	- find good balance between constant force, gravity and friction
 - Color:
 	- Color particles based on distance to gravity centers
 	- Other color options
@@ -27,6 +30,14 @@ TODO:
 - Reset
 - Add particles in real time
 - Temporary particles
+
+Controls:
+- wasd: Cam rotation
+- up, down, left, right: Cam movement
+- P: Pause
+- Tab: next Force center
+- L: lock Force center (or mouse click)
+- N: new Force center
 
 
 Notes:

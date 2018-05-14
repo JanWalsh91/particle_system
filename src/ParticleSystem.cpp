@@ -14,11 +14,12 @@ ParticleSystem::ParticleSystem() {
 	OpenGLWindow::initOpenGL();
 	
 	// Create Window
-	this->GL = new OpenGLWindow(1000, 1000, "Particle System");	
+	this->GL = new OpenGLWindow(2000, 1000, "Particle System");	
 	
 	// Set callback
 	glfwSetWindowUserPointer(this->GL->getWindow(), this);
 	glfwSetMouseButtonCallback(this->GL->getWindow(), mouseButtonCallback);
+	glfwSetCursorPosCallback(this->GL->getWindow(), cursorPosCallback);
 
 	// Add Shaders
 	std::vector<std::string> shaderPaths;
@@ -66,7 +67,7 @@ void ParticleSystem::init(int numParticles, std::string initLayout, bool paused)
 	this->cursorDepth = glm::length(this->camera.getPosition());
 	// printf("depth: %f\n", this->cursorDepth);
 
-	this->forces.addForce(Forces::Force(glm::vec3(-0.2, -0.5, 0), glm::vec3(4, 5, 6), 1000000));
+	this->forces.addForce(Forces::Force(glm::vec3(0, 0, 0), glm::vec3(0, 0, 1), 10000000));
 	// this->forces.addForce(Forces::Force(glm::vec3(0.5, -0.8, 0), glm::vec3(4, 5, 6), 100000));
 	// this->forces.addForce(Forces::Force(glm::vec3(-0.5, 0.5, 0), glm::vec3(4, 5, 6), 100000));
 	// Force force = Force();
@@ -191,6 +192,7 @@ void ParticleSystem::loop() {
 		this->GL->getShaderProgram().setVector("camPos", this->camera.getPosition());
 		this->GL->getShaderProgram().setVector("camDir", this->camera.getFront());
 		this->GL->getShaderProgram().setFloat("cursorDepth", this->cursorDepth);
+		// this->GL->getShaderProgram().setFloat("forces", this->forces.data());
 
 
 		this->GL->getShaderProgram().setMatrix("viewMatrix", this->camera.getViewMatrix());
@@ -255,12 +257,59 @@ void ParticleSystem::processInput() {
 		this->cursorDepth -= 0.01;
 
 	// Current Force
-	if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_TAB) == GLFW_PRESS) {
+	static int oldState_TAB = GLFW_RELEASE;
+	int newState_TAB = glfwGetKey(this->GL->getWindow(), GLFW_KEY_TAB);
+	if (newState_TAB == GLFW_RELEASE && oldState_TAB == GLFW_PRESS) {
 		++this->currentForce;
 		if (this->currentForce >= this->forces.size())
 			this->currentForce = 0;
+		printf("Next Force: %d\n", this->currentForce);
 	}
-	
+	oldState_TAB = newState_TAB;
+
+	// Toggle Lock
+	static int oldState_L = GLFW_RELEASE;
+	int newState_L = glfwGetKey(this->GL->getWindow(), GLFW_KEY_L);
+	if (newState_L == GLFW_RELEASE && oldState_L == GLFW_PRESS) {
+		printf("Toggle lock\n");
+		this->forces.getForce(this->currentForce).locked = !this->forces.getForce(this->currentForce).locked;
+		GLuint buffSize = sizeof(float) * 7 * this->forces.size();
+		glBindVertexArray(this->GL->getVAO("forces"));
+		glBufferData(GL_ARRAY_BUFFER, buffSize, this->forces.data(), GL_DYNAMIC_DRAW);
+		glBindVertexArray(0);
+	}
+	oldState_L = newState_L;
+
+	// New Force
+	static int oldState_N = GLFW_RELEASE;
+	int newState_N = glfwGetKey(this->GL->getWindow(), GLFW_KEY_N);
+	if (newState_N == GLFW_RELEASE && oldState_N == GLFW_PRESS) {
+		this->forces.addForce(Forces::Force(glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), 10000000));
+		GLuint buffSize = sizeof(float) * 7 * this->forces.size();
+		glBindVertexArray(this->GL->getVAO("forces"));
+		glBufferData(GL_ARRAY_BUFFER, buffSize, this->forces.data(), GL_DYNAMIC_DRAW);
+		glBindVertexArray(0);
+		this->currentForce = this->forces.size() - 1;
+		printf("New Force. Total: %d, Current: %d\n", this->forces.size(), this->currentForce);
+	}
+	oldState_N = newState_N;
+
+	static int oldState_BACKSPACE = GLFW_RELEASE;
+	int newState_BACKSPACE = glfwGetKey(this->GL->getWindow(), GLFW_KEY_BACKSPACE);
+	if (newState_BACKSPACE == GLFW_RELEASE && oldState_BACKSPACE == GLFW_PRESS) {
+		if (this->forces.size() > 1) {
+			this->forces.delForce(this->currentForce);
+		}
+		this->currentForce = this->forces.size() - 1;
+		GLuint buffSize = sizeof(float) * 7 * this->forces.size();
+		glBindVertexArray(this->GL->getVAO("forces"));
+		glBufferData(GL_ARRAY_BUFFER, buffSize, this->forces.data(), GL_DYNAMIC_DRAW);
+		glBindVertexArray(0);
+		this->currentForce = this->forces.size() - 1;
+		printf("Del Force. Total: %d, Current: %d\n", this->forces.size(), this->currentForce);
+	}
+	oldState_BACKSPACE = newState_BACKSPACE;
+
 }
 
 void ParticleSystem::updateForcePosition(int x, int y) {
@@ -288,35 +337,35 @@ void ParticleSystem::updateForcePosition(int x, int y) {
 	vec.w = 0;
 
 
-	printf("vec (as pix position): [%.2f, %.2f, %.2f]\n", vec.x, vec.y, vec.z);
+	// printf("vec (as pix position): [%.2f, %.2f, %.2f]\n", vec.x, vec.y, vec.z);
 	vec = glm::normalize(vec);
-	printf("vec (as pix position, norm): [%.2f, %.2f, %.2f]\n", vec.x, vec.y, vec.z);
+	// printf("vec (as pix position, norm): [%.2f, %.2f, %.2f]\n", vec.x, vec.y, vec.z);
 	vec = vec * this->camera.getViewMatrix();
-	printf("vec * viewMatrix: [%.2f, %.2f, %.2f]\n", vec.x, vec.y, vec.z);
+	// printf("vec * viewMatrix: [%.2f, %.2f, %.2f]\n", vec.x, vec.y, vec.z);
 
 
 
-	printf("cursor depth: %f\n", this->cursorDepth);
+	// printf("cursor depth: %f\n", this->cursorDepth);
 	glm::vec4 planePos = glm::vec4(this->camera.getPosition() + this->camera.getFront() * this->cursorDepth, 0);
-	printf("plane pos: [%.2f, %.2f, %.2f]\n", planePos.x, planePos.y, planePos.z);
+	// printf("plane pos: [%.2f, %.2f, %.2f]\n", planePos.x, planePos.y, planePos.z);
 	glm::vec4 planeDir = glm::vec4(this->camera.getFront(), 0);
-	printf("plane dir: [%.2f, %.2f, %.2f]\n", planeDir.x, planeDir.y, planeDir.z);
-	printf("cam pos: [%.2f, %.2f, %.2f]\n", this->camera.getPosition().x, this->camera.getPosition().y, this->camera.getPosition().z);
-	printf("cam front: [%.2f, %.2f, %.2f]\n", this->camera.getFront().x, this->camera.getFront().y, this->camera.getFront().z);
+	// printf("plane dir: [%.2f, %.2f, %.2f]\n", planeDir.x, planeDir.y, planeDir.z);
+	// printf("cam pos: [%.2f, %.2f, %.2f]\n", this->camera.getPosition().x, this->camera.getPosition().y, this->camera.getPosition().z);
+	// printf("cam front: [%.2f, %.2f, %.2f]\n", this->camera.getFront().x, this->camera.getFront().y, this->camera.getFront().z);
 	
 	vec = glm::normalize(vec);
-	printf("vec normalized: [%.2f, %.2f, %.2f]\n", vec.x, vec.y, vec.z);
+	// printf("vec normalized: [%.2f, %.2f, %.2f]\n", vec.x, vec.y, vec.z);
 	float d1 = glm::dot(planeDir, vec);
-	printf("d1: %.2f\n", d1);
+	// printf("d1: %.2f\n", d1);
 	glm::vec4 v1 = planePos - glm::vec4(this->camera.getPosition(), 0);
-	printf("v1: [%.2f, %.2f, %.2f]\n", v1.x, v1.y, v1.z);
+	// printf("v1: [%.2f, %.2f, %.2f]\n", v1.x, v1.y, v1.z);
 	float r1 = glm::dot(v1, planeDir) / d1;
-	printf("r1: %.2f\n", r1);
+	// printf("r1: %.2f\n", r1);
 	vec = r1 * glm::normalize(vec);
 
-	printf("vec relative pos to camera: [%.2f, %.2f, %.2f]\n", vec.x, vec.y, vec.z);
+	// printf("vec relative pos to camera: [%.2f, %.2f, %.2f]\n", vec.x, vec.y, vec.z);
 	vec = vec + glm::vec4(this->camera.getPosition(), 0);
-	printf("final vec: [%.2f, %.2f, %.2f]\n", vec.x, vec.y, vec.z);
+	// printf("final vec: [%.2f, %.2f, %.2f]\n", vec.x, vec.y, vec.z);
 	
 	Forces::Force &f = this->forces.getForce(this->currentForce);
 	f.position.x = vec.x;
@@ -333,8 +382,17 @@ void ParticleSystem::mouseButtonCallback(GLFWwindow* window, int button, int act
 	std::cout << "mouseButtonCallback" << std::endl;
 	if (button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS) {
 		ParticleSystem *PS = reinterpret_cast<ParticleSystem *>(glfwGetWindowUserPointer(window));
+		// if (!PS->forces.getForce(PS->currentForce).locked) {
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 		PS->updateForcePosition(xpos, ypos);
+		// }
+	}
+}
+
+void ParticleSystem::cursorPosCallback(GLFWwindow* window, double x, double y) {
+	ParticleSystem *PS = reinterpret_cast<ParticleSystem *>(glfwGetWindowUserPointer(window));
+	if (!PS->forces.getForce(PS->currentForce).locked) {
+		PS->updateForcePosition(x, y);
 	}
 }

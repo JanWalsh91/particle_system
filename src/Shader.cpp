@@ -115,4 +115,7 @@ void Shader::setMatrix( const std::string &name, glm::mat4 m) const {
 	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(m));
 }
 
-	
+
+// TODO: set uniform array
+// GLfloat v[10] = {...};
+// glUniform1fv(glGetUniformLocation(program, "v"), 10, v);

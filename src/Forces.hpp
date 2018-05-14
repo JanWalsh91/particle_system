@@ -11,10 +11,7 @@ class Forces {
 
 	public:
 		Forces();
-		Forces(Forces const &);
 		~Forces();
-
-		Forces &operator=(Forces const & rhs);
 	
 		class Force {
 			public:
@@ -28,9 +25,11 @@ class Forces {
 				glm::vec3	position;
 				glm::vec3	color;
 				float		mass;
+				bool		locked;
 		};
 
 		void	addForce(Forces::Force force);
+		void	delForce(int i);
 		float	*data();
 
 		// Getters
