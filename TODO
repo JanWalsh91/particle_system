@@ -14,14 +14,15 @@ TODO:
 - Camera:
 	✔ Move camera around: forward, backward, rotate left, right, up, down. (Based on current position and orientation)
 	- add gradual increase in speed for movement and for rotation
-✔ Pause
+✔ Pause (P)
 - Graviational center:
 	✔ Move graviational center with cursor
-	- Hold graviational center position (L/click)
+	✔ Hold graviational center position (L/click)
 	✔ Have multiple graviational centers
 		✔ Tab to switch between graviational centers
 		✔ N: new center
 	- find good balance between constant force, gravity and friction
+	- control cursor depth with mouse wheel
 - Color:
 	- Color particles based on distance to gravity centers
 	- Other color options

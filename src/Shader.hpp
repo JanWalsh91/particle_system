@@ -30,6 +30,8 @@ class Shader {
 		void setFloat( const std::string &name, float value) const;
 		void setVector( const std::string &name, glm::vec3 v) const;
 		void setMatrix( const std::string &name, glm::mat4 m) const;
+		void setArray( const std::string &name, float *f, size_t size) const;
+		void setArray( const std::string &name, int *i, size_t size) const;
 
 	private:
 		void checkCompileErrors( unsigned int shader, std::string type );

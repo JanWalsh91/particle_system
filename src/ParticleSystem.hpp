@@ -1,6 +1,8 @@
 #ifndef PARTICLE_SYSTEM_HPP
 # define PARTICLE_SYSTEM_HPP
 
+# define MAX_FORCES 3
+
 # include <string>
 # include <cmath>
 

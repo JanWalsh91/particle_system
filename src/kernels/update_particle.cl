@@ -17,11 +17,11 @@ kernel void update_particle(global Particle *p, global float *f, int f_num) {
 		dist = min(dist, 5.5f);
 		// acc = acc + forceDir * G * (forceMass / (pow(dist, 2)));
 		
-		// acc += acc + G * forceMass * forceDir / dist;
+		acc += acc + G * forceMass * forceDir / dist;
 		
 		// acc += acc + G * forceMass * forceDir;
 
-		acc += G * forceMass * forceDir;
+		// acc += G * forceMass * forceDir;
 	}
 	// forcePos = (float3)(.0f, .0f, .0f);
 	// float3 relPos = forcePos - p[i].position.xyz;

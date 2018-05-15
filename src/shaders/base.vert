@@ -11,26 +11,43 @@ uniform vec3 camPos;
 uniform vec3 camDir;
 uniform float cursorDepth;
 uniform float forces[MAX_FORCES];
+uniform int forcesNum;
 
 out vec3 ObjColor;
+
+float sigmoid(float x) {
+	float t = x;
+	t = t / (t + 1);
+	if (t > 0.9) {
+		t = t;
+	}
+	return t;
+}
+
+vec3 sigmoidvec3(vec3 v) {
+	v.x = sigmoid(v.x);
+	v.y = sigmoid(v.y);
+	v.z = sigmoid(v.z);
+	return v;
+}
 
 void main()
 {
 	gl_Position = projectionMatrix * viewMatrix * vec4(position.xyz, 1.0);
-	
-	vec3 center = vec3(0, 0, 0);
-	vec3 color = vec3(0.8, 0.9, 1);
+	ObjColor = vec3(.0f, .0f, .0f);
+	vec3 center = vec3(.0f, .0f, .0f);
+	vec3 color = vec3(.0f, .0f, .0f);
 
-	vec3 distance = abs( position.xyz );
-	//ObjColor = (20/(20 + pow(2, 3 * length(speed)))) * color;
-	ObjColor = length(speed) * color * 5 + color * 0.5;
-	//ObjColor = color;
+	for (int i = 0; i < forcesNum; ++i) {
+		center = vec3(forces[i*7 + 0], forces[i*7 + 1], forces[i*7 + 2]);
+		color = vec3(forces[i*7 + 3], forces[i*7 + 4], forces[i*7 + 5]);
+		ObjColor += color / sigmoid(length(position.xyz - center)) * sigmoid(forces[i*7 + 6]/10000);
+	}
+	ObjColor /= forcesNum;
 
-
-	vec3 grey = vec3(0.5, 0.5, 0.5);
+	vec3 grey = vec3(0.01, 0.01, 0.015);
 	vec3 CP = position.xyz - camPos;
 	float distFromCam = dot(CP, camDir)/length(camDir);
-	//if (distFromCam > cursorDepth) {
-	//	ObjColor = mix(ObjColor, grey, 0.5);
-	//}
+	ObjColor = mix(ObjColor, grey, sigmoid(distFromCam));
 }
+
