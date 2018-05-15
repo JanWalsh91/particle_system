@@ -2245,6 +2245,8 @@ Shader.hpp
 /Users/jwalsh/Documents/42/particle_system/src/Shader.hpp
 GUI.hpp
 /Users/jwalsh/Documents/42/particle_system/src/GUI.hpp
+ParticleSystem.hpp
+/Users/jwalsh/Documents/42/particle_system/src/ParticleSystem.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/ParticleSystem.cpp
 ParticleSystem.hpp

@@ -14,6 +14,8 @@
 
 # include "Shader.hpp"
 
+class ParticleSystem;
+
 class GUI;
 
 class OpenGLWindow: public nanogui::Screen {
@@ -55,5 +57,6 @@ private:
 };
 
 # include "GUI.hpp"
+# include "ParticleSystem.hpp"
 
 #endif

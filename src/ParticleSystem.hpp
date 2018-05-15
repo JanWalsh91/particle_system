@@ -29,6 +29,10 @@ class ParticleSystem {
 
 		static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 		static void cursorPosCallback(GLFWwindow* window, double x, double y);
+		
+		// Getters
+		OpenGLWindow	*getGL();
+
 	private:
 		void updateParticles();
 		void processInput();

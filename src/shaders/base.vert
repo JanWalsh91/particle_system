@@ -1,6 +1,6 @@
 #version 410 core
 
-#define MAX_FORCES 3 * 7
+#define MAX_FORCES 3
 
 layout (location = 0) in vec4 position;
 layout (location = 1) in vec4 speed;
@@ -10,18 +10,13 @@ uniform mat4 projectionMatrix;
 uniform vec3 camPos;
 uniform vec3 camDir;
 uniform float cursorDepth;
-uniform float forces[MAX_FORCES];
+uniform float forces[MAX_FORCES * 7];
 uniform int forcesNum;
 
 out vec3 ObjColor;
 
 float sigmoid(float x) {
-	float t = x;
-	t = t / (t + 1);
-	if (t > 0.9) {
-		t = t;
-	}
-	return t;
+	return x / (x + 1);
 }
 
 vec3 sigmoidvec3(vec3 v) {

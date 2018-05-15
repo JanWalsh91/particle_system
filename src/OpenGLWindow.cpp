@@ -14,7 +14,6 @@ OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): 
 	std::cout << "widthMM: " << mode->width << ", heightMM: " << mode->height << std::endl;
 	glfwSetWindowPos(this->window, mode->width - width - 50, 50);
 
-	// glfwSetWindowPos(this->window, width, height);
 	glfwMakeContextCurrent(this->window);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		throw ExceptionMsg("Failed to initialize GLAD");
@@ -87,19 +86,19 @@ void OpenGLWindow::initOpenGL() {
 	glfwSwapInterval(1);
 }
 
-void	OpenGLWindow::framebufferSizeCallback(GLFWwindow *window, int width, int height)
-{
+void	OpenGLWindow::framebufferSizeCallback(GLFWwindow *window, int width, int height) {
+	ParticleSystem *PS = reinterpret_cast<ParticleSystem *>(glfwGetWindowUserPointer(window));
 	(void)window;
+	PS->getGL()->height = height;
+	PS->getGL()->width = width;
 	glViewport(0, 0, width, height);
 
-	// TODO: how to update perspective matrix properly (outside of this class's scope)
-	// this->getShaderProgram().setMatrix("projectionMatrix",
-	// 	glm::perspective(glm::radians(45.0f), (float)this->getWidth() / (float)this->getHeight(), 0.1f, 100.0f)
-	// );
+	PS->getGL()->getShaderProgram().setMatrix("projectionMatrix",
+		glm::perspective(glm::radians(45.0f), (float)PS->getGL()->getWidth() / (float)PS->getGL()->getHeight(), 0.1f, 100.0f)
+	);
 }
 
 // Getters
-
 GLFWwindow  *OpenGLWindow::getWindow() {
 	return this->window;
 }
@@ -121,6 +120,5 @@ GLuint		OpenGLWindow::getVAO(std::string name) {
 }
 
 GLuint		OpenGLWindow::getVBO(std::string name) {
-	// std::cout << "getVBO: " << this->VBOs[name] << std::endl;
 	return this->VBOs[name];
 }

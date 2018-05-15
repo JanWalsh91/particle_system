@@ -23,11 +23,7 @@ kernel void update_particle(global Particle *p, global float *f, int f_num) {
 
 		// acc += G * forceMass * forceDir;
 	}
-	// forcePos = (float3)(.0f, .0f, .0f);
-	// float3 relPos = forcePos - p[i].position.xyz;
 
-	p[i].speed.xyz = p[i].speed.xyz + acc;
-	p[i].speed.xyz = 0.999f * p[i].speed.xyz;
-
+	p[i].speed.xyz = 0.999f * ( p[i].speed.xyz + acc );
 	p[i].position.xyz += p[i].speed.xyz;
 }

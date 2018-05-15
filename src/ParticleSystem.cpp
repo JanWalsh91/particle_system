@@ -47,7 +47,6 @@ ParticleSystem::ParticleSystem() {
 	glEnable(GL_DEPTH_TEST);
 
 	// TODO: move elsewhere
-	// this->GL->getShaderProgram().setMatrix("modelMatrix", glm::mat4());
 	this->GL->getShaderProgram().setMatrix("viewMatrix", this->camera.getViewMatrix());
 	this->GL->getShaderProgram().setMatrix("projectionMatrix",
 		glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
@@ -65,13 +64,9 @@ void ParticleSystem::init(int numParticles, std::string initLayout, bool paused)
 	this->paused = paused;
 	this->currentForce = 0;
 	this->cursorDepth = glm::length(this->camera.getPosition());
-	// printf("depth: %f\n", this->cursorDepth);
 
+	// add initial force
 	this->forces.addForce(Forces::Force(glm::vec3(0, 0, 0), glm::vec3(1, 0, 0), 100000000));
-	// this->forces.addForce(Forces::Force(glm::vec3(0.5, -0.8, 0), glm::vec3(4, 5, 6), 100000));
-	// this->forces.addForce(Forces::Force(glm::vec3(-0.5, 0.5, 0), glm::vec3(4, 5, 6), 100000));
-	// Force force = Force();
-	// force.position = glm::vec4(1, 2, 3, 4);
 
 	cl_int err = 0;
 
@@ -79,9 +74,6 @@ void ParticleSystem::init(int numParticles, std::string initLayout, bool paused)
 	this->numParticles = cubeSize * cubeSize * cubeSize;
 	std::cout << "cubeSize: " << cubeSize << std::endl;
 	std::cout << "this->numParticles: " << this->numParticles << std::endl;
-	
-	// is it necessary ?
-	// glFinish();
 
 	// Initialize particles VBO
 	this->GL->addVAO("particles");
@@ -118,35 +110,34 @@ void ParticleSystem::init(int numParticles, std::string initLayout, bool paused)
 	this->CL->addBuffer("particles", this->GL->getVBO("particles"));
 	this->CL->addBuffer("forces", this->GL->getVBO("forces"));
 	glFinish();
-	// exit(0);
-	if (1) {
-		// initialize particles with kernel program on GPU
-		cl::CommandQueue queue = this->CL->getQueue();
-		err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
-		this->CL->checkError(err, "init: enqueueAcquireGLObjects");
-		this->CL->getKernel("init_particle_cube").setArg(0, this->CL->getBuffer("particles"));
-		this->CL->getKernel("init_particle_cube").setArg(1, sizeof(cl_uint), &this->numParticles);
-		this->CL->getKernel("init_particle_cube").setArg(2, sizeof(cl_uint), &cubeSize);
-		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
-		queue.finish();
-		std::cout << "==============" << std::endl;
-		this->CL->getKernel("init_particle_sphere").setArg(0, this->CL->getBuffer("particles"));
-		this->CL->getKernel("init_particle_sphere").setArg(1, sizeof(cl_uint), &this->numParticles);
-		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_sphere"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
-		this->CL->checkError(err, "init: enqueueNDRangeKernel");
-		queue.finish();
-		err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
-		this->CL->checkError(err, "init: enqueueReleaseGLObjects");
-		glBindVertexArray(0);
-	}
+	
+	// initialize particles with kernel program on GPU
+	cl::CommandQueue queue = this->CL->getQueue();
+	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
+	this->CL->checkError(err, "init: enqueueAcquireGLObjects");
+	// init cube
+	this->CL->getKernel("init_particle_cube").setArg(0, this->CL->getBuffer("particles"));
+	this->CL->getKernel("init_particle_cube").setArg(1, sizeof(cl_uint), &this->numParticles);
+	this->CL->getKernel("init_particle_cube").setArg(2, sizeof(cl_uint), &cubeSize);
+	err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
+	queue.finish();
+	// init sphere
+	this->CL->getKernel("init_particle_sphere").setArg(0, this->CL->getBuffer("particles"));
+	this->CL->getKernel("init_particle_sphere").setArg(1, sizeof(cl_uint), &this->numParticles);
+	err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_sphere"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
+	this->CL->checkError(err, "init: enqueueNDRangeKernel");
+	queue.finish();
+	err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
+	this->CL->checkError(err, "init: enqueueReleaseGLObjects");
+	glBindVertexArray(0);
 
 	// create FPS object
-	std::cout << "num particles: " << this->numParticles << std::endl;
 	this->fps = new FPS(100);
 }
 
 void ParticleSystem::updateParticles() {
 	// std::cout << "updateParticles" << std::endl;
+	static bool setArgs = false;
 	cl_int err = 0; 
 	
 	glFinish();
@@ -155,16 +146,19 @@ void ParticleSystem::updateParticles() {
 	glBindVertexArray(this->GL->getVAO("particles"));
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "updateParticles: enqueueAcquireGLObjects");
-	this->CL->getKernel("update_particle").setArg(0, this->CL->getBuffer("particles"));
-	this->CL->getKernel("update_particle").setArg(1, this->CL->getBuffer("forces"));
 	int f_num = this->forces.size();
-	this->CL->getKernel("update_particle").setArg(2, sizeof(int), &f_num);
+	if (!setArgs) {
+		this->CL->getKernel("update_particle").setArg(0, this->CL->getBuffer("particles"));
+		this->CL->getKernel("update_particle").setArg(1, this->CL->getBuffer("forces"));
+		this->CL->getKernel("update_particle").setArg(2, sizeof(int), &f_num);
+	}
 	err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 	this->CL->checkError(err, "updateParticles: enqueueNDRangeKernel");
 	queue.finish();
 	err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "updateParticles: enqueueReleaseGLObjects");
 	glBindVertexArray(0);
+	setArgs = true;
 }
 
 void ParticleSystem::loop() {
@@ -173,32 +167,27 @@ void ParticleSystem::loop() {
 	this->fps->reset();
 
 	while (!glfwWindowShouldClose(this->GL->getWindow()) && glfwGetKey(this->GL->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS) {
-		// if (this->fps->getDeltaTime() < 0.016) {
-		// 	this->fps->updateLast();
-		// 	continue ;
-		// }
 		// clear
 		glClearColor(.0f, .0f, .0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
+		// handle user input
 		this->processInput();
 
+		// update uniforms (not necessary to do all the time!)
 		this->GL->getShaderProgram().setVector("camPos", this->camera.getPosition());
 		this->GL->getShaderProgram().setVector("camDir", this->camera.getFront());
 		this->GL->getShaderProgram().setFloat("cursorDepth", this->cursorDepth);
+		this->GL->getShaderProgram().setMatrix("viewMatrix", this->camera.getViewMatrix());
+		this->GL->getShaderProgram().setMatrix("projectionMatrix",
+			glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
+		);
 		float forces[7 * MAX_FORCES];
 		for (int i = 0; i < 7 * this->forces.size(); ++i) {
 			forces[i] = this->forces.data()[i];
 		}
 		this->GL->getShaderProgram().setArray("forces", forces, this->forces.size()*7);
 		this->GL->getShaderProgram().setInt("forcesNum", this->forces.size());
-
-		// printf("forcesNum: %d\n", this->forces.size());
-		this->GL->getShaderProgram().setMatrix("viewMatrix", this->camera.getViewMatrix());
-		this->GL->getShaderProgram().setMatrix("projectionMatrix",
-			glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
-		);
-
 
 		if (!this->paused) {
 			// update position with OpenCL
@@ -262,7 +251,7 @@ void ParticleSystem::processInput() {
 		++this->currentForce;
 		if (this->currentForce >= this->forces.size())
 			this->currentForce = 0;
-		printf("Next Force: %d\n", this->currentForce);
+		printf("Current Force: %d\n", this->currentForce);
 	}
 	oldState_TAB = newState_TAB;
 
@@ -270,7 +259,7 @@ void ParticleSystem::processInput() {
 	static int oldState_L = GLFW_RELEASE;
 	int newState_L = glfwGetKey(this->GL->getWindow(), GLFW_KEY_L);
 	if (newState_L == GLFW_RELEASE && oldState_L == GLFW_PRESS) {
-		printf("Toggle lock\n");
+		printf("Toggle lock: %i\n", !this->forces.getForce(this->currentForce).locked);
 		this->forces.getForce(this->currentForce).locked = !this->forces.getForce(this->currentForce).locked;
 		GLuint buffSize = sizeof(float) * 7 * this->forces.size();
 		glBindVertexArray(this->GL->getVAO("forces"));
@@ -291,11 +280,11 @@ void ParticleSystem::processInput() {
 			glBindVertexArray(0);
 			this->currentForce = this->forces.size() - 1;
 			printf("New Force. Total: %d, Current: %d\n", this->forces.size(), this->currentForce);
-			printf("forcesNum: %d\n", this->forces.size());
 		}
 	}
 	oldState_N = newState_N;
 
+	// Delete Force
 	static int oldState_BACKSPACE = GLFW_RELEASE;
 	int newState_BACKSPACE = glfwGetKey(this->GL->getWindow(), GLFW_KEY_BACKSPACE);
 	if (newState_BACKSPACE == GLFW_RELEASE && oldState_BACKSPACE == GLFW_PRESS) {
@@ -311,21 +300,23 @@ void ParticleSystem::processInput() {
 		printf("Del Force. Total: %d, Current: %d\n", this->forces.size(), this->currentForce);
 	}
 	oldState_BACKSPACE = newState_BACKSPACE;
-
 }
 
 void ParticleSystem::updateForcePosition(int x, int y) {
-	std::cout << "=======updateForcePos==========" << std::endl;
+	// std::cout << "=======updateForcePos==========" << std::endl;
 	
-	GLint viewport[4];
+	// get projection matrix
     glm::mat4 projmatrix = glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f);
  
+	// get viewport info
+	GLint viewport[4];
     glGetIntegerv( GL_VIEWPORT, viewport );
 	GLint height = viewport[3];
 	GLint width = viewport[2];
 
+	// calculate ray plane intersection
 	float aspectRatio = (float)width/height;
-	
+
 	glm::vec4 vec;
 	float scale = tan(glm::radians(45 * 0.5));
 	vec.x = (2 * (x + 0.5) / (float)width - 1) * aspectRatio * scale; 
@@ -352,6 +343,7 @@ void ParticleSystem::updateForcePosition(int x, int y) {
 	f.position.y = vec.y;
 	f.position.z = vec.z;
 	
+	// update forces data in buffer
 	GLuint buffSize = sizeof(float) * 7 * this->forces.size();
 	glBindVertexArray(this->GL->getVAO("forces"));
 	glBufferData(GL_ARRAY_BUFFER, buffSize, this->forces.data(), GL_DYNAMIC_DRAW);
@@ -362,11 +354,9 @@ void ParticleSystem::mouseButtonCallback(GLFWwindow* window, int button, int act
 	std::cout << "mouseButtonCallback" << std::endl;
 	if (button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS) {
 		ParticleSystem *PS = reinterpret_cast<ParticleSystem *>(glfwGetWindowUserPointer(window));
-		// if (!PS->forces.getForce(PS->currentForce).locked) {
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 		PS->updateForcePosition(xpos, ypos);
-		// }
 	}
 }
 
@@ -375,4 +365,9 @@ void ParticleSystem::cursorPosCallback(GLFWwindow* window, double x, double y) {
 	if (!PS->forces.getForce(PS->currentForce).locked) {
 		PS->updateForcePosition(x, y);
 	}
+}
+
+// Getters
+OpenGLWindow	*ParticleSystem::getGL() {
+	return this->GL;
 }
