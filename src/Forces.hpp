@@ -11,6 +11,8 @@
 # include <glm/glm.hpp>
 # include <glm/gtc/matrix_transform.hpp>
 
+# include "Camera.hpp"
+
 class Forces {
 
 	public:
@@ -34,8 +36,11 @@ class Forces {
 
 		void	addForce(Forces::Force force);
 		void	addForce();
-		void	delForce(int i);
+		void	nextForce();
+		void	delForce();
+		void	toggleLock();
 		void	updateData();
+		void	updateForcePosition(Camera &camera, float depth, int x, int y);
 		float	*data();
 		void	setVAO(int VAO);
 

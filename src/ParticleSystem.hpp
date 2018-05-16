@@ -38,7 +38,6 @@ class ParticleSystem {
 		void initSphere();
 		void updateParticles();
 		void processInput();
-		void updateForcePosition(int x, int y);
 
 		cl_uint				numParticles;
 		OpenCLContext		*CL;

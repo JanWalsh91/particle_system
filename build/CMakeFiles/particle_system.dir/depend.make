@@ -210,6 +210,7 @@ CMakeFiles/particle_system.dir/src/Forces.cpp.o: ../include/glm/vector_relationa
 CMakeFiles/particle_system.dir/src/Forces.cpp.o: ../libs/nanogui/ext/glad/include/KHR/khrplatform.h
 CMakeFiles/particle_system.dir/src/Forces.cpp.o: ../libs/nanogui/ext/glad/include/glad/glad.h
 CMakeFiles/particle_system.dir/src/Forces.cpp.o: ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
+CMakeFiles/particle_system.dir/src/Forces.cpp.o: ../src/Camera.hpp
 CMakeFiles/particle_system.dir/src/Forces.cpp.o: ../src/Forces.cpp
 CMakeFiles/particle_system.dir/src/Forces.cpp.o: ../src/Forces.hpp
 

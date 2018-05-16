@@ -62,7 +62,7 @@ ParticleSystem::~ParticleSystem() {}
 void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 	std::cout << "Particle System init" << std::endl;
 	this->paused = paused;
-	this->currentForce = 0;
+	// this->currentForce = 0;
 	this->cursorDepth = glm::length(this->camera.getPosition());
 	if (layout != "cube" && layout != "sphere") {
 		layout = "cube";
@@ -168,12 +168,12 @@ void ParticleSystem::updateParticles() {
 	glBindVertexArray(this->GL->getVAO("particles"));
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "updateParticles: enqueueAcquireGLObjects");
-	int f_num = this->forces.size();
 	if (!setArgs) {
 		this->CL->getKernel("update_particle").setArg(0, this->CL->getBuffer("particles"));
 		this->CL->getKernel("update_particle").setArg(1, this->CL->getBuffer("forces"));
-		this->CL->getKernel("update_particle").setArg(2, sizeof(int), &f_num);
 	}
+	int f_num = this->forces.size();
+	this->CL->getKernel("update_particle").setArg(2, sizeof(int), &f_num);
 	err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 	this->CL->checkError(err, "updateParticles: enqueueNDRangeKernel");
 	queue.finish();
@@ -273,118 +273,30 @@ void ParticleSystem::processInput() {
 	// Current Force
 	static int oldState_TAB = GLFW_RELEASE;
 	int newState_TAB = glfwGetKey(this->GL->getWindow(), GLFW_KEY_TAB);
-	if (newState_TAB == GLFW_RELEASE && oldState_TAB == GLFW_PRESS) {
-		++this->currentForce;
-		if (this->currentForce >= this->forces.size())
-			this->currentForce = 0;
-		printf("Current Force: %d\n", this->currentForce);
-	}
+	if (newState_TAB == GLFW_RELEASE && oldState_TAB == GLFW_PRESS)
+		this->forces.nextForce();
 	oldState_TAB = newState_TAB;
 
 	// Toggle Lock
 	static int oldState_L = GLFW_RELEASE;
 	int newState_L = glfwGetKey(this->GL->getWindow(), GLFW_KEY_L);
-	if (newState_L == GLFW_RELEASE && oldState_L == GLFW_PRESS) {
-		printf("Toggle lock: %i\n", !this->forces.getForce(this->currentForce).locked);
-		this->forces.getForce(this->currentForce).locked = !this->forces.getForce(this->currentForce).locked;
-		// update forces data
-		GLuint buffSize = sizeof(float) * 7 * this->forces.size();
-		glBindVertexArray(this->GL->getVAO("forces"));
-		glBufferData(GL_ARRAY_BUFFER, buffSize, this->forces.data(), GL_DYNAMIC_DRAW);
-		glBindVertexArray(0);
-	}
+	if (newState_L == GLFW_RELEASE && oldState_L == GLFW_PRESS)
+		this->forces.toggleLock();
 	oldState_L = newState_L;
 
 	// New Force
 	static int oldState_N = GLFW_RELEASE;
 	int newState_N = glfwGetKey(this->GL->getWindow(), GLFW_KEY_N);
-	if (newState_N == GLFW_RELEASE && oldState_N == GLFW_PRESS) {
+	if (newState_N == GLFW_RELEASE && oldState_N == GLFW_PRESS)
 		this->forces.addForce();
-		if (this->forces.size() < 3) {
-			// add force PUT IN FORCES
-			this->forces.addForce(Forces::Force(glm::vec3(0, 0, 0), glm::vec3(0, this->forces.size() == 2, this->forces.size() == 1), 10000000));
-			// update forces data PUT IN FORCES ?
-			GLuint buffSize = sizeof(float) * 7 * this->forces.size();
-			glBindVertexArray(this->GL->getVAO("forces"));
-			glBufferData(GL_ARRAY_BUFFER, buffSize, this->forces.data(), GL_DYNAMIC_DRAW);
-			glBindVertexArray(0);
-			// change current force to last one (just added)
-			this->currentForce = this->forces.size() - 1;
-			printf("New Force. Total: %d, Current: %d\n", this->forces.size(), this->currentForce);
-		}
-	}
 	oldState_N = newState_N;
 
 	// Delete Force
 	static int oldState_BACKSPACE = GLFW_RELEASE;
 	int newState_BACKSPACE = glfwGetKey(this->GL->getWindow(), GLFW_KEY_BACKSPACE);
-	if (newState_BACKSPACE == GLFW_RELEASE && oldState_BACKSPACE == GLFW_PRESS) {
-		if (this->forces.size() > 1) {
-			// delete force PUT IN FORCES
-			this->forces.delForce(this->currentForce);
-			// update current force
-			this->currentForce = this->forces.size() - 1;
-			// update forces data
-			GLuint buffSize = sizeof(float) * 7 * this->forces.size();
-			glBindVertexArray(this->GL->getVAO("forces"));
-			glBufferData(GL_ARRAY_BUFFER, buffSize, this->forces.data(), GL_DYNAMIC_DRAW);
-			glBindVertexArray(0);
-			// change current force to last one
-			this->currentForce = this->forces.size() - 1;
-			printf("Del Force. Total: %d, Current: %d\n", this->forces.size(), this->currentForce);
-		}
-	}
+	if (newState_BACKSPACE == GLFW_RELEASE && oldState_BACKSPACE == GLFW_PRESS)
+		this->forces.delForce();
 	oldState_BACKSPACE = newState_BACKSPACE;
-}
-
-
-// TODO: put most of code in Forces
-void ParticleSystem::updateForcePosition(int x, int y) {
-	// std::cout << "=======updateForcePos==========" << std::endl;
-	
-	// get projection matrix
-    glm::mat4 projmatrix = glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f);
- 
-	// get viewport info
-	GLint viewport[4];
-    glGetIntegerv( GL_VIEWPORT, viewport );
-	GLint height = viewport[3];
-	GLint width = viewport[2];
-
-	// calculate ray plane intersection
-	float aspectRatio = (float)width/height;
-
-	glm::vec4 vec;
-	float scale = tan(glm::radians(45 * 0.5));
-	vec.x = (2 * (x + 0.5) / (float)width - 1) * aspectRatio * scale; 
-	vec.y = (1 - 2 * (y + 0.5) / (float)height) * scale;
-	vec.z = -1;
-	vec.w = 0;
-
-	vec = glm::normalize(vec);
-	vec = vec * this->camera.getViewMatrix();
-
-	glm::vec4 planePos = glm::vec4(this->camera.getPosition() + this->camera.getFront() * this->cursorDepth, 0);
-	glm::vec4 planeDir = glm::vec4(this->camera.getFront(), 0);
-	
-	vec = glm::normalize(vec);
-	float d1 = glm::dot(planeDir, vec);
-	glm::vec4 v1 = planePos - glm::vec4(this->camera.getPosition(), 0);
-	float r1 = glm::dot(v1, planeDir) / d1;
-	vec = r1 * glm::normalize(vec);
-
-	vec = vec + glm::vec4(this->camera.getPosition(), 0);
-	
-	Forces::Force &f = this->forces.getForce(this->currentForce);
-	f.position.x = vec.x;
-	f.position.y = vec.y;
-	f.position.z = vec.z;
-	
-	// update forces data in buffer
-	GLuint buffSize = sizeof(float) * 7 * this->forces.size();
-	glBindVertexArray(this->GL->getVAO("forces"));
-	glBufferData(GL_ARRAY_BUFFER, buffSize, this->forces.data(), GL_DYNAMIC_DRAW);
-	glBindVertexArray(0);
 }
 
 void ParticleSystem::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
@@ -393,14 +305,15 @@ void ParticleSystem::mouseButtonCallback(GLFWwindow* window, int button, int act
 		ParticleSystem *PS = reinterpret_cast<ParticleSystem *>(glfwGetWindowUserPointer(window));
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
-		PS->updateForcePosition(xpos, ypos);
+		PS->forces.updateForcePosition(PS->camera, PS->cursorDepth, xpos, ypos);
 	}
 }
 
 void ParticleSystem::cursorPosCallback(GLFWwindow* window, double x, double y) {
+	// std::cout << "cursorPosCallback" << std::endl;
 	ParticleSystem *PS = reinterpret_cast<ParticleSystem *>(glfwGetWindowUserPointer(window));
-	if (!PS->forces.getForce(PS->currentForce).locked) {
-		PS->updateForcePosition(x, y);
+	if (!PS->forces.getForce(PS->forces.getCurrentForce()).locked) {
+		PS->forces.updateForcePosition(PS->camera, PS->cursorDepth, x, y);
 	}
 }
 

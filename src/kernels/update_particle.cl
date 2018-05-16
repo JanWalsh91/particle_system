@@ -1,7 +1,6 @@
 
 kernel void update_particle(global Particle *p, global float *f, int f_num) {
 	
-	float G = 6.67f * pow(10.0f, -11); 
 	size_t i = get_global_id(0);
 	size_t y = 0;
 	float3 forcePos;
@@ -16,9 +15,9 @@ kernel void update_particle(global Particle *p, global float *f, int f_num) {
 		forceDir = normalize(forcePos - p[i].position.xyz);
 		// dist = max(0.9f, length(forcePos - p[i].position.xyz));
 		// dist = min(dist, 5.5f);
-		// acc = acc + forceDir * G * (forceMass / (pow(dist, 2)));
+		// acc = acc + forceDir * (forceMass / (pow(dist, 2)));
 		
-		// acc += acc + G * forceMass * forceDir / dist;
+		// acc += acc + forceMass * forceDir / dist;
 
 		acc += f[y * 7 + 6] * forceDir;
 	}

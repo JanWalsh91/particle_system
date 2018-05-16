@@ -2189,6 +2189,8 @@ glm/glm.hpp
 -
 glm/gtc/matrix_transform.hpp
 -
+Camera.hpp
+/Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/GUI.cpp
 GUI.hpp

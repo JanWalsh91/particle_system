@@ -211,6 +211,7 @@ CMakeFiles/particle_system.dir/src/Forces.cpp.o
  ../libs/nanogui/ext/glad/include/KHR/khrplatform.h
  ../libs/nanogui/ext/glad/include/glad/glad.h
  ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
+ /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
  /Users/jwalsh/Documents/42/particle_system/src/Forces.cpp
  /Users/jwalsh/Documents/42/particle_system/src/Forces.hpp
 CMakeFiles/particle_system.dir/src/GUI.cpp.o
