@@ -22,7 +22,7 @@ class ParticleSystem {
 
 		void init(
 			int numParticles = 1,
-			std::string initLayout = "cube",
+			std::string layout = "cube",
 			bool paused = false
 		);
 		void loop();
@@ -34,6 +34,8 @@ class ParticleSystem {
 		OpenGLWindow	*getGL();
 
 	private:
+		void initCube(cl_int cubeSize);
+		void initSphere();
 		void updateParticles();
 		void processInput();
 		void updateForcePosition(int x, int y);

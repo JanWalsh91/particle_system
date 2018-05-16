@@ -2,10 +2,14 @@
 # define FORCES_HPP
 
 # include <vector>
+# include <string>
 # include <exception>
+
+# include <glad/glad.h>
+# include <GLFW/glfw3.h>
+# include <glm/fwd.hpp>
 # include <glm/glm.hpp>
 # include <glm/gtc/matrix_transform.hpp>
-
 
 class Forces {
 
@@ -29,16 +33,22 @@ class Forces {
 		};
 
 		void	addForce(Forces::Force force);
+		void	addForce();
 		void	delForce(int i);
+		void	updateData();
 		float	*data();
+		void	setVAO(int VAO);
 
 		// Getters
 		std::vector<Forces::Force>	&getForces();
 		Forces::Force & getForce(int i);
+		int	getCurrentForce();
 		int	size();
 		
 	private:
 		std::vector<Forces::Force> forces;
+		int	VAO;
+		int currentForce;
 };
 
 #endif
