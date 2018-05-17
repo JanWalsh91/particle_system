@@ -6,11 +6,10 @@ TODO:
 	- update only when minimum time has passed
 - init multiple particles:
 	✔ init list of particles as cube
-	- init list of particles as sphere
-		- improve generation
+	✔ init list of particles as sphere
+		✔ improve generation
 	- init list of particles as (Bonus...)
-	- set interesting speed for init particles...
-	- init with arg
+	✔ init with arg
 - Camera:
 	✔ Move camera around: forward, backward, rotate left, right, up, down. (Based on current position and orientation)
 	- add gradual increase in speed for movement and for rotation
@@ -21,10 +20,10 @@ TODO:
 	✔ Have multiple graviational centers
 		✔ Tab to switch between graviational centers
 		✔ N: new center
-	- find good balance between constant force, gravity and friction
+	✔ find good balance between constant force, gravity and friction
 	- control cursor depth with mouse wheel
 - Color:
-	- Color particles based on distance to gravity centers
+	✔ Color particles based on distance to gravity centers
 	- Other color options
 - Skybox
 - GUI

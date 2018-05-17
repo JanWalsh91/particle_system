@@ -35,7 +35,7 @@ void main()
 
 	for (int i = 0; i < forcesNum; ++i) {
 		center = vec3(forces[i*7 + 0], forces[i*7 + 1], forces[i*7 + 2]);
-		color = vec3(forces[i*7 + 3], forces[i*7 + 4], forces[i*7 + 5]);
+		color = vec3(forces[i*7 + 3], forces[i*7 + 4], forces[i*7 + 5]) + vec3(.01f, .01f, .01f);
 		ObjColor += color * asymptote(length(position.xyz - center)) * forces[i*7 + 6] * 1000;
 	}
 

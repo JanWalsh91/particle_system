@@ -16,14 +16,14 @@ int    main ( int ac, char **av ) {
 		args.push_back(av[i]);
 	}
 	for (std::string &arg : args) {
-		if (arg.find("p=") != std::string::npos) {
-			std::string sub = arg.substr(2);
+		if (arg.find("-p=") != std::string::npos) {
+			std::string sub = arg.substr(3);
 			pcount = std::atoi(sub.c_str());
 			if (!pcount)
 				pcount = 5000;
 		}
-		if (arg.find("l=") != std::string::npos) {
-			layout = arg.substr(2);
+		if (arg.find("-l=") != std::string::npos) {
+			layout = arg.substr(3);
 		}
 	}
 	std::cout << "pcount: " << pcount << std::endl;

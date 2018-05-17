@@ -4,12 +4,13 @@
 // # define __CL_ENABLE_EXCEPTIONS
 # include <OpenCL/opencl.h>
 # include <OpenGL/CGLCurrent.h>
-#include <cl.hpp>
+# include <cl.hpp>
 
 // #define CL_HPP_TARGET_OPENCL_VERSION 200
 // #define CL_HPP_MINIMUM_OPENCL_VERSION 120
 // #include <cl2.hpp>
 #include <cl_gl.h>
+// # pragma OPENCL EXTENSION cl_khr_fp16 : enable
 #pragma OPENCL EXTENSION CL_APPLE_gl_sharing : enable
 #pragma OPENCL EXTENSION CL_KHR_gl_sharing : enable
 

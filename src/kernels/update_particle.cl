@@ -1,27 +1,20 @@
 
 kernel void update_particle(global Particle *p, global float *f, int f_num) {
-	
 	size_t i = get_global_id(0);
-	size_t y = 0;
-	float3 forcePos;
-	// float forceMass;
-	float3 forceDir;
 	float3 acc = (float3)(.0f, .0f, .0f);
-	float3 dist;
 
 	for (int y = 0; y < f_num; ++y) {
-		forcePos = (float3)(f[y * 7], f[y * 7 + 1], f[y * 7 + 2]);
-		// forceMass = f[y * 7 + 6];
-		forceDir = normalize(forcePos - p[i].position.xyz);
-		// dist = max(0.9f, length(forcePos - p[i].position.xyz));
-		// dist = min(dist, 5.5f);
-		// acc = acc + forceDir * (forceMass / (pow(dist, 2)));
-		
-		// acc += acc + forceMass * forceDir / dist;
-
-		acc += f[y * 7 + 6] * forceDir;
+		acc += f[y * 7 + 6] * normalize((float3)(f[y * 7], f[y * 7 + 1], f[y * 7 + 2]) - p[i].position.xyz);
 	}
-
 	p[i].speed.xyz = 0.999f * ( p[i].speed.xyz + acc );
 	p[i].position.xyz += p[i].speed.xyz;
+	
+
+	// simple version
+	// int y = 0;
+	// float4 gp = (float4)(f[y * 7], f[y * 7 + 1], f[y * 7 + 2], 0.0f);
+	// float4 relPos = p[i].position - gp;
+	// int i2 = i == 0 ? 1 : i - 1;
+	// float4 c = cross(relPos, p[i2].position);
+	// p[i].position += normalize(c) * 0.01f - length(relPos) * 0.001f * relPos;
 }

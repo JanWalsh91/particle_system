@@ -122,7 +122,8 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 	this->CL->checkError(err, "init: enqueueAcquireGLObjects");
 	
 	// init cube
-	this->initCube(cubeSize);
+	// if (layout == "cube")
+	// 	this->initCube(cubeSize);
 	
 	// init sphere
 	if (layout == "sphere")
@@ -130,9 +131,14 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 
 	// create FPS object
 	this->fps = new FPS(10);
+
+	// cl_half test;
+	// std::cout << "finish init" << std::endl;
+	// exit(0);
 }
 
 void ParticleSystem::initCube(cl_int cubeSize) {
+	std::cout << "initcube" << std::endl;
 	cl_int err = 0;
 	cl::CommandQueue queue = this->CL->getQueue();
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
@@ -146,6 +152,7 @@ void ParticleSystem::initCube(cl_int cubeSize) {
 }
 
 void ParticleSystem::initSphere() {
+	std::cout << "init sphere" << std::endl;
 	cl_int err = 0;
 	cl::CommandQueue queue = this->CL->getQueue();
 	this->CL->getKernel("init_particle_sphere").setArg(0, this->CL->getBuffer("particles"));
@@ -155,6 +162,7 @@ void ParticleSystem::initSphere() {
 	queue.finish();
 	err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "init: enqueueReleaseGLObjects");
+	// exit(0);
 }
 
 void ParticleSystem::updateParticles() {
