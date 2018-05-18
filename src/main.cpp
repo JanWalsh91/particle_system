@@ -28,9 +28,13 @@ int    main ( int ac, char **av ) {
 	}
 	std::cout << "pcount: " << pcount << std::endl;
 
-	ParticleSystem PS;
-	PS.init(pcount, layout, true);
-	PS.loop();
-
+	try {
+		ParticleSystem PS;
+		PS.init(pcount, layout, true);
+		PS.loop();
+	}
+	catch(std::exception &e) {
+		std::cout << e.what() << std::endl;
+	}
 	return (0);
 }

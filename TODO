@@ -28,6 +28,7 @@ TODO:
 - Skybox
 - GUI
 - Reset
+	- switch between different setups (sphere, cube) and pause
 - Add particles in real time
 - Temporary particles
 

@@ -20,6 +20,7 @@ ParticleSystem::ParticleSystem() {
 	glfwSetWindowUserPointer(this->GL->getWindow(), this);
 	glfwSetMouseButtonCallback(this->GL->getWindow(), mouseButtonCallback);
 	glfwSetCursorPosCallback(this->GL->getWindow(), cursorPosCallback);
+	glfwSetScrollCallback(this->GL->getWindow(), scrollCallback);
 
 	// Add Shaders
 	std::vector<std::string> shaderPaths;
@@ -67,8 +68,9 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 	if (layout != "cube" && layout != "sphere") {
 		layout = "cube";
 	}
+	this->preset = layout;
 	// add initial force
-	this->forces.addForce(Forces::Force(glm::vec3(0, 0, 0), glm::vec3(1, 0, 0), 0.001));
+	this->forces.addForce(Forces::Force(glm::vec3(0, 0, 0), glm::vec3(1, 0, 0), 0.1));
 
 	cl_int err = 0;
 
@@ -122,11 +124,11 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 	this->CL->checkError(err, "init: enqueueAcquireGLObjects");
 	
 	// init cube
-	// if (layout == "cube")
-	// 	this->initCube(cubeSize);
+	if (this->preset == "cube")
+		this->initCube(cubeSize);
 	
 	// init sphere
-	if (layout == "sphere")
+	if (this->preset == "sphere")
 		this->initSphere();
 
 	// create FPS object
@@ -138,7 +140,9 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 }
 
 void ParticleSystem::initCube(cl_int cubeSize) {
-	std::cout << "initcube" << std::endl;
+	std::cout << "init cube" << std::endl;
+	glFinish();
+	this->isReset = true;
 	cl_int err = 0;
 	cl::CommandQueue queue = this->CL->getQueue();
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
@@ -149,10 +153,13 @@ void ParticleSystem::initCube(cl_int cubeSize) {
 	this->CL->getKernel("init_particle_cube").setArg(2, sizeof(cl_uint), &cubeSize);
 	err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 	queue.finish();
+	std::cout << "done init cube" << std::endl;
 }
 
 void ParticleSystem::initSphere() {
 	std::cout << "init sphere" << std::endl;
+	glFinish();
+	this->isReset = true;
 	cl_int err = 0;
 	cl::CommandQueue queue = this->CL->getQueue();
 	this->CL->getKernel("init_particle_sphere").setArg(0, this->CL->getBuffer("particles"));
@@ -167,6 +174,7 @@ void ParticleSystem::initSphere() {
 
 void ParticleSystem::updateParticles() {
 	// std::cout << "updateParticles" << std::endl;
+	this->isReset = false;
 	static bool setArgs = false;
 	cl_int err = 0; 
 	
@@ -180,8 +188,10 @@ void ParticleSystem::updateParticles() {
 		this->CL->getKernel("update_particle").setArg(0, this->CL->getBuffer("particles"));
 		this->CL->getKernel("update_particle").setArg(1, this->CL->getBuffer("forces"));
 	}
-	int f_num = this->forces.size();
-	this->CL->getKernel("update_particle").setArg(2, sizeof(int), &f_num);
+	int numForces = this->forces.size();
+	float deltaTime = this->fps->getDeltaTime();
+	this->CL->getKernel("update_particle").setArg(2, sizeof(int), &numForces);
+	this->CL->getKernel("update_particle").setArg(3, sizeof(float), &deltaTime);
 	err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 	this->CL->checkError(err, "updateParticles: enqueueNDRangeKernel");
 	queue.finish();
@@ -197,18 +207,31 @@ void ParticleSystem::loop() {
 	this->fps->reset();
 
 	while (!glfwWindowShouldClose(this->GL->getWindow()) && glfwGetKey(this->GL->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS) {
+		// update FPS and window title
+		if (this->fps->getDeltaTime() < 0.016) {
+			float sleepTime = (0.016 - this->fps->getDeltaTime()) * 1000;
+			// std::cout << "sleep " << sleepTime << " microseconds." << std::endl;
+			// std::cout << "delta time: " << this->fps->getDeltaTime() << " seconds" << std::endl;
+			usleep(sleepTime);
+		}
+		this->fps->update();
+		this->GL->setWindowName("Particle System\t(FPS: " + std::to_string(this->fps->getFPS()) + ")");
+		// printf("delta time: %.5f\n", this->fps->getDeltaTime());
+		// printf("check1");
 		// limit fps
 		// if (this->fps->getFPS() < 0.016 && this->fps->getFPS() > 0.0001) {
 		// 	sleep(this->fps->getFPS());
 		// }
+
 		// clear
 		glClearColor(.0f, .0f, .0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		// handle user input
 		this->processInput();
+		// printf("check2");
 
-		// update uniforms (not necessary to do all the time!)
+		// update uniforms (not necessary to do all the time!) TODO: move to appropriate location
 		this->GL->getShaderProgram().setVector("camPos", this->camera.getPosition());
 		this->GL->getShaderProgram().setVector("camDir", this->camera.getFront());
 		this->GL->getShaderProgram().setFloat("cursorDepth", this->cursorDepth);
@@ -223,27 +246,27 @@ void ParticleSystem::loop() {
 		this->GL->getShaderProgram().setArray("forces", forces, this->forces.size()*7);
 		this->GL->getShaderProgram().setInt("forcesNum", this->forces.size());
 
+		// printf("check3");
 		if (!this->paused) {
 			// update position with OpenCL
 			this->updateParticles();
 		}
 
+		// printf("check4");
 		// draw arrays with OpenGL
 		glBindVertexArray(this->GL->getVAO("particles"));
 		glDrawArrays(GL_POINTS, 0, this->numParticles);
 		glBindVertexArray(0);
 
+		// printf("check5");
 		// swap buffers
 		glfwSwapBuffers(this->GL->getWindow());
 		glfwPollEvents();
-
-		// update FPS and window title
-		this->fps->update();
-		this->GL->setWindowName("Particle System\t(FPS: " + std::to_string(this->fps->getFPS()) + ")");
 	}
 }
 
 void ParticleSystem::processInput() {
+	glFinish();
 	// Pause
 	static int oldState_P = GLFW_RELEASE;
 	int newState_P = glfwGetKey(this->GL->getWindow(), GLFW_KEY_P);
@@ -273,10 +296,10 @@ void ParticleSystem::processInput() {
 		this->camera.processInput(TURN_RIGHT, this->fps->getDeltaTime());
 
 	// Cursor Depth
-	if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_KP_ADD) == GLFW_PRESS)
-		this->cursorDepth += 0.01;
-	if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS)
-		this->cursorDepth -= 0.01;
+	// if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_KP_ADD) == GLFW_PRESS)
+	// 	this->cursorDepth += 0.01;
+	// if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS)
+	// 	this->cursorDepth -= 0.01;
 
 	// Current Force
 	static int oldState_TAB = GLFW_RELEASE;
@@ -305,6 +328,37 @@ void ParticleSystem::processInput() {
 	if (newState_BACKSPACE == GLFW_RELEASE && oldState_BACKSPACE == GLFW_PRESS)
 		this->forces.delForce();
 	oldState_BACKSPACE = newState_BACKSPACE;
+
+	// Reset / Change Preset
+	static int oldState_SPACE = GLFW_RELEASE;
+	int newState_SPACE = glfwGetKey(this->GL->getWindow(), GLFW_KEY_SPACE);
+	if (newState_SPACE == GLFW_RELEASE && oldState_SPACE == GLFW_PRESS)
+		this->reset();
+	oldState_SPACE = newState_SPACE;
+}
+
+void ParticleSystem::reset() {
+	std::cout << "reset" << std::endl;
+	this->paused = true;
+	// change preset if is reset
+	if (this->isReset) {
+		if (this->preset == "sphere")
+			this->preset = "cube";
+		else if (this->preset == "cube")
+			this->preset = "sphere";
+	}
+	// delete all forces, add red one in middle
+	while (this->forces.size() > 1)
+		this->forces.delForce();
+	this->forces.getForce(0).position = glm::vec3(0, 0, 0);
+	this->forces.getForce(0).color = glm::vec3(1, 0, 0);
+	this->forces.getForce(0).locked = true;
+	// init cube
+	if (this->preset == "cube")
+		this->initCube(std::ceil(std::cbrt(this->numParticles)));
+	// init sphere
+	if (this->preset == "sphere")
+		this->initSphere();
 }
 
 void ParticleSystem::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
@@ -322,6 +376,17 @@ void ParticleSystem::cursorPosCallback(GLFWwindow* window, double x, double y) {
 	ParticleSystem *PS = reinterpret_cast<ParticleSystem *>(glfwGetWindowUserPointer(window));
 	if (!PS->forces.getForce(PS->forces.getCurrentForce()).locked) {
 		PS->forces.updateForcePosition(PS->camera, PS->cursorDepth, x, y);
+	}
+}
+
+void ParticleSystem::scrollCallback(GLFWwindow* window, double x, double y) {
+	// std::cout << "scrollPosCallback. x: " << x << ", y: " << y << std::endl;
+	ParticleSystem *PS = reinterpret_cast<ParticleSystem *>(glfwGetWindowUserPointer(window));
+	PS->cursorDepth += y * 0.01f;
+	if (!PS->forces.getForce(PS->forces.getCurrentForce()).locked) {
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+		PS->forces.updateForcePosition(PS->camera, PS->cursorDepth, xpos, ypos);
 	}
 }
 

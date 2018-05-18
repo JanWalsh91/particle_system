@@ -37,7 +37,7 @@ class Forces {
 		void	addForce(Forces::Force force);
 		void	addForce();
 		void	nextForce();
-		void	delForce();
+		void	delForce(bool forceDel = false);
 		void	toggleLock();
 		void	updateData();
 		void	updateForcePosition(Camera &camera, float depth, int x, int y);

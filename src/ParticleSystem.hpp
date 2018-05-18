@@ -29,6 +29,7 @@ class ParticleSystem {
 
 		static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 		static void cursorPosCallback(GLFWwindow* window, double x, double y);
+		static void scrollCallback(GLFWwindow* window, double x, double y);
 		
 		// Getters
 		OpenGLWindow	*getGL();
@@ -38,7 +39,10 @@ class ParticleSystem {
 		void initSphere();
 		void updateParticles();
 		void processInput();
+		void reset();
 
+		std::string			preset;
+		bool				isReset;
 		cl_uint				numParticles;
 		OpenCLContext		*CL;
 		OpenGLWindow		*GL;

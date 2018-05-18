@@ -40,7 +40,8 @@
 		"unordered_map": "cpp",
 		"unordered_set": "cpp",
 		"__bit_reference": "cpp",
-		"system_error": "cpp"
+		"system_error": "cpp",
+		"chrono": "cpp"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false

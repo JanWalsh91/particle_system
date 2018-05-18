@@ -59,7 +59,7 @@ void Forces::addForce() {
 		colorVector = glm::vec3(0, 0, 1);
 	if (colors[0] == "green")
 		colorVector = glm::vec3(0, 1, 0);
-	this->forces.push_back(Forces::Force(glm::vec3(0, 0, 0), colorVector, 0.001));
+	this->forces.push_back(Forces::Force(glm::vec3(0, 0, 0), colorVector, 0.1));
 	this->currentForce = this->forces.size() - 1;
 	this->updateData();
 	printf("New Force. Total: %lu, Current: %d\n", this->forces.size(), this->currentForce);
@@ -74,8 +74,8 @@ void Forces::nextForce() {
 
 // del force
 
-void Forces::delForce() {
-	if (this->forces.size() > 1 && this->currentForce < this->forces.size()) {
+void Forces::delForce(bool forceDel) {
+	if ((this->forces.size() > 1 && this->currentForce < this->forces.size()) || forceDel == true) {
 		this->forces.erase(this->forces.begin() + this->currentForce);
 		this->updateData();
 		this->currentForce = this->forces.size() - 1;
