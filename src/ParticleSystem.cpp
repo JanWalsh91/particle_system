@@ -196,7 +196,7 @@ void ParticleSystem::updateParticles() {
 	float deltaTime = this->fps->getDeltaTime();
 	this->CL->getKernel("update_particle").setArg(2, sizeof(int), &numForces);
 	this->CL->getKernel("update_particle").setArg(3, sizeof(float), &deltaTime);
-	err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
+	err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle"), cl::NullRange, cl::NDRange(this->numParticles/2), cl::NullRange);
 	this->CL->checkError(err, "updateParticles: enqueueNDRangeKernel");
 	queue.finish();
 	err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
