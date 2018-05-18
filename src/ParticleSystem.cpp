@@ -354,7 +354,7 @@ void ParticleSystem::reset() {
 	// init sphere
 	if (this->preset == "sphere")
 		this->initSphere();
-	
+	// reset cirspr depth
 	this->camera = Camera();
 	
 	printf("force[0].pos: {%.2f, %.2f, %.2f}\n", this->forces.getForce(0).position[0], this->forces.getForce(0).position[1], this->forces.getForce(0).position[2]);
