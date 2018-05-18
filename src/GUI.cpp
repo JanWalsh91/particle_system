@@ -6,7 +6,7 @@ GUI::~GUI() {}
 
 void GUI::createSettings() {
 
-	nanogui::Window* guiWindow = new nanogui::Window(this->screen, "HumanGL Settings");
+	nanogui::Window* guiWindow = new nanogui::Window(this->screen, "Settings");
 	guiWindow->setPosition(nanogui::Vector2i(20, 15));
 	guiWindow->setLayout(new nanogui::GroupLayout());
 
@@ -27,18 +27,18 @@ void GUI::createSettings() {
 	textBox->setUnits("%");
 
 
-	slider->setCallback([this, textBox](float value) {
-		textBox->setValue(std::to_string((int) (value * 100)));
-		std::cout << value << std::endl;
+	// slider->setCallback([this, textBox](float value) {
+	// 	textBox->setValue(std::to_string((int) (value * 100)));
+	// 	std::cout << value << std::endl;
 
-	});
-	slider->setFinalCallback([&](float value) {
-		std::cout << "Final slider value: " << (int) (value * 100) << std::endl;
-	});
+	// });
+	// slider->setFinalCallback([&](float value) {
+	// 	std::cout << "Final slider value: " << (int) (value * 100) << std::endl;
+	// });
 
-	textBox->setFixedSize(nanogui::Vector2i(60,25));
-	textBox->setFontSize(20);
-	textBox->setAlignment(nanogui::TextBox::Alignment::Right);
+	// textBox->setFixedSize(nanogui::Vector2i(60,25));
+	// textBox->setFontSize(20);
+	// textBox->setAlignment(nanogui::TextBox::Alignment::Right);
 
 	//new nanogui::Label(panel, "Y", "sans-bold");
 

@@ -7,7 +7,6 @@
 */
 ParticleSystem::ParticleSystem() {
 	std::cout << "Particle System constructor" << std::endl;
-
 	cl_int err = 0;
 
 	// init OpenGL
@@ -16,6 +15,9 @@ ParticleSystem::ParticleSystem() {
 	// Create Window
 	this->GL = new OpenGLWindow(2000, 1000, "Particle System");	
 	
+	// nanoGUI
+	// this->GL->initGUI(); 
+
 	// Set callback
 	glfwSetWindowUserPointer(this->GL->getWindow(), this);
 	glfwSetMouseButtonCallback(this->GL->getWindow(), mouseButtonCallback);
@@ -134,6 +136,8 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 	// create FPS object
 	this->fps = new FPS(10);
 
+
+
 	// cl_half test;
 	// std::cout << "finish init" << std::endl;
 	// exit(0);
@@ -207,21 +211,15 @@ void ParticleSystem::loop() {
 	this->fps->reset();
 
 	while (!glfwWindowShouldClose(this->GL->getWindow()) && glfwGetKey(this->GL->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS) {
-		// update FPS and window title
+		// sleep if necessary
 		if (this->fps->getDeltaTime() < 0.016) {
 			float sleepTime = (0.016 - this->fps->getDeltaTime()) * 1000;
-			// std::cout << "sleep " << sleepTime << " microseconds." << std::endl;
-			// std::cout << "delta time: " << this->fps->getDeltaTime() << " seconds" << std::endl;
 			usleep(sleepTime);
 		}
+
+		// update FPS and window title
 		this->fps->update();
 		this->GL->setWindowName("Particle System\t(FPS: " + std::to_string(this->fps->getFPS()) + ")");
-		// printf("delta time: %.5f\n", this->fps->getDeltaTime());
-		// printf("check1");
-		// limit fps
-		// if (this->fps->getFPS() < 0.016 && this->fps->getFPS() > 0.0001) {
-		// 	sleep(this->fps->getFPS());
-		// }
 
 		// clear
 		glClearColor(.0f, .0f, .0f, 1.0f);
@@ -229,7 +227,6 @@ void ParticleSystem::loop() {
 		
 		// handle user input
 		this->processInput();
-		// printf("check2");
 
 		// update uniforms (not necessary to do all the time!) TODO: move to appropriate location
 		this->GL->getShaderProgram().setVector("camPos", this->camera.getPosition());
@@ -246,19 +243,20 @@ void ParticleSystem::loop() {
 		this->GL->getShaderProgram().setArray("forces", forces, this->forces.size()*7);
 		this->GL->getShaderProgram().setInt("forcesNum", this->forces.size());
 
-		// printf("check3");
 		if (!this->paused) {
 			// update position with OpenCL
 			this->updateParticles();
 		}
-
-		// printf("check4");
+		
 		// draw arrays with OpenGL
 		glBindVertexArray(this->GL->getVAO("particles"));
 		glDrawArrays(GL_POINTS, 0, this->numParticles);
 		glBindVertexArray(0);
 
-		// printf("check5");
+		// nanogui stuff:
+		// this->GL->drawContents(); // ?? what does this do?
+		// this->GL->drawWidgets();
+
 		// swap buffers
 		glfwSwapBuffers(this->GL->getWindow());
 		glfwPollEvents();
@@ -267,6 +265,7 @@ void ParticleSystem::loop() {
 
 void ParticleSystem::processInput() {
 	glFinish();
+
 	// Pause
 	static int oldState_P = GLFW_RELEASE;
 	int newState_P = glfwGetKey(this->GL->getWindow(), GLFW_KEY_P);
@@ -294,12 +293,6 @@ void ParticleSystem::processInput() {
 		this->camera.processInput(TURN_LEFT, this->fps->getDeltaTime());
     if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_D) == GLFW_PRESS)
 		this->camera.processInput(TURN_RIGHT, this->fps->getDeltaTime());
-
-	// Cursor Depth
-	// if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_KP_ADD) == GLFW_PRESS)
-	// 	this->cursorDepth += 0.01;
-	// if (glfwGetKey(this->GL->getWindow(), GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS)
-	// 	this->cursorDepth -= 0.01;
 
 	// Current Force
 	static int oldState_TAB = GLFW_RELEASE;
@@ -368,6 +361,7 @@ void ParticleSystem::mouseButtonCallback(GLFWwindow* window, int button, int act
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 		PS->forces.updateForcePosition(PS->camera, PS->cursorDepth, xpos, ypos);
+		PS->getGL()->mouseButtonCallbackEvent(button, action, mods);
 	}
 }
 
@@ -376,6 +370,7 @@ void ParticleSystem::cursorPosCallback(GLFWwindow* window, double x, double y) {
 	ParticleSystem *PS = reinterpret_cast<ParticleSystem *>(glfwGetWindowUserPointer(window));
 	if (!PS->forces.getForce(PS->forces.getCurrentForce()).locked) {
 		PS->forces.updateForcePosition(PS->camera, PS->cursorDepth, x, y);
+		PS->getGL()->cursorPosCallbackEvent(x, y);
 	}
 }
 
@@ -387,6 +382,7 @@ void ParticleSystem::scrollCallback(GLFWwindow* window, double x, double y) {
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 		PS->forces.updateForcePosition(PS->camera, PS->cursorDepth, xpos, ypos);
+		PS->getGL()->scrollCallbackEvent(x, y);
 	}
 }
 

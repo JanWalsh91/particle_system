@@ -36,6 +36,7 @@ public:
 	void	setWindowName(std::string);
 
 	static void initOpenGL();
+	void initGUI();
 	static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
 
 	// Getters

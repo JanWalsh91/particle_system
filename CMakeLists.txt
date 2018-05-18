@@ -33,6 +33,6 @@ add_executable(particle_system ${SOURCE_FILES})
 
 target_include_directories(particle_system PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(particle_system nanogui ${NANOGUI_EXTRA_LIBS})
 target_link_libraries(particle_system OpenCL::OpenCL)
+target_link_libraries(particle_system nanogui ${NANOGUI_EXTRA_LIBS})
 
