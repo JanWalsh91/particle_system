@@ -47,13 +47,13 @@ OpenGLWindow & OpenGLWindow::operator=( OpenGLWindow const & rhs ) {
 	return *this;
 }
 
-void OpenGLWindow::addShaders(std::vector<std::string> shaderPaths) {
+void OpenGLWindow::addShaderProgram(std::string name, std::vector<std::string> shaderPaths) {
 	if (shaderPaths.size() != 2) {
 		std::cout << "Need two shaders" << std::endl;
 		exit(1);
 	}
-	this->shaderProgram = Shader(shaderPaths[0].c_str(), shaderPaths[1].c_str());
-	this->shaderProgram.use();
+	this->shaderPrograms[name] = Shader(shaderPaths[0].c_str(), shaderPaths[1].c_str());
+	this->shaderPrograms[name].use();
 }
 
 void OpenGLWindow::addVBO(std::string name) {
@@ -144,7 +144,7 @@ void	OpenGLWindow::framebufferSizeCallback(GLFWwindow *window, int width, int he
 	PS->getGL()->width = width;
 	glViewport(0, 0, width, height);
 
-	PS->getGL()->getShaderProgram().setMatrix("projectionMatrix",
+	PS->getGL()->getShaderProgram("particleShader").setMatrix("projectionMatrix",
 		glm::perspective(glm::radians(45.0f), (float)PS->getGL()->getWidth() / (float)PS->getGL()->getHeight(), 0.1f, 100.0f)
 	);
 }
@@ -154,8 +154,8 @@ GLFWwindow  *OpenGLWindow::getWindow() {
 	return this->window;
 }
 
-Shader  	&OpenGLWindow::getShaderProgram() {
-	return this->shaderProgram;
+Shader  	&OpenGLWindow::getShaderProgram(std::string name) {
+	return this->shaderPrograms[name];
 }
 
 int			OpenGLWindow::getWidth() {

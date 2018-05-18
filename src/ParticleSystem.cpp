@@ -26,9 +26,9 @@ ParticleSystem::ParticleSystem() {
 
 	// Add Shaders
 	std::vector<std::string> shaderPaths;
-	shaderPaths.push_back("../src/Shaders/base.vert");
-	shaderPaths.push_back("../src/Shaders/base.frag");
-	this->GL->addShaders(shaderPaths);
+	shaderPaths.push_back("../src/Shaders/particle.vert");
+	shaderPaths.push_back("../src/Shaders/particle.frag");
+	this->GL->addShaderProgram("particleShader", shaderPaths);
 
 	// Create OpenCL Context
 	this->CL = new OpenCLContext(false, true);
@@ -50,8 +50,8 @@ ParticleSystem::ParticleSystem() {
 	glEnable(GL_DEPTH_TEST);
 
 	// TODO: move elsewhere
-	this->GL->getShaderProgram().setMatrix("viewMatrix", this->camera.getViewMatrix());
-	this->GL->getShaderProgram().setMatrix("projectionMatrix",
+	this->GL->getShaderProgram("particleShader").setMatrix("viewMatrix", this->camera.getViewMatrix());
+	this->GL->getShaderProgram("particleShader").setMatrix("projectionMatrix",
 		glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
 	);
 }
@@ -76,9 +76,9 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 
 	cl_int err = 0;
 
-	cl_uint cubeSize = std::ceil(std::cbrt(numParticles));
+	this->cubeSize = std::ceil(std::cbrt(numParticles));
 	this->numParticles = cubeSize * cubeSize * cubeSize;
-	std::cout << "cubeSize: " << cubeSize << std::endl;
+	std::cout << "cubeSize: " << this->cubeSize << std::endl;
 	std::cout << "this->numParticles: " << this->numParticles << std::endl;
 
 	// Initialize particles VBO
@@ -127,7 +127,7 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 	
 	// init cube
 	if (this->preset == "cube")
-		this->initCube(cubeSize);
+		this->initCube();
 	
 	// init sphere
 	if (this->preset == "sphere")
@@ -136,15 +136,14 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 	// create FPS object
 	this->fps = new FPS(10);
 
-
-
 	// cl_half test;
 	// std::cout << "finish init" << std::endl;
 	// exit(0);
 }
 
-void ParticleSystem::initCube(cl_int cubeSize) {
-	std::cout << "init cube" << std::endl;
+void ParticleSystem::initCube() {
+	std::cout << "init cube: " << this->cubeSize << std::endl;
+	std::cout << "numParticles: " << this->numParticles << std::endl;
 	glFinish();
 	this->isReset = true;
 	cl_int err = 0;
@@ -154,7 +153,7 @@ void ParticleSystem::initCube(cl_int cubeSize) {
 	// init cube
 	this->CL->getKernel("init_particle_cube").setArg(0, this->CL->getBuffer("particles"));
 	this->CL->getKernel("init_particle_cube").setArg(1, sizeof(cl_uint), &this->numParticles);
-	this->CL->getKernel("init_particle_cube").setArg(2, sizeof(cl_uint), &cubeSize);
+	this->CL->getKernel("init_particle_cube").setArg(2, sizeof(cl_uint), &this->cubeSize);
 	err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 	queue.finish();
 	std::cout << "done init cube" << std::endl;
@@ -166,6 +165,7 @@ void ParticleSystem::initSphere() {
 	this->isReset = true;
 	cl_int err = 0;
 	cl::CommandQueue queue = this->CL->getQueue();
+	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->getKernel("init_particle_sphere").setArg(0, this->CL->getBuffer("particles"));
 	this->CL->getKernel("init_particle_sphere").setArg(1, sizeof(cl_uint), &this->numParticles);
 	err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_sphere"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
@@ -173,7 +173,7 @@ void ParticleSystem::initSphere() {
 	queue.finish();
 	err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "init: enqueueReleaseGLObjects");
-	// exit(0);
+	std::cout << "done init sphere" << std::endl;
 }
 
 void ParticleSystem::updateParticles() {
@@ -229,26 +229,28 @@ void ParticleSystem::loop() {
 		this->processInput();
 
 		// update uniforms (not necessary to do all the time!) TODO: move to appropriate location
-		this->GL->getShaderProgram().setVector("camPos", this->camera.getPosition());
-		this->GL->getShaderProgram().setVector("camDir", this->camera.getFront());
-		this->GL->getShaderProgram().setFloat("cursorDepth", this->cursorDepth);
-		this->GL->getShaderProgram().setMatrix("viewMatrix", this->camera.getViewMatrix());
-		this->GL->getShaderProgram().setMatrix("projectionMatrix",
+		// this->GL->getShaderProgram("particleShader").use();
+		this->GL->getShaderProgram("particleShader").setVector("camPos", this->camera.getPosition());
+		this->GL->getShaderProgram("particleShader").setVector("camDir", this->camera.getFront());
+		this->GL->getShaderProgram("particleShader").setFloat("cursorDepth", this->cursorDepth);
+		this->GL->getShaderProgram("particleShader").setMatrix("viewMatrix", this->camera.getViewMatrix());
+		this->GL->getShaderProgram("particleShader").setMatrix("projectionMatrix",
 			glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
 		);
 		float forces[7 * MAX_FORCES];
 		for (int i = 0; i < 7 * this->forces.size(); ++i) {
 			forces[i] = this->forces.data()[i];
 		}
-		this->GL->getShaderProgram().setArray("forces", forces, this->forces.size()*7);
-		this->GL->getShaderProgram().setInt("forcesNum", this->forces.size());
+		this->GL->getShaderProgram("particleShader").setArray("forces", forces, this->forces.size()*7);
+		this->GL->getShaderProgram("particleShader").setInt("forcesNum", this->forces.size());
 
 		if (!this->paused) {
 			// update position with OpenCL
 			this->updateParticles();
 		}
 		
-		// draw arrays with OpenGL
+		// draw particles with OpenGL
+		this->GL->getShaderProgram("particleShader").use();
 		glBindVertexArray(this->GL->getVAO("particles"));
 		glDrawArrays(GL_POINTS, 0, this->numParticles);
 		glBindVertexArray(0);
@@ -348,10 +350,15 @@ void ParticleSystem::reset() {
 	this->forces.getForce(0).locked = true;
 	// init cube
 	if (this->preset == "cube")
-		this->initCube(std::ceil(std::cbrt(this->numParticles)));
+		this->initCube();
 	// init sphere
 	if (this->preset == "sphere")
 		this->initSphere();
+	
+	this->camera = Camera();
+	
+	printf("force[0].pos: {%.2f, %.2f, %.2f}\n", this->forces.getForce(0).position[0], this->forces.getForce(0).position[1], this->forces.getForce(0).position[2]);
+
 }
 
 void ParticleSystem::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {

@@ -1,4 +1,4 @@
-kernel void init_particle_sphere(global Particle *P, size_t N) {
+kernel void init_particle_sphere(global Particle *P, uint N) {
 	size_t i = get_global_id(0);
 
     float inc = M_PI_F * (3 - sqrt(5.0f));
@@ -15,4 +15,5 @@ kernel void init_particle_sphere(global Particle *P, size_t N) {
 
 	float scale = 0.7f;
 	P[i].position = normalize(P[i].position) * float4(scale, scale, scale, 1);
+	P[i].speed = (float4)(.0f, .0f, .0f, .0f);
 }

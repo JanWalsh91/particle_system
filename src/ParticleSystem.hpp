@@ -35,7 +35,7 @@ class ParticleSystem {
 		OpenGLWindow	*getGL();
 
 	private:
-		void initCube(cl_int cubeSize);
+		void initCube();
 		void initSphere();
 		void updateParticles();
 		void processInput();
@@ -44,6 +44,7 @@ class ParticleSystem {
 		std::string			preset;
 		bool				isReset;
 		cl_uint				numParticles;
+		cl_uint				cubeSize;
 		OpenCLContext		*CL;
 		OpenGLWindow		*GL;
 		FPS					*fps;

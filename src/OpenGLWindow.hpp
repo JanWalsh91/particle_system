@@ -28,7 +28,7 @@ public:
 	OpenGLWindow & operator=( OpenGLWindow const & rhs );
 
 	// void createWidget();
-	void addShaders(std::vector<std::string> paths);
+	void addShaderProgram(std::string name, std::vector<std::string> paths);
 	
 	void addVBO(std::string);
 	void addVAO(std::string);
@@ -41,7 +41,7 @@ public:
 
 	// Getters
 	GLFWwindow  *getWindow();
-	Shader  	&getShaderProgram(); 
+	Shader  	&getShaderProgram(std::string); 
 	int			getWidth();
 	int			getHeight();
 	GLuint		getVAO(std::string);
@@ -50,11 +50,11 @@ public:
 private:
 	GLFWwindow						*window;
 	GUI*							gui;
-	Shader							shaderProgram;
 	int								width;
 	int								height;
 	std::map<std::string, GLuint>	VBOs;
 	std::map<std::string, GLuint>	VAOs;
+	std::map<std::string, Shader>	shaderPrograms;
 };
 
 # include "GUI.hpp"
