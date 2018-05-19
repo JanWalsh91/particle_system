@@ -17,7 +17,6 @@ void	FPS::update() {
 		this->timeList.pop_front();
 	}
 	this->timeList.push_back(glfwGetTime());
-	// std::cout << "added: " << this->timeList.back() << std::endl;
 	// calculate FPS
 	float elapsedTime = this->timeList.back() - this->timeList.front();
 	this->fps = this->timeList.size() / elapsedTime;
@@ -28,9 +27,10 @@ void	FPS::updateLast() {
 	this->timeList.push_back(glfwGetTime());
 }
 
+// return time passed in seconds
 float	FPS::getDeltaTime() {
 	if (this->timeList.size() > 1) {
-		return this->timeList.back() - *std::prev(this->timeList.end(), 2);;
+		return this->timeList.back() - *std::prev(this->timeList.end(), 2);
 	}
 	else if (this->timeList.size() == 1) {
 		return this->timeList.back();

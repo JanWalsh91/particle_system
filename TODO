@@ -5,6 +5,7 @@ TODO:
 		- Have two versions
 	✔ Display on screen or in window title
 	✔ update only when minimum time has passed
+	- improve deltatime effect on particles when low fps;
 - init multiple particles:
 	✔ init list of particles as cube
 	✔ init list of particles as sphere
