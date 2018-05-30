@@ -140,7 +140,8 @@ void Forces::updateForcePosition(Camera &camera, float depth, int x, int y) {
 	this->updateData();
 }
 
-void Forces::setVAO(int VAO) {
+void Forces::setVAO(GLuint VAO) {
+	std::cout << "'setVAO: " << VAO << std::endl;
 	this->VAO = VAO;
 }
 

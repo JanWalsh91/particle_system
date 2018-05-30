@@ -517,6 +517,7 @@ CMakeFiles/particle_system.dir/src/GUI.cpp.o: ../libs/nanogui/ext/glad/include/K
 CMakeFiles/particle_system.dir/src/GUI.cpp.o: ../libs/nanogui/ext/glad/include/glad/glad.h
 CMakeFiles/particle_system.dir/src/GUI.cpp.o: ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
 CMakeFiles/particle_system.dir/src/GUI.cpp.o: ../libs/nanogui/ext/nanovg/src/nanovg.h
+CMakeFiles/particle_system.dir/src/GUI.cpp.o: ../libs/nanogui/ext/nanovg/src/stb_image.h
 CMakeFiles/particle_system.dir/src/GUI.cpp.o: ../libs/nanogui/include/nanogui/button.h
 CMakeFiles/particle_system.dir/src/GUI.cpp.o: ../libs/nanogui/include/nanogui/checkbox.h
 CMakeFiles/particle_system.dir/src/GUI.cpp.o: ../libs/nanogui/include/nanogui/colorpicker.h
@@ -864,6 +865,7 @@ CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o: ../libs/nanogui/ext/glad
 CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o: ../libs/nanogui/ext/glad/include/glad/glad.h
 CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o: ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
 CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o: ../libs/nanogui/ext/nanovg/src/nanovg.h
+CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o: ../libs/nanogui/ext/nanovg/src/stb_image.h
 CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o: ../libs/nanogui/include/nanogui/button.h
 CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o: ../libs/nanogui/include/nanogui/checkbox.h
 CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o: ../libs/nanogui/include/nanogui/colorpicker.h
@@ -1211,6 +1213,7 @@ CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.o: ../libs/nanogui/ext/glad/
 CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.o: ../libs/nanogui/ext/glad/include/glad/glad.h
 CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.o: ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
 CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.o: ../libs/nanogui/ext/nanovg/src/nanovg.h
+CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.o: ../libs/nanogui/ext/nanovg/src/stb_image.h
 CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.o: ../libs/nanogui/include/nanogui/button.h
 CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.o: ../libs/nanogui/include/nanogui/checkbox.h
 CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.o: ../libs/nanogui/include/nanogui/colorpicker.h
@@ -1559,6 +1562,7 @@ CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../libs/nanogui/ext/gla
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../libs/nanogui/ext/glad/include/glad/glad.h
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../libs/nanogui/ext/nanovg/src/nanovg.h
+CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../libs/nanogui/ext/nanovg/src/stb_image.h
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../libs/nanogui/include/nanogui/button.h
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../libs/nanogui/include/nanogui/checkbox.h
 CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o: ../libs/nanogui/include/nanogui/colorpicker.h
@@ -2013,6 +2017,7 @@ CMakeFiles/particle_system.dir/src/main.cpp.o: ../libs/nanogui/ext/glad/include/
 CMakeFiles/particle_system.dir/src/main.cpp.o: ../libs/nanogui/ext/glad/include/glad/glad.h
 CMakeFiles/particle_system.dir/src/main.cpp.o: ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
 CMakeFiles/particle_system.dir/src/main.cpp.o: ../libs/nanogui/ext/nanovg/src/nanovg.h
+CMakeFiles/particle_system.dir/src/main.cpp.o: ../libs/nanogui/ext/nanovg/src/stb_image.h
 CMakeFiles/particle_system.dir/src/main.cpp.o: ../libs/nanogui/include/nanogui/button.h
 CMakeFiles/particle_system.dir/src/main.cpp.o: ../libs/nanogui/include/nanogui/checkbox.h
 CMakeFiles/particle_system.dir/src/main.cpp.o: ../libs/nanogui/include/nanogui/colorpicker.h

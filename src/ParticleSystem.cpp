@@ -68,7 +68,7 @@ ParticleSystem::~ParticleSystem() {}
 /**
 	Initializes particles and buffers based on number of particles and layout
 */
-void ParticleSystem::init(int numParticles, std::string layout, bool paused, bool optimized) {
+void ParticleSystem::init(int numParticles, std::string layout, bool paused, bool optimized, std::vector<std::string> skyboxFaces) {
 	std::cout << "Particle System init" << std::endl;
 	this->paused = paused;
 	this->optimized = optimized;
@@ -97,10 +97,12 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused, boo
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float) * floatsPerParticle, (GLvoid *)0);
 	glEnableVertexAttribArray(0);
 	if (!this->optimized) {
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (GLvoid *)(sizeof(float) * 4));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * floatsPerParticle, (GLvoid *)(sizeof(float) * 4));
 		glEnableVertexAttribArray(1);
 	}
 	glBindVertexArray(0);
+
+	this->initSkybox(skyboxFaces);
 
 	// Initialize forces VBO
 	this->GL->addVAO("forces");
@@ -140,9 +142,77 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused, boo
 
 	this->fps = new FPS(10);
 
+	
 	// cl_half test;
 	// std::cout << "finish init" << std::endl;
 	// exit(0);
+}
+
+void ParticleSystem::initSkybox(std::vector<std::string> skyboxFaces) {
+	this->skyboxTextureRef = this->GL->loadSkybox(skyboxFaces);
+	if (!this->skyboxTextureRef) {
+		std::cout << "Failed to load skybox resources" << std::endl;
+		exit(0);
+	}
+	float skyboxVertices[] = {
+		// positions          
+		-1.0f,  1.0f, -1.0f,
+		-1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		-1.0f,  1.0f, -1.0f,
+		1.0f,  1.0f, -1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		1.0f, -1.0f,  1.0f
+	};
+
+	this->GL->addVAO("skybox");
+	this->GL->addVBO("skybox");
+	glBindVertexArray(this->GL->getVAO("skybox"));
+	glBindBuffer(GL_ARRAY_BUFFER, this->GL->getVBO("skybox"));
+	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glBindVertexArray(0);
+
+	std::vector<std::string> shaderPaths;
+	shaderPaths.push_back("../src/shaders/skybox.vert");
+	shaderPaths.push_back("../src/shaders/skybox.frag");
+	this->GL->addShaderProgram("skyboxShader", shaderPaths);
+	this->GL->getShaderProgram("skyboxShader").setInt("skybox", 0);
 }
 
 void ParticleSystem::initCube() {
@@ -211,7 +281,7 @@ void ParticleSystem::updateParticles() {
 	glFinish();
 
 	cl::CommandQueue queue = this->CL->getQueue();
-	glBindVertexArray(this->GL->getVAO("particles"));
+	// glBindVertexArray(this->GL->getVAO("particles"));
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "updateParticles: enqueueAcquireGLObjects");
 	if (!setArgs) {
@@ -240,7 +310,7 @@ void ParticleSystem::updateParticles() {
 	queue.finish();
 	err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "updateParticles: enqueueReleaseGLObjects");
-	glBindVertexArray(0);
+	// glBindVertexArray(0);
 	setArgs = true;
 }
 
@@ -291,6 +361,21 @@ void ParticleSystem::loop() {
 		glDrawArrays(GL_POINTS, 0, this->numParticles);
 		glBindVertexArray(0);
 
+		// // draw skybox
+		// glDepthFunc(GL_LEQUAL);
+		// this->GL->getShaderProgram("skyboxShader").use();
+		// glm::mat4 view = glm::mat4(glm::mat3(this->camera.getViewMatrix())); 
+		// this->GL->getShaderProgram("skyboxShader").setMatrix("view", view);
+		// this->GL->getShaderProgram("skyboxShader").setMatrix("projection",
+		// 	glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
+		// );
+		// glBindVertexArray(this->GL->getVAO("skybox"));
+        // glActiveTexture(GL_TEXTURE0);
+        // glBindTexture(GL_TEXTURE_CUBE_MAP, this->skyboxTextureRef);
+        // glDrawArrays(GL_TRIANGLES, 0, 36);
+		// glBindVertexArray(0);
+        // glDepthFunc(GL_LESS); // set depth function back to default
+		
 		// nanogui stuff:
 		// this->GL->drawContents(); // ?? what does this do?
 		// this->GL->drawWidgets();

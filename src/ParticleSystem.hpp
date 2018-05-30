@@ -24,7 +24,8 @@ class ParticleSystem {
 			int numParticles = 1,
 			std::string layout = "sphere",
 			bool paused = false,
-			bool optimized = false
+			bool optimized = false,
+			std::vector<std::string> skyboxFaces = {""}
 		);
 		void loop();
 
@@ -36,6 +37,7 @@ class ParticleSystem {
 		OpenGLWindow	*getGL();
 
 	private:
+		void initSkybox(std::vector<std::string> skyboxFaces);
 		void initCube();
 		void initSphere();
 		void updateParticles();
@@ -45,6 +47,7 @@ class ParticleSystem {
 		std::string			preset;
 		bool				isReset;
 		bool				optimized;
+		unsigned int		skyboxTextureRef;
 		cl_uint				numParticles;
 		cl_uint				cubeSize;
 		OpenCLContext		*CL;

@@ -11,6 +11,8 @@
 # include <glm/glm.hpp>
 # include <glm/gtc/matrix_transform.hpp>
 # include <nanogui/nanogui.h>
+// # define STB_IMAGE_IMPLEMENTATION
+# include <stb_image.h>
 
 # include "Shader.hpp"
 
@@ -30,6 +32,8 @@ public:
 	// void createWidget();
 	void addShaderProgram(std::string name, std::vector<std::string> paths);
 	
+	unsigned int loadSkybox(std::vector<std::string> faces);
+
 	void addVBO(std::string);
 	void addVAO(std::string);
 

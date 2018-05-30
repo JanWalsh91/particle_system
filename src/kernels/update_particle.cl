@@ -10,6 +10,10 @@ kernel void update_particle(global Particle *p, global float *f, int numForces, 
 		}
 		p[i].speed = 0.999f * ( p[i].speed + acc * deltaTime * 60 );
 		p[i].position += p[i].speed * deltaTime;
+		// if (i == 50) {
+		// 	printf("position: %.2f, %.2f, %.2f\n", p[i].position.x, p[i].position.y, p[i].position.z);
+		// 	printf("force: %.2f, %.2f, %.2f\n", f[0], f[7 + 1], f[7 + 2]);
+		// }
 		// p[i].speed = 0.999f * ( p[i].speed + acc * deltaTime );
 		// p[i].position += (p[i].speed) * deltaTime / 0.016f;
 	}

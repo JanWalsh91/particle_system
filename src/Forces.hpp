@@ -10,6 +10,7 @@
 # include <glm/fwd.hpp>
 # include <glm/glm.hpp>
 # include <glm/gtc/matrix_transform.hpp>
+# include <iostream>
 
 # include "Camera.hpp"
 
@@ -42,7 +43,7 @@ class Forces {
 		void	updateData();
 		void	updateForcePosition(Camera &camera, float depth, int x, int y);
 		float	*data();
-		void	setVAO(int VAO);
+		void	setVAO(GLuint VAO);
 
 		// Getters
 		std::vector<Forces::Force>	&getForces();

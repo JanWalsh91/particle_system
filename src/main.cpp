@@ -30,9 +30,18 @@ int    main ( int ac, char **av ) {
 	}
 	std::cout << "pcount: " << pcount << std::endl;
 
+	std::vector<std::string> faces = {
+		"../src/textures/FullMoonRight.png",
+		"../src/textures/FullMoonLeft.png",
+		"../src/textures/FullMoonUp.png",
+		"../src/textures/FullMoonDown.png",
+		"../src/textures/FullMoonFront.png",
+		"../src/textures/FullMoonBack.png"
+		};
+
 	try {
 		ParticleSystem PS;
-		PS.init(pcount, layout, true, optimized);
+		PS.init(pcount, layout, true, optimized, faces);
 		PS.loop();
 	}
 	catch(std::exception &e) {

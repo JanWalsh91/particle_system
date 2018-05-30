@@ -518,6 +518,7 @@ CMakeFiles/particle_system.dir/src/GUI.cpp.o
  ../libs/nanogui/ext/glad/include/glad/glad.h
  ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
  ../libs/nanogui/ext/nanovg/src/nanovg.h
+ ../libs/nanogui/ext/nanovg/src/stb_image.h
  ../libs/nanogui/include/nanogui/button.h
  ../libs/nanogui/include/nanogui/checkbox.h
  ../libs/nanogui/include/nanogui/colorpicker.h
@@ -865,6 +866,7 @@ CMakeFiles/particle_system.dir/src/OpenCLContext.cpp.o
  ../libs/nanogui/ext/glad/include/glad/glad.h
  ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
  ../libs/nanogui/ext/nanovg/src/nanovg.h
+ ../libs/nanogui/ext/nanovg/src/stb_image.h
  ../libs/nanogui/include/nanogui/button.h
  ../libs/nanogui/include/nanogui/checkbox.h
  ../libs/nanogui/include/nanogui/colorpicker.h
@@ -1212,6 +1214,7 @@ CMakeFiles/particle_system.dir/src/OpenGLWindow.cpp.o
  ../libs/nanogui/ext/glad/include/glad/glad.h
  ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
  ../libs/nanogui/ext/nanovg/src/nanovg.h
+ ../libs/nanogui/ext/nanovg/src/stb_image.h
  ../libs/nanogui/include/nanogui/button.h
  ../libs/nanogui/include/nanogui/checkbox.h
  ../libs/nanogui/include/nanogui/colorpicker.h
@@ -1560,6 +1563,7 @@ CMakeFiles/particle_system.dir/src/ParticleSystem.cpp.o
  ../libs/nanogui/ext/glad/include/glad/glad.h
  ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
  ../libs/nanogui/ext/nanovg/src/nanovg.h
+ ../libs/nanogui/ext/nanovg/src/stb_image.h
  ../libs/nanogui/include/nanogui/button.h
  ../libs/nanogui/include/nanogui/checkbox.h
  ../libs/nanogui/include/nanogui/colorpicker.h
@@ -2014,6 +2018,7 @@ CMakeFiles/particle_system.dir/src/main.cpp.o
  ../libs/nanogui/ext/glad/include/glad/glad.h
  ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
  ../libs/nanogui/ext/nanovg/src/nanovg.h
+ ../libs/nanogui/ext/nanovg/src/stb_image.h
  ../libs/nanogui/include/nanogui/button.h
  ../libs/nanogui/include/nanogui/checkbox.h
  ../libs/nanogui/include/nanogui/colorpicker.h

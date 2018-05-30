@@ -1868,6 +1868,34 @@ GL/glu.h
 
 ../libs/nanogui/ext/nanovg/src/nanovg.h
 
+../libs/nanogui/ext/nanovg/src/stb_image.h
+stb_image.h
+../libs/nanogui/ext/nanovg/src/stb_image.h
+stdio.h
+-
+stdarg.h
+-
+stddef.h
+-
+stdlib.h
+-
+string.h
+-
+math.h
+-
+stdio.h
+-
+assert.h
+-
+stdint.h
+-
+emmintrin.h
+-
+intrin.h
+-
+arm_neon.h
+-
+
 ../libs/nanogui/include/nanogui/button.h
 nanogui/widget.h
 -
@@ -2189,6 +2217,8 @@ glm/glm.hpp
 -
 glm/gtc/matrix_transform.hpp
 -
+iostream
+-
 Camera.hpp
 /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
 
@@ -2250,6 +2280,8 @@ glm/glm.hpp
 glm/gtc/matrix_transform.hpp
 -
 nanogui/nanogui.h
+-
+stb_image.h
 -
 Shader.hpp
 /Users/jwalsh/Documents/42/particle_system/src/Shader.hpp
