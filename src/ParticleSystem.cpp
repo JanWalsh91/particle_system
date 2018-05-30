@@ -36,12 +36,18 @@ ParticleSystem::ParticleSystem() {
 	// Add Kernels, init Kernel programs
 	this->CL->addKernelFromFile("../src/kernels/particle.h.cl");
 	this->CL->addKernelFromFile("../src/kernels/init_particle_cube.cl");
+	this->CL->addKernelFromFile("../src/kernels/init_particle_cube_optimized.cl");
 	this->CL->addKernelFromFile("../src/kernels/init_particle_sphere.cl");
+	this->CL->addKernelFromFile("../src/kernels/init_particle_sphere_optimized.cl");
 	this->CL->addKernelFromFile("../src/kernels/update_particle.cl");
+	this->CL->addKernelFromFile("../src/kernels/update_particle_optimized.cl");
 	this->CL->buildProgram();
 	this->CL->setKernel("init_particle_cube");
+	this->CL->setKernel("init_particle_cube_optimized");
 	this->CL->setKernel("init_particle_sphere");
+	this->CL->setKernel("init_particle_sphere_optimized");
 	this->CL->setKernel("update_particle");
+	this->CL->setKernel("update_particle_optimized");
 
 	// set polygon mode to points
 	glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
@@ -62,19 +68,18 @@ ParticleSystem::~ParticleSystem() {}
 /**
 	Initializes particles and buffers based on number of particles and layout
 */
-void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
+void ParticleSystem::init(int numParticles, std::string layout, bool paused, bool optimized) {
 	std::cout << "Particle System init" << std::endl;
 	this->paused = paused;
-	// this->currentForce = 0;
+	this->optimized = optimized;
 	this->cursorDepth = glm::length(this->camera.getPosition());
-	if (layout != "cube" && layout != "sphere") {
+	if (layout != "cube" && layout != "sphere")
 		layout = "cube";
-	}
 	this->preset = layout;
+
 	// add initial force
 	this->forces.addForce(Forces::Force(glm::vec3(0, 0, 0), glm::vec3(1, 0, 0), 0.1));
 
-	cl_int err = 0;
 
 	this->cubeSize = std::ceil(std::cbrt(numParticles));
 	this->numParticles = cubeSize * cubeSize * cubeSize;
@@ -82,17 +87,19 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 	std::cout << "this->numParticles: " << this->numParticles << std::endl;
 
 	// Initialize particles VBO
+	int floatsPerParticle = this->optimized ? 4 : 8;
 	this->GL->addVAO("particles");
 	this->GL->addVBO("particles");
 	glBindVertexArray(this->GL->getVAO("particles"));
 	glBindBuffer(GL_ARRAY_BUFFER, this->GL->getVBO("particles"));
-	GLuint buffSize = sizeof(float) * 8 * this->numParticles;
+	GLuint buffSize = sizeof(float) * floatsPerParticle * this->numParticles;
 	glBufferData(GL_ARRAY_BUFFER, buffSize, nullptr, GL_DYNAMIC_DRAW);
-	// define attribute pointers
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (GLvoid *)0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float) * floatsPerParticle, (GLvoid *)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (GLvoid *)(sizeof(float) * 4));
-	glEnableVertexAttribArray(1);
+	if (!this->optimized) {
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (GLvoid *)(sizeof(float) * 4));
+		glEnableVertexAttribArray(1);
+	}
 	glBindVertexArray(0);
 
 	// Initialize forces VBO
@@ -103,7 +110,6 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 	buffSize = sizeof(float) * 7 * this->forces.size();
 	std::cout << "forces.size: " << this->forces.size() << std::endl;
 	glBufferData(GL_ARRAY_BUFFER, buffSize, this->forces.data(), GL_DYNAMIC_DRAW);
-	// define attribute pointers
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (GLvoid *)0);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (GLvoid *)(sizeof(float) * 3));
@@ -120,20 +126,18 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 	this->CL->addBuffer("forces", this->GL->getVBO("forces"));
 	glFinish();
 	
+	cl_int err = 0;
 	// initialize particles with kernel program on GPU
 	cl::CommandQueue queue = this->CL->getQueue();
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "init: enqueueAcquireGLObjects");
 	
-	// init cube
 	if (this->preset == "cube")
 		this->initCube();
 	
-	// init sphere
 	if (this->preset == "sphere")
 		this->initSphere();
 
-	// create FPS object
 	this->fps = new FPS(10);
 
 	// cl_half test;
@@ -144,33 +148,55 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused) {
 void ParticleSystem::initCube() {
 	std::cout << "init cube: " << this->cubeSize << std::endl;
 	std::cout << "numParticles: " << this->numParticles << std::endl;
-	glFinish();
 	this->isReset = true;
 	cl_int err = 0;
 	cl::CommandQueue queue = this->CL->getQueue();
+	glFinish();
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "init: enqueueAcquireGLObjects");
-	// init cube
-	this->CL->getKernel("init_particle_cube").setArg(0, this->CL->getBuffer("particles"));
-	this->CL->getKernel("init_particle_cube").setArg(1, sizeof(cl_uint), &this->numParticles);
-	this->CL->getKernel("init_particle_cube").setArg(2, sizeof(cl_uint), &this->cubeSize);
-	err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
+
+	if (this->optimized) {
+		this->CL->getKernel("init_particle_cube_optimized").setArg(0, this->CL->getBuffer("particles"));
+		this->CL->getKernel("init_particle_cube_optimized").setArg(1, sizeof(cl_uint), &this->numParticles);
+		this->CL->getKernel("init_particle_cube_optimized").setArg(2, sizeof(cl_uint), &this->cubeSize);
+		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube_optimized"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
+	}
+	else {
+		this->CL->getKernel("init_particle_cube").setArg(0, this->CL->getBuffer("particles"));
+		this->CL->getKernel("init_particle_cube").setArg(1, sizeof(cl_uint), &this->numParticles);
+		this->CL->getKernel("init_particle_cube").setArg(2, sizeof(cl_uint), &this->cubeSize);
+		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
+	}
+	this->CL->checkError(err, "init: enqueueNDRangeKernel");
 	queue.finish();
+	err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
+	this->CL->checkError(err, "init: enqueueReleaseGLObjects");
+
 	std::cout << "done init cube" << std::endl;
 }
 
 void ParticleSystem::initSphere() {
 	std::cout << "init sphere" << std::endl;
-	glFinish();
 	this->isReset = true;
 	cl_int err = 0;
 	cl::CommandQueue queue = this->CL->getQueue();
+	glFinish();
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
-	this->CL->getKernel("init_particle_sphere").setArg(0, this->CL->getBuffer("particles"));
-	this->CL->getKernel("init_particle_sphere").setArg(1, sizeof(cl_uint), &this->numParticles);
-	err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_sphere"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
+	
+	if (this->optimized) {
+		std::cout << "init optimized sphere" << std::endl;
+		this->CL->getKernel("init_particle_sphere_optimized").setArg(0, this->CL->getBuffer("particles"));
+		this->CL->getKernel("init_particle_sphere_optimized").setArg(1, sizeof(cl_uint), &this->numParticles);
+		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_sphere_optimized"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
+	}
+	else {
+		this->CL->getKernel("init_particle_sphere").setArg(0, this->CL->getBuffer("particles"));
+		this->CL->getKernel("init_particle_sphere").setArg(1, sizeof(cl_uint), &this->numParticles);
+		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_sphere"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
+	}
 	this->CL->checkError(err, "init: enqueueNDRangeKernel");
 	queue.finish();
+
 	err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "init: enqueueReleaseGLObjects");
 	std::cout << "done init sphere" << std::endl;
@@ -189,14 +215,27 @@ void ParticleSystem::updateParticles() {
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "updateParticles: enqueueAcquireGLObjects");
 	if (!setArgs) {
-		this->CL->getKernel("update_particle").setArg(0, this->CL->getBuffer("particles"));
-		this->CL->getKernel("update_particle").setArg(1, this->CL->getBuffer("forces"));
+		if (this->optimized) {
+			this->CL->getKernel("update_particle_optimized").setArg(0, this->CL->getBuffer("particles"));
+			this->CL->getKernel("update_particle_optimized").setArg(1, this->CL->getBuffer("forces"));
+		}
+		else {
+			this->CL->getKernel("update_particle").setArg(0, this->CL->getBuffer("particles"));
+			this->CL->getKernel("update_particle").setArg(1, this->CL->getBuffer("forces"));
+		}
 	}
 	int numForces = this->forces.size();
 	float deltaTime = this->fps->getDeltaTime();
-	this->CL->getKernel("update_particle").setArg(2, sizeof(int), &numForces);
-	this->CL->getKernel("update_particle").setArg(3, sizeof(float), &deltaTime);
-	err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle"), cl::NullRange, cl::NDRange(this->numParticles/2), cl::NullRange);
+	if (this->optimized) {
+		this->CL->getKernel("update_particle_optimized").setArg(2, sizeof(int), &numForces);
+		this->CL->getKernel("update_particle_optimized").setArg(3, sizeof(float), &deltaTime);
+		err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle_optimized"), cl::NullRange, cl::NDRange(this->numParticles/2), cl::NullRange);
+	}
+	else {
+		this->CL->getKernel("update_particle").setArg(2, sizeof(int), &numForces);
+		this->CL->getKernel("update_particle").setArg(3, sizeof(float), &deltaTime);
+		err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle"), cl::NullRange, cl::NDRange(this->numParticles/2), cl::NullRange);
+	}
 	this->CL->checkError(err, "updateParticles: enqueueNDRangeKernel");
 	queue.finish();
 	err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
@@ -207,7 +246,7 @@ void ParticleSystem::updateParticles() {
 
 void ParticleSystem::loop() {
 	std::cout << "loopstart" << std::endl;
-	// reset fps counter
+
 	this->fps->reset();
 
 	while (!glfwWindowShouldClose(this->GL->getWindow()) && glfwGetKey(this->GL->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS) {
@@ -225,7 +264,6 @@ void ParticleSystem::loop() {
 		glClearColor(.0f, .0f, .0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		// handle user input
 		this->processInput();
 
 		// update uniforms (not necessary to do all the time!) TODO: move to appropriate location
@@ -244,10 +282,8 @@ void ParticleSystem::loop() {
 		this->GL->getShaderProgram("particleShader").setArray("forces", forces, this->forces.size()*7);
 		this->GL->getShaderProgram("particleShader").setInt("forcesNum", this->forces.size());
 
-		if (!this->paused) {
-			// update position with OpenCL
+		if (!this->paused)
 			this->updateParticles();
-		}
 		
 		// draw particles with OpenGL
 		this->GL->getShaderProgram("particleShader").use();
@@ -354,11 +390,10 @@ void ParticleSystem::reset() {
 	// init sphere
 	if (this->preset == "sphere")
 		this->initSphere();
-	// reset cirspr depth
+	// reset cursor depth
 	this->camera = Camera();
 	
-	printf("force[0].pos: {%.2f, %.2f, %.2f}\n", this->forces.getForce(0).position[0], this->forces.getForce(0).position[1], this->forces.getForce(0).position[2]);
-
+	// printf("force[0].pos: {%.2f, %.2f, %.2f}\n", this->forces.getForce(0).position[0], this->forces.getForce(0).position[1], this->forces.getForce(0).position[2]);
 }
 
 void ParticleSystem::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {

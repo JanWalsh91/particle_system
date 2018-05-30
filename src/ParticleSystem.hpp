@@ -22,8 +22,9 @@ class ParticleSystem {
 
 		void init(
 			int numParticles = 1,
-			std::string layout = "cube",
-			bool paused = false
+			std::string layout = "sphere",
+			bool paused = false,
+			bool optimized = false
 		);
 		void loop();
 
@@ -43,6 +44,7 @@ class ParticleSystem {
 
 		std::string			preset;
 		bool				isReset;
+		bool				optimized;
 		cl_uint				numParticles;
 		cl_uint				cubeSize;
 		OpenCLContext		*CL;
