@@ -38,6 +38,15 @@ int    main ( int ac, char **av ) {
 		"../src/textures/FullMoonFront.png",
 		"../src/textures/FullMoonBack.png"
 		};
+	
+	// std::vector<std::string> faces = {
+	// 	"../src/textures/maxresdefault.jpg",
+	// 	"../src/textures/maxresdefault.jpg",
+	// 	"../src/textures/maxresdefault.jpg",
+	// 	"../src/textures/maxresdefault.jpg",
+	// 	"../src/textures/maxresdefault.jpg",
+	// 	"../src/textures/maxresdefault.jpg"
+	// };
 
 	try {
 		ParticleSystem PS;

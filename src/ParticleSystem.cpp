@@ -86,7 +86,7 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused, boo
 	std::cout << "cubeSize: " << this->cubeSize << std::endl;
 	std::cout << "this->numParticles: " << this->numParticles << std::endl;
 
-	// Initialize particles VBO
+	// // Initialize particles VBO
 	int floatsPerParticle = this->optimized ? 4 : 8;
 	this->GL->addVAO("particles");
 	this->GL->addVBO("particles");
@@ -104,7 +104,7 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused, boo
 
 	this->initSkybox(skyboxFaces);
 
-	// Initialize forces VBO
+	// // Initialize forces VBO
 	this->GL->addVAO("forces");
 	this->GL->addVBO("forces");
 	glBindVertexArray(this->GL->getVAO("forces"));
@@ -142,7 +142,6 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused, boo
 
 	this->fps = new FPS(10);
 
-	
 	// cl_half test;
 	// std::cout << "finish init" << std::endl;
 	// exit(0);
@@ -281,7 +280,6 @@ void ParticleSystem::updateParticles() {
 	glFinish();
 
 	cl::CommandQueue queue = this->CL->getQueue();
-	// glBindVertexArray(this->GL->getVAO("particles"));
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "updateParticles: enqueueAcquireGLObjects");
 	if (!setArgs) {
@@ -310,7 +308,6 @@ void ParticleSystem::updateParticles() {
 	queue.finish();
 	err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
 	this->CL->checkError(err, "updateParticles: enqueueReleaseGLObjects");
-	// glBindVertexArray(0);
 	setArgs = true;
 }
 
@@ -331,13 +328,13 @@ void ParticleSystem::loop() {
 		this->GL->setWindowName("Particle System\t(FPS: " + std::to_string(this->fps->getFPS()) + ")");
 
 		// clear
-		glClearColor(.0f, .0f, .0f, 1.0f);
+		glClearColor(1.0f, .0f, .0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		this->processInput();
 
 		// update uniforms (not necessary to do all the time!) TODO: move to appropriate location
-		// this->GL->getShaderProgram("particleShader").use();
+		this->GL->getShaderProgram("particleShader").use();
 		this->GL->getShaderProgram("particleShader").setVector("camPos", this->camera.getPosition());
 		this->GL->getShaderProgram("particleShader").setVector("camDir", this->camera.getFront());
 		this->GL->getShaderProgram("particleShader").setFloat("cursorDepth", this->cursorDepth);
@@ -355,27 +352,28 @@ void ParticleSystem::loop() {
 		if (!this->paused)
 			this->updateParticles();
 		
+		// draw skybox
+		glDepthMask(GL_FALSE);
+		this->GL->getShaderProgram("skyboxShader").use();
+		glm::mat4 view = glm::mat4(glm::mat3(this->camera.getViewMatrix())); 
+		this->GL->getShaderProgram("skyboxShader").setMatrix("view", view);
+		this->GL->getShaderProgram("skyboxShader").setMatrix("projection",
+			glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
+		);
+		glBindVertexArray(this->GL->getVAO("skybox"));
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, this->skyboxTextureRef);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(0);
+		glDepthMask(GL_TRUE);
+
 		// draw particles with OpenGL
 		this->GL->getShaderProgram("particleShader").use();
 		glBindVertexArray(this->GL->getVAO("particles"));
 		glDrawArrays(GL_POINTS, 0, this->numParticles);
 		glBindVertexArray(0);
 
-		// // draw skybox
-		// glDepthFunc(GL_LEQUAL);
-		// this->GL->getShaderProgram("skyboxShader").use();
-		// glm::mat4 view = glm::mat4(glm::mat3(this->camera.getViewMatrix())); 
-		// this->GL->getShaderProgram("skyboxShader").setMatrix("view", view);
-		// this->GL->getShaderProgram("skyboxShader").setMatrix("projection",
-		// 	glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
-		// );
-		// glBindVertexArray(this->GL->getVAO("skybox"));
-        // glActiveTexture(GL_TEXTURE0);
-        // glBindTexture(GL_TEXTURE_CUBE_MAP, this->skyboxTextureRef);
-        // glDrawArrays(GL_TRIANGLES, 0, 36);
-		// glBindVertexArray(0);
-        // glDepthFunc(GL_LESS); // set depth function back to default
-		
 		// nanogui stuff:
 		// this->GL->drawContents(); // ?? what does this do?
 		// this->GL->drawWidgets();
