@@ -1,8 +1,8 @@
 TODO: 
 
 - Calculate fps
-	- Requirements: 1 million at 60FPS, 3 million at 20FPS
-		- Have two versions
+	✔ Requirements: 1 million at 60FPS, 3 million at 20FPS
+		✔ Have two versions
 	✔ Display on screen or in window title
 	✔ update only when minimum time has passed
 	- improve deltatime effect on particles when low fps;

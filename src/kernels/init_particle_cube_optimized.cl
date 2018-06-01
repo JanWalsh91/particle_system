@@ -1,4 +1,4 @@
-kernel void init_particle_cube_optimized(global Particle_optimized *P, uint N, uint n) {
+kernel void init_particle_cube_optimized(global float4 *P, uint N, uint n) {
 	size_t i = get_global_id(0);
 
 	float4 init = (float4)(-0.5f, -0.5f, -0.5f, .0f);
@@ -8,5 +8,5 @@ kernel void init_particle_cube_optimized(global Particle_optimized *P, uint N, u
 	add.z = i / (n * n);
 	add.w = 1;
 	add = add / ((float)n - 1);
-	P[i].position = init + add;
+	P[i] = init + add;
 }

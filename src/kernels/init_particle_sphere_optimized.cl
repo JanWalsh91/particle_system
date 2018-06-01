@@ -1,4 +1,4 @@
-kernel void init_particle_sphere_optimized(global Particle_optimized *P, uint N) {
+kernel void init_particle_sphere_optimized(global float4 *P, uint N) {
 	size_t i = get_global_id(0);
 
     float inc = M_PI_F * (3 - sqrt(5.0f));
@@ -11,8 +11,8 @@ kernel void init_particle_sphere_optimized(global Particle_optimized *P, uint N)
 	x = cos(phi) * r;
 	z = sin(phi) * r;
 
-	P[i].position = (float4)(x, y, z, 0.0f);
+	P[i] = (float4)(x, y, z, 0.0f);
 
 	float scale = 0.7f;
-	P[i].position = normalize(P[i].position) * float4(scale, scale, scale, 1);
+	P[i] = normalize(P[i]) * float4(scale, scale, scale, 1);
 }

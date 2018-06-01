@@ -1,5 +1,6 @@
 #include "ParticleSystem.hpp"
 #include <exception>
+#include <chrono>
 /**
 	Initializes OpenGL and OpenCL contexts
 	Loads kernels and shaders
@@ -277,11 +278,11 @@ void ParticleSystem::updateParticles() {
 	static bool setArgs = false;
 	cl_int err = 0; 
 	
-	glFinish();
+	// glFinish();
 
 	cl::CommandQueue queue = this->CL->getQueue();
 	err = queue.enqueueAcquireGLObjects(&this->CL->getBuffers(), NULL, NULL);
-	this->CL->checkError(err, "updateParticles: enqueueAcquireGLObjects");
+	// this->CL->checkError(err, "updateParticles: enqueueAcquireGLObjects");
 	if (!setArgs) {
 		if (this->optimized) {
 			this->CL->getKernel("update_particle_optimized").setArg(0, this->CL->getBuffer("particles"));
@@ -301,17 +302,17 @@ void ParticleSystem::updateParticles() {
 		this->CL->getKernel("update_particle_optimized").setArg(4, sizeof(float) * 4, &camUp);
 		float camPos[4] = { this->camera.getPosition()[0], this->camera.getPosition()[1], this->camera.getPosition()[2], 1.0f };
 		this->CL->getKernel("update_particle_optimized").setArg(5, sizeof(float) * 4, &camPos);
-		err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle_optimized"), cl::NullRange, cl::NDRange(this->numParticles/2), cl::NullRange);
+		err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle_optimized"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 	}
 	else {
 		this->CL->getKernel("update_particle").setArg(2, sizeof(int), &numForces);
 		this->CL->getKernel("update_particle").setArg(3, sizeof(float), &deltaTime);
 		err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle"), cl::NullRange, cl::NDRange(this->numParticles/2), cl::NullRange);
 	}
-	this->CL->checkError(err, "updateParticles: enqueueNDRangeKernel");
+	// this->CL->checkError(err, "updateParticles: enqueueNDRangeKernel");
 	queue.finish();
 	err = queue.enqueueReleaseGLObjects(&this->CL->getBuffers(), NULL, NULL);
-	this->CL->checkError(err, "updateParticles: enqueueReleaseGLObjects");
+	// this->CL->checkError(err, "updateParticles: enqueueReleaseGLObjects");
 	setArgs = true;
 }
 
@@ -319,43 +320,66 @@ void ParticleSystem::loop() {
 	std::cout << "loopstart" << std::endl;
 
 	this->fps->reset();
+	// double totalstart;
+	// double totalduration = 0;
+	// double lastTime = 0;
 
 	while (!glfwWindowShouldClose(this->GL->getWindow()) && glfwGetKey(this->GL->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS) {
-		// sleep if necessary
-		if (this->fps->getDeltaTime() < 0.016) {
-			float sleepTime = (0.016 - this->fps->getDeltaTime()) * 1000;
-			usleep(sleepTime);
-		}
-
+		
+		// std::cout << "==== loop ==== time :" << glfwGetTime() << std::endl;
+		// totalstart = glfwGetTime();
+		// double start;
+		// double duration;
+		//sleep if necessary
+		// if (this->fps->getDeltaTime() < 0.016) {
+		// 	float sleepTime = (0.016 - this->fps->getDeltaTime()) * 1000;
+		// 	usleep(sleepTime);
+		// }
+		// start = glfwGetTime();
 		// update FPS and window title
 		this->fps->update();
 		this->GL->setWindowName("Particle System\t(FPS: " + std::to_string(this->fps->getFPS()) + ")");
+		// duration = ( glfwGetTime() - start );
+    	// std::cout<<"update window title: "<< duration <<'\n';
 
+		// start = glfwGetTime();
 		// clear
-		glClearColor(1.0f, .0f, .0f, 1.0f);
+		glClearColor(.0f, .0f, .0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+		// duration = ( glfwGetTime() - start );
+    	// std::cout<<"clear: "<< duration <<'\n';
 		this->processInput();
 
 		// update uniforms (not necessary to do all the time!) TODO: move to appropriate location
-		this->GL->getShaderProgram("particleShader").use();
-		this->GL->getShaderProgram("particleShader").setVector("camPos", this->camera.getPosition());
-		this->GL->getShaderProgram("particleShader").setVector("camDir", this->camera.getFront());
-		this->GL->getShaderProgram("particleShader").setFloat("cursorDepth", this->cursorDepth);
-		this->GL->getShaderProgram("particleShader").setMatrix("viewMatrix", this->camera.getViewMatrix());
-		this->GL->getShaderProgram("particleShader").setMatrix("projectionMatrix",
-			glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
-		);
-		float forces[7 * MAX_FORCES];
-		for (int i = 0; i < 7 * this->forces.size(); ++i) {
-			forces[i] = this->forces.data()[i];
-		}
-		this->GL->getShaderProgram("particleShader").setArray("forces", forces, this->forces.size()*7);
-		this->GL->getShaderProgram("particleShader").setInt("forcesNum", this->forces.size());
+		// start = glfwGetTime();
+		// static bool done = false;
+		// if (!done) {
+			this->GL->getShaderProgram("particleShader").use();
+			this->GL->getShaderProgram("particleShader").setVector("camPos", this->camera.getPosition());
+			this->GL->getShaderProgram("particleShader").setVector("camDir", this->camera.getFront());
+			this->GL->getShaderProgram("particleShader").setFloat("cursorDepth", this->cursorDepth);
+			this->GL->getShaderProgram("particleShader").setMatrix("viewMatrix", this->camera.getViewMatrix());
+			this->GL->getShaderProgram("particleShader").setMatrix("projectionMatrix",
+				glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
+			);
+			float forces[7 * MAX_FORCES];
+			for (int i = 0; i < 7 * this->forces.size(); ++i) {
+				forces[i] = this->forces.data()[i];
+			}
+			this->GL->getShaderProgram("particleShader").setArray("forces", forces, this->forces.size()*7);
+			this->GL->getShaderProgram("particleShader").setInt("forcesNum", this->forces.size());
+			// done = true;
+		// }
+		// duration = ( glfwGetTime() - start );
+    	// std::cout<<"update uniforms: "<< duration <<'\n';
 
+
+		// start = glfwGetTime();
 		if (!this->paused)
 			this->updateParticles();
-		
+		// duration = ( glfwGetTime() - start );
+    	// std::cout<<"update particles: "<< duration <<'\n';
+
 		// draw skybox
 		glDepthMask(GL_FALSE);
 		this->GL->getShaderProgram("skyboxShader").use();
@@ -372,19 +396,33 @@ void ParticleSystem::loop() {
 		glBindVertexArray(0);
 		glDepthMask(GL_TRUE);
 
+
+		// start = glfwGetTime();
 		// draw particles with OpenGL
 		this->GL->getShaderProgram("particleShader").use();
 		glBindVertexArray(this->GL->getVAO("particles"));
 		glDrawArrays(GL_POINTS, 0, this->numParticles);
 		glBindVertexArray(0);
 
+
+		// duration = ( glfwGetTime() - start );
+    	// std::cout<<"draw: "<< duration <<'\n';
 		// nanogui stuff:
 		// this->GL->drawContents(); // ?? what does this do?
 		// this->GL->drawWidgets();
 
+		// start = glfwGetTime();
 		// swap buffers
 		glfwSwapBuffers(this->GL->getWindow());
 		glfwPollEvents();
+
+		// duration = ( glfwGetTime() - start );
+    	// std::cout<<"swap buffers: "<< duration <<'\n';
+
+		// totalduration = ( glfwGetTime() - totalstart );
+    	// std::cout<<"loop length: "<< totalduration <<'\n';
+		// std::cout << "FPS: " << 1 / (glfwGetTime() - lastTime) << std::endl;
+		// lastTime = glfwGetTime();
 	}
 }
 
