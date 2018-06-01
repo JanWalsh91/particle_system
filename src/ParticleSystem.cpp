@@ -297,6 +297,10 @@ void ParticleSystem::updateParticles() {
 	if (this->optimized) {
 		this->CL->getKernel("update_particle_optimized").setArg(2, sizeof(int), &numForces);
 		this->CL->getKernel("update_particle_optimized").setArg(3, sizeof(float), &deltaTime);
+		float camUp[4] = { this->camera.getUp()[0], this->camera.getUp()[1], this->camera.getUp()[2], 1.0f };
+		this->CL->getKernel("update_particle_optimized").setArg(4, sizeof(float) * 4, &camUp);
+		float camPos[4] = { this->camera.getPosition()[0], this->camera.getPosition()[1], this->camera.getPosition()[2], 1.0f };
+		this->CL->getKernel("update_particle_optimized").setArg(5, sizeof(float) * 4, &camPos);
 		err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle_optimized"), cl::NullRange, cl::NDRange(this->numParticles/2), cl::NullRange);
 	}
 	else {

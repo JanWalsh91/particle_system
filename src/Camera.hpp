@@ -31,6 +31,7 @@ class Camera {
 		glm::mat4	&getViewMatrix() { return this->viewMatrix; }
 		glm::vec3	&getPosition() { return this->position; }
 		glm::vec3	&getFront() { return this->front; }
+		glm::vec3	&getUp() { return this->up; }
 
 	private:
 		glm::vec3	position;

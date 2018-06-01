@@ -26,7 +26,7 @@ TODO:
 	✔ control cursor depth with mouse wheel
 ✔ Color:
 	✔ Color particles based on distance to gravity centers
-- Skybox
+✔ Skybox
 - GUI
 ✔ Reset
 	✔ switch between different setups (sphere, cube) and pause
