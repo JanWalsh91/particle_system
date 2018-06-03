@@ -2167,6 +2167,8 @@ glm/glm.hpp
 -
 glm/gtc/matrix_transform.hpp
 -
+GLFW/glfw3.h
+-
 
 /Users/jwalsh/Documents/42/particle_system/src/ExceptionMsg.cpp
 ExceptionMsg.hpp

@@ -11,13 +11,10 @@ void	FPS::reset(float startTime) {
 }
 
 void	FPS::update() {
-	// std::cout << "udpate" << std::endl;
-	// if timeList is larger that sampleSize, remove first element
 	if (this->timeList.size() >= this->sampleSize) {
 		this->timeList.pop_front();
 	}
 	this->timeList.push_back(glfwGetTime());
-	// calculate FPS
 	float elapsedTime = this->timeList.back() - this->timeList.front();
 	this->fps = this->timeList.size() / elapsedTime;
 }

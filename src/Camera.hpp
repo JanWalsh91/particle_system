@@ -2,8 +2,9 @@
 # define CAMERA_HPP
 
 # include <glm/fwd.hpp>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+# include <glm/glm.hpp>
+# include <glm/gtc/matrix_transform.hpp>
+# include <GLFW/glfw3.h>
 
 enum CameraMovement {
     FORWARD,
@@ -46,12 +47,10 @@ class Camera {
 
 		void		updateVectors();
 
-		float		speed;
-
-		// rotation around Y
-		float		horizontal_rotation;
-		// rotation around X
-		float		vertical_rotation;
+		float			speed;
+		static float	minSpeed;
+		static float	maxSpeed;
+		float			lastUpdate;
 };
 
 #endif

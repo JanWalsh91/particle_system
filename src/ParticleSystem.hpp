@@ -38,6 +38,8 @@ class ParticleSystem {
 
 	private:
 		void initSkybox(std::vector<std::string> skyboxFaces);
+		void initParticles();
+		void initForces();
 		void initCube();
 		void initSphere();
 		void updateParticles();

@@ -3,13 +3,14 @@
 Camera::Camera( glm::vec3 position ) :
 	position(position)
 {
-	this->yaw = -90.0f; // why 90 and not -90
+	this->yaw = -90.0f;
 	this->pitch = 0.0f;
 	this->up = glm::vec3(.0f, 1.0f, .0f);
 	this->worldUp = this->up;
-	this->speed = 2.5f;
+	this->speed = this->minSpeed;
 	this->updateVectors();
 	this->updateViewMatrix();
+	this->lastUpdate = glfwGetTime();
 }
 
 Camera::~Camera() {}
@@ -23,6 +24,12 @@ void	Camera::updateViewMatrix() {
 }
 
 void	Camera::processInput(CameraMovement movement, float deltaTime) {
+	float currentTime = glfwGetTime();
+	if (currentTime - lastUpdate < 0.1)
+		this->speed < this->maxSpeed ? this->speed += 0.1f : 0;
+	else
+		this->speed = this->minSpeed;
+	this->lastUpdate = currentTime;
 	float speed = this->speed * deltaTime;
 
 	if (movement == FORWARD)
@@ -55,3 +62,6 @@ void	Camera::updateVectors() {
 	this->right = glm::normalize(glm::cross(this->front, this->worldUp));
 	this->up    = glm::normalize(glm::cross(this->right, this->front));
 }
+
+float Camera::maxSpeed = 3.0f;
+float Camera::minSpeed = 0.1f;

@@ -101,6 +101,7 @@ CMakeFiles/particle_system.dir/src/Camera.cpp.o: ../include/glm/vec2.hpp
 CMakeFiles/particle_system.dir/src/Camera.cpp.o: ../include/glm/vec3.hpp
 CMakeFiles/particle_system.dir/src/Camera.cpp.o: ../include/glm/vec4.hpp
 CMakeFiles/particle_system.dir/src/Camera.cpp.o: ../include/glm/vector_relational.hpp
+CMakeFiles/particle_system.dir/src/Camera.cpp.o: ../libs/nanogui/ext/glfw/include/GLFW/glfw3.h
 CMakeFiles/particle_system.dir/src/Camera.cpp.o: ../src/Camera.cpp
 CMakeFiles/particle_system.dir/src/Camera.cpp.o: ../src/Camera.hpp
 
