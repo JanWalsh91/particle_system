@@ -1,14 +1,6 @@
 #include "ParticleSystem.hpp"
-#include <exception>
-#include <chrono>
-/**
-	Initializes OpenGL and OpenCL contexts
-	Loads kernels and shaders
-	Creates OpenGL VAO and VBO
-*/
-ParticleSystem::ParticleSystem() {
-	cl_int err = 0;
 
+ParticleSystem::ParticleSystem() {
 	OpenGLWindow::initOpenGL();
 	
 	this->GL = new OpenGLWindow(2000, 1000, "Particle System");	
@@ -44,15 +36,17 @@ ParticleSystem::ParticleSystem() {
 
 	glEnable(GL_DEPTH_TEST);
 
-	// TODO: move elsewhere
 	this->GL->getShaderProgram("particleShader").setMatrix("viewMatrix", this->camera.getViewMatrix());
 	this->GL->getShaderProgram("particleShader").setMatrix("projectionMatrix",
 		glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
 	);
 }
 
-// TODO: Free stuff
-ParticleSystem::~ParticleSystem() {}
+ParticleSystem::~ParticleSystem() {
+	delete CL;
+	delete GL;
+	delete fps;
+}
 
 /**
 	Initializes particles and buffers based on number of particles and layout
@@ -198,14 +192,12 @@ void ParticleSystem::initCube() {
 
 	if (this->optimized) {
 		this->CL->getKernel("init_particle_cube_optimized").setArg(0, this->CL->getBuffer("particles"));
-		this->CL->getKernel("init_particle_cube_optimized").setArg(1, sizeof(cl_uint), &this->numParticles);
-		this->CL->getKernel("init_particle_cube_optimized").setArg(2, sizeof(cl_uint), &this->cubeSize);
+		this->CL->getKernel("init_particle_cube_optimized").setArg(1, sizeof(cl_uint), &this->cubeSize);
 		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube_optimized"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 	}
 	else {
 		this->CL->getKernel("init_particle_cube").setArg(0, this->CL->getBuffer("particles"));
-		this->CL->getKernel("init_particle_cube").setArg(1, sizeof(cl_uint), &this->numParticles);
-		this->CL->getKernel("init_particle_cube").setArg(2, sizeof(cl_uint), &this->cubeSize);
+		this->CL->getKernel("init_particle_cube").setArg(1, sizeof(cl_uint), &this->cubeSize);
 		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_cube"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 	}
 	this->CL->checkError(err, "init: enqueueNDRangeKernel");
@@ -296,23 +288,20 @@ void ParticleSystem::loop() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		this->processInput();
 
-		// update uniforms (not necessary to do all the time!) TODO: move to appropriate location
-
-			this->GL->getShaderProgram("particleShader").use();
-			this->GL->getShaderProgram("particleShader").setVector("camPos", this->camera.getPosition());
-			this->GL->getShaderProgram("particleShader").setVector("camDir", this->camera.getFront());
-			this->GL->getShaderProgram("particleShader").setFloat("cursorDepth", this->cursorDepth);
-			this->GL->getShaderProgram("particleShader").setMatrix("viewMatrix", this->camera.getViewMatrix());
-			this->GL->getShaderProgram("particleShader").setMatrix("projectionMatrix",
-				glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
-			);
-			float forces[7 * MAX_FORCES];
-			for (int i = 0; i < 7 * this->forces.size(); ++i) {
-				forces[i] = this->forces.data()[i];
-			}
-			this->GL->getShaderProgram("particleShader").setArray("forces", forces, this->forces.size()*7);
-			this->GL->getShaderProgram("particleShader").setInt("forcesNum", this->forces.size());
-
+		this->GL->getShaderProgram("particleShader").use();
+		this->GL->getShaderProgram("particleShader").setVector("camPos", this->camera.getPosition());
+		this->GL->getShaderProgram("particleShader").setVector("camDir", this->camera.getFront());
+		this->GL->getShaderProgram("particleShader").setFloat("cursorDepth", this->cursorDepth);
+		this->GL->getShaderProgram("particleShader").setMatrix("viewMatrix", this->camera.getViewMatrix());
+		this->GL->getShaderProgram("particleShader").setMatrix("projectionMatrix",
+			glm::perspective(glm::radians(45.0f), (float)this->GL->getWidth() / (float)this->GL->getHeight(), 0.1f, 100.0f)
+		);
+		float forces[7 * MAX_FORCES];
+		for (int i = 0; i < 7 * this->forces.size(); ++i) {
+			forces[i] = this->forces.data()[i];
+		}
+		this->GL->getShaderProgram("particleShader").setArray("forces", forces, this->forces.size()*7);
+		this->GL->getShaderProgram("particleShader").setInt("forcesNum", this->forces.size());
 
 		if (!this->paused)
 			this->updateParticles();

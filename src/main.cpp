@@ -11,7 +11,7 @@ int    main ( int ac, char **av ) {
 	std::vector<std::string> args;
 
 	int pcount = 100000;
-	std::string layout = "";
+	std::string layout = "sphere";
 	bool optimized = false;
 
 	for (int i = 1; i < ac; ++i)
@@ -44,6 +44,7 @@ int    main ( int ac, char **av ) {
 	} else {
 		pcount = std::min(pcount, 500000);
 	}
+
 	try {
 		ParticleSystem PS;
 		PS.init(pcount, layout, true, optimized, faces);
@@ -53,5 +54,6 @@ int    main ( int ac, char **av ) {
 		std::cout << e.what() << std::endl;
 	}
 
+	glfwTerminate();
 	return (0);
 }

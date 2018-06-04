@@ -1,4 +1,4 @@
-kernel void init_particle_cube_optimized(global float4 *P, uint N, uint n) {
+kernel void init_particle_cube_optimized(global float4 *P, uint n) {
 	size_t i = get_global_id(0);
 
 	float4 init = (float4)(-0.5f, -0.5f, -0.5f, .0f);

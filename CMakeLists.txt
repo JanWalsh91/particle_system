@@ -26,7 +26,7 @@ set(
 	src/ExceptionMsg.cpp
 )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Werror -Wall -Wextra")
 
 add_executable(particle_system ${SOURCE_FILES})
 

@@ -58,7 +58,6 @@ class ParticleSystem {
 		bool				paused;
 		float				cursorDepth;
 		Forces				forces;
-		int					currentForce;
 };
 
 #endif

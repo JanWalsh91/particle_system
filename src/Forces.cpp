@@ -29,7 +29,7 @@ std::vector<Forces::Force> &Forces::getForces() {
 }
 
 Forces::Force & Forces::getForce(int i) {
-	if (i < this->forces.size()) {
+	if (i < (int)this->forces.size()) {
 		return this->forces[i];
 	}
 	else
@@ -41,7 +41,7 @@ int		Forces::size() {
 }
 
 void Forces::addForce() {
-	if (this->forces.size() >= 3)
+	if ((int)this->forces.size() >= 3)
 		return ;
 	std::vector<std::string> colors = {"red", "blue", "green"};
 	for (Forces::Force & force: this->forces) {
@@ -67,7 +67,7 @@ void Forces::addForce() {
 
 void Forces::nextForce() {
 	++this->currentForce;
-	if (this->currentForce >= this->forces.size())
+	if (this->currentForce >= (int)this->forces.size())
 		this->currentForce = 0;
 	printf("Current Force: %d\n", this->currentForce);
 }
@@ -75,7 +75,7 @@ void Forces::nextForce() {
 // del force
 
 void Forces::delForce(bool forceDel) {
-	if ((this->forces.size() > 1 && this->currentForce < this->forces.size()) || forceDel == true) {
+	if (((int)this->forces.size() > 1 && this->currentForce < (int)this->forces.size()) || forceDel == true) {
 		this->forces.erase(this->forces.begin() + this->currentForce);
 		this->updateData();
 		this->currentForce = this->forces.size() - 1;
@@ -102,9 +102,6 @@ void Forces::updateForcePosition(Camera &camera, float depth, int x, int y) {
     glGetIntegerv( GL_VIEWPORT, viewport );
 	GLint height = viewport[3];
 	GLint width = viewport[2];
-
-	// get projection matrix
-    glm::mat4 projmatrix = glm::perspective(glm::radians(45.0f), width / (float)height, 0.1f, 100.0f);
  
 	// calculate ray plane intersection
 	float aspectRatio = (float)width/height;

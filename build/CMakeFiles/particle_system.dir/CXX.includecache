@@ -40,14 +40,6 @@ alloca.h
 cstring
 -
 
-../include/cl_gl.h
-OpenCL/cl.h
--
-OpenGL/CGLDevice.h
--
-CL/cl.h
--
-
 ../include/glm/common.hpp
 detail/func_common.hpp
 ../include/glm/detail/func_common.hpp
@@ -2229,13 +2221,9 @@ OpenCLContext.hpp
 /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
-OpenCL/opencl.h
--
 OpenGL/CGLCurrent.h
 -
 cl.hpp
--
-cl_gl.h
 -
 string
 -
@@ -2247,12 +2235,12 @@ sstream
 -
 map
 -
+ExceptionMsg.hpp
+/Users/jwalsh/Documents/42/particle_system/src/ExceptionMsg.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.cpp
 OpenGLWindow.hpp
 /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp
-ExceptionMsg.hpp
-/Users/jwalsh/Documents/42/particle_system/src/ExceptionMsg.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp
 string
@@ -2283,10 +2271,6 @@ ParticleSystem.hpp
 /Users/jwalsh/Documents/42/particle_system/src/ParticleSystem.cpp
 ParticleSystem.hpp
 /Users/jwalsh/Documents/42/particle_system/src/ParticleSystem.hpp
-exception
--
-chrono
--
 
 /Users/jwalsh/Documents/42/particle_system/src/ParticleSystem.hpp
 string

@@ -1,5 +1,4 @@
 #include "OpenGLWindow.hpp"
-#include "ExceptionMsg.hpp"
 
 OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): nanogui::Screen(), width(width), height(height) {
 	if (!(this->window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr))) {
@@ -15,7 +14,6 @@ OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): 
 		throw ExceptionMsg("Failed to initialize GLAD");
 	}
 	
-	// nanogui function
 	this->initialize(this->window, true);
 
 	int w, h;
@@ -106,8 +104,6 @@ unsigned int OpenGLWindow::loadSkybox(std::vector<std::string> faces) {
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	// glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0);
-	// glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, 0);
 
     return textureID;
 }
