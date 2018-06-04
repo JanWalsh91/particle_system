@@ -356,33 +356,6 @@ src/Forces.cpp.s:
 	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/Forces.cpp.s
 .PHONY : src/Forces.cpp.s
 
-src/GUI.o: src/GUI.cpp.o
-
-.PHONY : src/GUI.o
-
-# target to build an object file
-src/GUI.cpp.o:
-	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/GUI.cpp.o
-.PHONY : src/GUI.cpp.o
-
-src/GUI.i: src/GUI.cpp.i
-
-.PHONY : src/GUI.i
-
-# target to preprocess a source file
-src/GUI.cpp.i:
-	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/GUI.cpp.i
-.PHONY : src/GUI.cpp.i
-
-src/GUI.s: src/GUI.cpp.s
-
-.PHONY : src/GUI.s
-
-# target to generate assembly for a file
-src/GUI.cpp.s:
-	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/GUI.cpp.s
-.PHONY : src/GUI.cpp.s
-
 src/OpenCLContext.o: src/OpenCLContext.cpp.o
 
 .PHONY : src/OpenCLContext.o
@@ -550,9 +523,6 @@ help:
 	@echo "... src/Forces.o"
 	@echo "... src/Forces.i"
 	@echo "... src/Forces.s"
-	@echo "... src/GUI.o"
-	@echo "... src/GUI.i"
-	@echo "... src/GUI.s"
 	@echo "... src/OpenCLContext.o"
 	@echo "... src/OpenCLContext.i"
 	@echo "... src/OpenCLContext.s"

@@ -7,15 +7,11 @@
 	Creates OpenGL VAO and VBO
 */
 ParticleSystem::ParticleSystem() {
-	std::cout << "Particle System constructor" << std::endl;
 	cl_int err = 0;
 
 	OpenGLWindow::initOpenGL();
 	
 	this->GL = new OpenGLWindow(2000, 1000, "Particle System");	
-	
-	// nanoGUI
-	// this->GL->initGUI(); 
 
 	glfwSetWindowUserPointer(this->GL->getWindow(), this);
 	glfwSetMouseButtonCallback(this->GL->getWindow(), mouseButtonCallback);
@@ -62,7 +58,6 @@ ParticleSystem::~ParticleSystem() {}
 	Initializes particles and buffers based on number of particles and layout
 */
 void ParticleSystem::init(int numParticles, std::string layout, bool paused, bool optimized, std::vector<std::string> skyboxFaces) {
-	std::cout << "Particle System init" << std::endl;
 	this->paused = paused;
 	this->optimized = optimized;
 	this->cursorDepth = glm::length(this->camera.getPosition());
@@ -71,9 +66,6 @@ void ParticleSystem::init(int numParticles, std::string layout, bool paused, boo
 	this->preset = layout;	
 	this->cubeSize = std::ceil(std::cbrt(numParticles));
 	this->numParticles = cubeSize * cubeSize * cubeSize;
-	
-	std::cout << "cubeSize: " << this->cubeSize << std::endl;
-	std::cout << "this->numParticles: " << this->numParticles << std::endl;
 
 	this->initParticles();
 
@@ -116,7 +108,6 @@ void ParticleSystem::initForces() {
 	glBindVertexArray(this->GL->getVAO("forces"));
 	glBindBuffer(GL_ARRAY_BUFFER, this->GL->getVBO("forces"));
 	GLuint buffSize = sizeof(float) * 7 * this->forces.size();
-	std::cout << "forces.size: " << this->forces.size() << std::endl;
 	glBufferData(GL_ARRAY_BUFFER, buffSize, this->forces.data(), GL_DYNAMIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (GLvoid *)0);
 	glEnableVertexAttribArray(0);
@@ -249,7 +240,6 @@ void ParticleSystem::initSphere() {
 }
 
 void ParticleSystem::updateParticles() {
-	// std::cout << "updateParticles" << std::endl;
 	this->isReset = false;
 	cl_int err = 0; 
 	cl::CommandQueue queue = this->CL->getQueue();
@@ -295,15 +285,10 @@ void ParticleSystem::updateParticles() {
 }
 
 void ParticleSystem::loop() {
-	std::cout << "loopstart" << std::endl;
-
 	this->fps->reset();
 
 	while (!glfwWindowShouldClose(this->GL->getWindow()) && glfwGetKey(this->GL->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS) {
-		// if (this->fps->getDeltaTime() < 0.016) {
-		// 	float sleepTime = (0.016 - this->fps->getDeltaTime()) * 1000;
-		// 	usleep(sleepTime);
-		// }
+
 		this->fps->update();
 		this->GL->setWindowName("Particle System\t(FPS: " + std::to_string(this->fps->getFPS()) + ")");
 
@@ -347,15 +332,10 @@ void ParticleSystem::loop() {
 		glBindVertexArray(0);
 		glDepthMask(GL_TRUE);
 
-		// draw particles with OpenGL
 		this->GL->getShaderProgram("particleShader").use();
 		glBindVertexArray(this->GL->getVAO("particles"));
 		glDrawArrays(GL_POINTS, 0, this->numParticles);
 		glBindVertexArray(0);
-
-		// nanogui stuff:
-		// this->GL->drawContents(); // ?? what does this do?
-		// this->GL->drawWidgets();
 
 		glfwSwapBuffers(this->GL->getWindow());
 		glfwPollEvents();

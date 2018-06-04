@@ -1,10 +1,8 @@
 #include "OpenCLContext.hpp"
-#include "OpenGLWindow.hpp"
 
 OpenCLContext::OpenCLContext( bool verbose, bool openGlShare ) {
 	cl_int err;
 
-	// 1. Get platform
 	std::vector<cl::Platform> all_platforms;
 	err = cl::Platform::get(&all_platforms);
 	this->checkError(err, "Get Platforms");
@@ -16,7 +14,6 @@ OpenCLContext::OpenCLContext( bool verbose, bool openGlShare ) {
 	if (verbose)
 		std::cout << "Using platform: " << this->platform.getInfo<CL_PLATFORM_NAME>() << std::endl;
 	
-	// 2. Find a GPU device
 	std::vector<cl::Device> all_devices;
 	err = this->platform.getDevices(CL_DEVICE_TYPE_ALL, &all_devices);
 	this->checkError(err, "Get Devices");
@@ -24,18 +21,11 @@ OpenCLContext::OpenCLContext( bool verbose, bool openGlShare ) {
 		std::cout << " No devices found. Check OpenCL installation!" << std::endl;
 		exit(1);
 	}
-	this->device = all_devices[1]; // [0] is CPU. [1] is GPU.
+	this->device = all_devices[1];
 	if (verbose)
 		std::cout << "Using device: " << this->device.getInfo<CL_DEVICE_NAME>() << std::endl;
 
-	// 3. Create Context
 	if (openGlShare) {
-		// cl_context_properties	properties[] = {
-		// 	CL_GL_CONTEXT_KHR, (cl_context_properties)wglGetCurrentContext(),
-		// 	CL_WGL_HDC_KHR, (cl_context_properties)wglGetCurrentDC(),
-		// 	CL_CONTEXT_PLATFORM, (cl_context_properties)platform(),
-		// 	0
-		// };
 		CGLContextObj glContext = CGLGetCurrentContext();
 		CGLShareGroupObj shareGroup = CGLGetShareGroup(glContext);
 		cl_context_properties properties[] = {
@@ -49,7 +39,6 @@ OpenCLContext::OpenCLContext( bool verbose, bool openGlShare ) {
 		this->context = cl::Context(this->device, nullptr, nullptr, nullptr, &err);
 	this->checkError(err, "Create Context");
 
-	// 4. Command Queue on that device
 	this->queue = cl::CommandQueue(this->context, this->device, 0, &err);
 	this->checkError(err, "Create Queue");
 }
@@ -92,9 +81,6 @@ void	OpenCLContext::buildProgram() {
 	checkError(err, "Create program");
 
 	err = this->program.build({this->device});
-	// std::cout << "Build Status: " << program.getBuildInfo<CL_PROGRAM_BUILD_STATUS>(this->device) << std::endl;
-	// std::cout << "Build Options:\t" << program.getBuildInfo<CL_PROGRAM_BUILD_OPTIONS>(this->device) << std::endl;
-	// std::cout << "Build Log:\t " << program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(this->device) << std::endl;
 	checkError(err, "Build program");
 
 	this->sources.clear();

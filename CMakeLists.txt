@@ -18,7 +18,6 @@ set(
 	src/Shader.cpp
 	src/OpenGLWindow.cpp
 	src/OpenCLContext.cpp
-	src/GUI.cpp
 	src/FPS.cpp
 	src/Camera.cpp
 	src/Forces.cpp

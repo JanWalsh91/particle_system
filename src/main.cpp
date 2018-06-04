@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <string>
+#include <algorithm>
 
 #include "ParticleSystem.hpp"
 
@@ -9,7 +10,7 @@ int    main ( int ac, char **av ) {
 
 	std::vector<std::string> args;
 
-	long int pcount = 100000;
+	int pcount = 100000;
 	std::string layout = "";
 	bool optimized = false;
 
@@ -28,7 +29,6 @@ int    main ( int ac, char **av ) {
 		if (arg.find("-o") != std::string::npos)
 			optimized = true;
 	}
-	std::cout << "pcount: " << pcount << std::endl;
 
 	std::vector<std::string> faces = {
 		"../src/textures/FullMoonRight.png",
@@ -38,7 +38,12 @@ int    main ( int ac, char **av ) {
 		"../src/textures/FullMoonFront.png",
 		"../src/textures/FullMoonBack.png"
 		};
-
+	
+	if (optimized) {
+		pcount = std::min(pcount, 3000000);
+	} else {
+		pcount = std::min(pcount, 500000);
+	}
 	try {
 		ParticleSystem PS;
 		PS.init(pcount, layout, true, optimized, faces);

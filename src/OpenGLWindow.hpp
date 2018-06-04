@@ -7,18 +7,16 @@
 
 # include <glad/glad.h>
 # include <GLFW/glfw3.h>
+# include <nanogui/nanogui.h>
 # include <glm/fwd.hpp>
 # include <glm/glm.hpp>
 # include <glm/gtc/matrix_transform.hpp>
-# include <nanogui/nanogui.h>
 // # define STB_IMAGE_IMPLEMENTATION
 # include <stb_image.h>
 
 # include "Shader.hpp"
 
 class ParticleSystem;
-
-class GUI;
 
 class OpenGLWindow: public nanogui::Screen {
 
@@ -40,7 +38,6 @@ public:
 	void	setWindowName(std::string);
 
 	static void initOpenGL();
-	void initGUI();
 	static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
 
 	// Getters
@@ -53,7 +50,6 @@ public:
 
 private:
 	GLFWwindow						*window;
-	GUI*							gui;
 	int								width;
 	int								height;
 	std::map<std::string, GLuint>	VBOs;
@@ -61,7 +57,6 @@ private:
 	std::map<std::string, Shader>	shaderPrograms;
 };
 
-# include "GUI.hpp"
 # include "ParticleSystem.hpp"
 
 #endif

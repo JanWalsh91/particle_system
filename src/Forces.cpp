@@ -84,7 +84,6 @@ void Forces::delForce(bool forceDel) {
 }
 
 void Forces::toggleLock() {
-	printf("Toggle lock: %i\n", !this->forces[this->currentForce].locked);
 	this->forces[this->currentForce].locked = !this->forces[this->currentForce].locked;
 	this->updateData();
 }
@@ -141,7 +140,6 @@ void Forces::updateForcePosition(Camera &camera, float depth, int x, int y) {
 }
 
 void Forces::setVAO(GLuint VAO) {
-	std::cout << "'setVAO: " << VAO << std::endl;
 	this->VAO = VAO;
 }
 

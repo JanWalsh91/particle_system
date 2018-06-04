@@ -2224,19 +2224,9 @@ iostream
 Camera.hpp
 /Users/jwalsh/Documents/42/particle_system/src/Camera.hpp
 
-/Users/jwalsh/Documents/42/particle_system/src/GUI.cpp
-GUI.hpp
-/Users/jwalsh/Documents/42/particle_system/src/GUI.hpp
-
-/Users/jwalsh/Documents/42/particle_system/src/GUI.hpp
-OpenGLWindow.hpp
-/Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp
-
 /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.cpp
 OpenCLContext.hpp
 /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
-OpenGLWindow.hpp
-/Users/jwalsh/Documents/42/particle_system/src/OpenGLWindow.hpp
 
 /Users/jwalsh/Documents/42/particle_system/src/OpenCLContext.hpp
 OpenCL/opencl.h
@@ -2275,20 +2265,18 @@ glad/glad.h
 -
 GLFW/glfw3.h
 -
+nanogui/nanogui.h
+-
 glm/fwd.hpp
 -
 glm/glm.hpp
 -
 glm/gtc/matrix_transform.hpp
 -
-nanogui/nanogui.h
--
 stb_image.h
 -
 Shader.hpp
 /Users/jwalsh/Documents/42/particle_system/src/Shader.hpp
-GUI.hpp
-/Users/jwalsh/Documents/42/particle_system/src/GUI.hpp
 ParticleSystem.hpp
 /Users/jwalsh/Documents/42/particle_system/src/ParticleSystem.hpp
 
@@ -2350,6 +2338,8 @@ vector
 cstdlib
 -
 string
+-
+algorithm
 -
 ParticleSystem.hpp
 /Users/jwalsh/Documents/42/particle_system/src/ParticleSystem.hpp
