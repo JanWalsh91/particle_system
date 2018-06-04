@@ -1,7 +1,7 @@
 #include "OpenGLWindow.hpp"
 #include "ExceptionMsg.hpp"
 
-OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): nanogui::Screen(), width(width), height(height) {
+OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): width(width), height(height) {
 	
 	std::cout << "OpenGLWindow constructor" << std::endl;
 	if (!(this->window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr))) {
@@ -18,9 +18,6 @@ OpenGLWindow::OpenGLWindow( int width, int height, std::string const & title ): 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		throw ExceptionMsg("Failed to initialize GLAD");
 	}
-	
-	// nanogui function
-	this->initialize(this->window, true);
 
 	int w, h;
 	glfwGetFramebufferSize(window, &w, &h);
@@ -85,79 +82,27 @@ void OpenGLWindow::initOpenGL() {
 	glfwSwapInterval(0);
 }
 
-void OpenGLWindow::initGUI() {
-	std::cout << "initGUI" << std::endl;
-	// initialize nanogui::screen with this window
-	// this->initialize(this->window, true);
-
-
-	// nanogui::FormHelper *gui = new nanogui::FormHelper(this);
-    // nanogui::ref<nanogui::Window> nanoguiWindow = gui->addWindow(Eigen::Vector2i(10, 10), "Form helper example");
-    // gui->addGroup("Basic types");
-	// bool bvar = true;
-	// gui->addVariable("bool", bvar)->setTooltip("Test tooltip.");
-    // gui->addButton("A button", []() { std::cout << "Button pressed." << std::endl; })->setTooltip("Testing a much longer tooltip, that will wrap around to new lines multiple times.");;
-
-	nanogui::Window* guiWindow = new nanogui::Window(this, "HumanGL Settings");
-	guiWindow->setPosition(nanogui::Vector2i(20, 15));
-	guiWindow->setLayout(new nanogui::GroupLayout());
-
-	new nanogui::Label(guiWindow, "Rotation", "sans-bold");
-
-	nanogui::Widget *panel = new nanogui::Widget(guiWindow);
-	panel->setLayout(new nanogui::BoxLayout(nanogui::Orientation::Horizontal, nanogui::Alignment::Middle, 0, 20));
-
-	new nanogui::Label(panel, "X", "sans-bold");
-
-	nanogui::Slider *slider = new nanogui::Slider(panel);
-	slider->setValue(1.0f);
-	slider->setFixedWidth(100);
-
-	nanogui::TextBox *textBox = new nanogui::TextBox(panel);
-	textBox->setFixedSize(nanogui::Vector2i(60, 25));
-	textBox->setValue("100");
-	textBox->setUnits("%");
-
-
-	slider->setCallback([this, textBox](float value) {
-		textBox->setValue(std::to_string((int) (value * 100)));
-		std::cout << value << std::endl;
-
-	});
-	slider->setFinalCallback([&](float value) {
-		std::cout << "Final slider value: " << (int) (value * 100) << std::endl;
-	});
-
-	textBox->setFixedSize(nanogui::Vector2i(60,25));
-	textBox->setFontSize(20);
-	textBox->setAlignment(nanogui::TextBox::Alignment::Right);
-
-    this->setVisible(true);
-    this->performLayout();
-	guiWindow->center();
-}
-
 unsigned int OpenGLWindow::loadSkybox(std::vector<std::string> faces) {
 	unsigned int textureID;
 	glEnable(GL_TEXTURE_CUBE_MAP);
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
-    int width, height, nrChannels;
-    for (unsigned int i = 0; i < faces.size(); i++) {
-        unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
-        if (data) {
-			std::cout << "loaded texture: " << faces[i] << std::endl;
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-				0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            stbi_image_free(data);
-        }
-        else {
-            std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
-            stbi_image_free(data);
-			return 0;
-        }
-    }
+    // int width, height, nrChannels;
+    // for (unsigned int i = 0; i < faces.size(); i++) {
+    //     unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
+    //     if (data) {
+	// 		std::cout << "loaded texture: " << faces[i] << std::endl;
+    //         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+	// 			0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    //         stbi_image_free(data);
+    //     }
+    //     else {
+    //         std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
+    //         stbi_image_free(data);
+	// 		return 0;
+    //     }
+    // }
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

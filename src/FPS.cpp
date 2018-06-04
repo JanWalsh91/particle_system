@@ -24,7 +24,6 @@ void	FPS::updateLast() {
 	this->timeList.push_back(glfwGetTime());
 }
 
-// return time passed in seconds
 float	FPS::getDeltaTime() {
 	if (this->timeList.size() > 1) {
 		return this->timeList.back() - *std::prev(this->timeList.end(), 2);

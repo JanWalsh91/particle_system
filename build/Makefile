@@ -56,52 +56,6 @@ CMAKE_BINARY_DIR = /Users/jwalsh/Documents/42/particle_system/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/Users/jwalsh/.brew/Cellar/cmake/3.11.0/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/Users/jwalsh/.brew/Cellar/cmake/3.11.0/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/Users/jwalsh/.brew/Cellar/cmake/3.11.0/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/Users/jwalsh/.brew/Cellar/cmake/3.11.0/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/Users/jwalsh/.brew/Cellar/cmake/3.11.0/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/Users/jwalsh/.brew/Cellar/cmake/3.11.0/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -169,84 +123,32 @@ particle_system/fast:
 	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/build
 .PHONY : particle_system/fast
 
-#=============================================================================
-# Target rules for targets named nanogui
+include/glad/src/glad.o: include/glad/src/glad.c.o
 
-# Build rule for target.
-nanogui: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nanogui
-.PHONY : nanogui
-
-# fast build rule for target.
-nanogui/fast:
-	$(MAKE) -f libs/nanogui/CMakeFiles/nanogui.dir/build.make libs/nanogui/CMakeFiles/nanogui.dir/build
-.PHONY : nanogui/fast
-
-#=============================================================================
-# Target rules for targets named nanogui-obj
-
-# Build rule for target.
-nanogui-obj: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nanogui-obj
-.PHONY : nanogui-obj
-
-# fast build rule for target.
-nanogui-obj/fast:
-	$(MAKE) -f libs/nanogui/CMakeFiles/nanogui-obj.dir/build.make libs/nanogui/CMakeFiles/nanogui-obj.dir/build
-.PHONY : nanogui-obj/fast
-
-#=============================================================================
-# Target rules for targets named glfw_objects
-
-# Build rule for target.
-glfw_objects: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 glfw_objects
-.PHONY : glfw_objects
-
-# fast build rule for target.
-glfw_objects/fast:
-	$(MAKE) -f libs/nanogui/ext_build/glfw/src/CMakeFiles/glfw_objects.dir/build.make libs/nanogui/ext_build/glfw/src/CMakeFiles/glfw_objects.dir/build
-.PHONY : glfw_objects/fast
-
-#=============================================================================
-# Target rules for targets named glfw
-
-# Build rule for target.
-glfw: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 glfw
-.PHONY : glfw
-
-# fast build rule for target.
-glfw/fast:
-	$(MAKE) -f libs/nanogui/ext_build/glfw/src/CMakeFiles/glfw.dir/build.make libs/nanogui/ext_build/glfw/src/CMakeFiles/glfw.dir/build
-.PHONY : glfw/fast
-
-libs/nanogui/ext/glad/src/glad.o: libs/nanogui/ext/glad/src/glad.c.o
-
-.PHONY : libs/nanogui/ext/glad/src/glad.o
+.PHONY : include/glad/src/glad.o
 
 # target to build an object file
-libs/nanogui/ext/glad/src/glad.c.o:
-	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.o
-.PHONY : libs/nanogui/ext/glad/src/glad.c.o
+include/glad/src/glad.c.o:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/include/glad/src/glad.c.o
+.PHONY : include/glad/src/glad.c.o
 
-libs/nanogui/ext/glad/src/glad.i: libs/nanogui/ext/glad/src/glad.c.i
+include/glad/src/glad.i: include/glad/src/glad.c.i
 
-.PHONY : libs/nanogui/ext/glad/src/glad.i
+.PHONY : include/glad/src/glad.i
 
 # target to preprocess a source file
-libs/nanogui/ext/glad/src/glad.c.i:
-	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.i
-.PHONY : libs/nanogui/ext/glad/src/glad.c.i
+include/glad/src/glad.c.i:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/include/glad/src/glad.c.i
+.PHONY : include/glad/src/glad.c.i
 
-libs/nanogui/ext/glad/src/glad.s: libs/nanogui/ext/glad/src/glad.c.s
+include/glad/src/glad.s: include/glad/src/glad.c.s
 
-.PHONY : libs/nanogui/ext/glad/src/glad.s
+.PHONY : include/glad/src/glad.s
 
 # target to generate assembly for a file
-libs/nanogui/ext/glad/src/glad.c.s:
-	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/libs/nanogui/ext/glad/src/glad.c.s
-.PHONY : libs/nanogui/ext/glad/src/glad.c.s
+include/glad/src/glad.c.s:
+	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/include/glad/src/glad.c.s
+.PHONY : include/glad/src/glad.c.s
 
 src/Camera.o: src/Camera.cpp.o
 
@@ -355,33 +257,6 @@ src/Forces.s: src/Forces.cpp.s
 src/Forces.cpp.s:
 	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/Forces.cpp.s
 .PHONY : src/Forces.cpp.s
-
-src/GUI.o: src/GUI.cpp.o
-
-.PHONY : src/GUI.o
-
-# target to build an object file
-src/GUI.cpp.o:
-	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/GUI.cpp.o
-.PHONY : src/GUI.cpp.o
-
-src/GUI.i: src/GUI.cpp.i
-
-.PHONY : src/GUI.i
-
-# target to preprocess a source file
-src/GUI.cpp.i:
-	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/GUI.cpp.i
-.PHONY : src/GUI.cpp.i
-
-src/GUI.s: src/GUI.cpp.s
-
-.PHONY : src/GUI.s
-
-# target to generate assembly for a file
-src/GUI.cpp.s:
-	$(MAKE) -f CMakeFiles/particle_system.dir/build.make CMakeFiles/particle_system.dir/src/GUI.cpp.s
-.PHONY : src/GUI.cpp.s
 
 src/OpenCLContext.o: src/OpenCLContext.cpp.o
 
@@ -524,20 +399,12 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/local"
-	@echo "... install/strip"
-	@echo "... install"
-	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... particle_system"
-	@echo "... nanogui"
-	@echo "... nanogui-obj"
-	@echo "... glfw_objects"
-	@echo "... glfw"
-	@echo "... libs/nanogui/ext/glad/src/glad.o"
-	@echo "... libs/nanogui/ext/glad/src/glad.i"
-	@echo "... libs/nanogui/ext/glad/src/glad.s"
+	@echo "... include/glad/src/glad.o"
+	@echo "... include/glad/src/glad.i"
+	@echo "... include/glad/src/glad.s"
 	@echo "... src/Camera.o"
 	@echo "... src/Camera.i"
 	@echo "... src/Camera.s"
@@ -550,9 +417,6 @@ help:
 	@echo "... src/Forces.o"
 	@echo "... src/Forces.i"
 	@echo "... src/Forces.s"
-	@echo "... src/GUI.o"
-	@echo "... src/GUI.i"
-	@echo "... src/GUI.s"
 	@echo "... src/OpenCLContext.o"
 	@echo "... src/OpenCLContext.i"
 	@echo "... src/OpenCLContext.s"

@@ -10,17 +10,15 @@
 # include <glm/fwd.hpp>
 # include <glm/glm.hpp>
 # include <glm/gtc/matrix_transform.hpp>
-# include <nanogui/nanogui.h>
+// # include <OpenGL/OpenGL.h>
 // # define STB_IMAGE_IMPLEMENTATION
-# include <stb_image.h>
+// # include <stb_image.h>
 
 # include "Shader.hpp"
 
 class ParticleSystem;
 
-class GUI;
-
-class OpenGLWindow: public nanogui::Screen {
+class OpenGLWindow {
 
 public:
 	OpenGLWindow() {}
@@ -29,7 +27,6 @@ public:
 	~OpenGLWindow( void );
 	OpenGLWindow & operator=( OpenGLWindow const & rhs );
 
-	// void createWidget();
 	void addShaderProgram(std::string name, std::vector<std::string> paths);
 	
 	unsigned int loadSkybox(std::vector<std::string> faces);
@@ -40,7 +37,6 @@ public:
 	void	setWindowName(std::string);
 
 	static void initOpenGL();
-	void initGUI();
 	static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
 
 	// Getters
@@ -53,7 +49,6 @@ public:
 
 private:
 	GLFWwindow						*window;
-	GUI*							gui;
 	int								width;
 	int								height;
 	std::map<std::string, GLuint>	VBOs;
@@ -61,7 +56,6 @@ private:
 	std::map<std::string, Shader>	shaderPrograms;
 };
 
-# include "GUI.hpp"
 # include "ParticleSystem.hpp"
 
 #endif

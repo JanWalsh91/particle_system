@@ -459,7 +459,6 @@ void ParticleSystem::mouseButtonCallback(GLFWwindow* window, int button, int act
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 		PS->forces.updateForcePosition(PS->camera, PS->cursorDepth, xpos, ypos);
-		PS->getGL()->mouseButtonCallbackEvent(button, action, mods);
 	}
 }
 
@@ -467,7 +466,6 @@ void ParticleSystem::cursorPosCallback(GLFWwindow* window, double x, double y) {
 	ParticleSystem *PS = reinterpret_cast<ParticleSystem *>(glfwGetWindowUserPointer(window));
 	if (!PS->forces.getForce(PS->forces.getCurrentForce()).locked) {
 		PS->forces.updateForcePosition(PS->camera, PS->cursorDepth, x, y);
-		PS->getGL()->cursorPosCallbackEvent(x, y);
 	}
 }
 
@@ -478,7 +476,6 @@ void ParticleSystem::scrollCallback(GLFWwindow* window, double x, double y) {
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 		PS->forces.updateForcePosition(PS->camera, PS->cursorDepth, xpos, ypos);
-		PS->getGL()->scrollCallbackEvent(x, y);
 	}
 }
 

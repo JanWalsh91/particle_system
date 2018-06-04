@@ -1,5 +1,5 @@
 #include "OpenCLContext.hpp"
-#include "OpenGLWindow.hpp"
+// #include "OpenGLWindow.hpp"
 
 OpenCLContext::OpenCLContext( bool verbose, bool openGlShare ) {
 	cl_int err;
@@ -29,27 +29,27 @@ OpenCLContext::OpenCLContext( bool verbose, bool openGlShare ) {
 		std::cout << "Using device: " << this->device.getInfo<CL_DEVICE_NAME>() << std::endl;
 
 	// 3. Create Context
-	if (openGlShare) {
-		// cl_context_properties	properties[] = {
-		// 	CL_GL_CONTEXT_KHR, (cl_context_properties)wglGetCurrentContext(),
-		// 	CL_WGL_HDC_KHR, (cl_context_properties)wglGetCurrentDC(),
-		// 	CL_CONTEXT_PLATFORM, (cl_context_properties)platform(),
-		// 	0
-		// };
-		CGLContextObj glContext = CGLGetCurrentContext();
-		CGLShareGroupObj shareGroup = CGLGetShareGroup(glContext);
-		cl_context_properties properties[] = {
-			CL_CONTEXT_PROPERTY_USE_CGL_SHAREGROUP_APPLE,
-			(cl_context_properties)shareGroup,
-			0
-		};
-		this->context = cl::Context(this->device, properties, nullptr, nullptr, &err);
-	}
-	else
-		this->context = cl::Context(this->device, nullptr, nullptr, nullptr, &err);
-	this->checkError(err, "Create Context");
+	// size_t extensionSize;
+	// std::string s = this->device.getInfo<CL_DEVICE_EXTENSIONS>();
+	// std::cout << s << std::endl;
+	// if (openGlShare) {
+	// 	CGLContextObj glContext = CGLGetCurrentContext();
+	// 	CGLShareGroupObj shareGroup = CGLGetShareGroup(glContext);
+	// 	// CGLShareGroupObj shareGroup = CGLGetShareGroup(glfwGetCurrentContext);
+	// 	cl_context_properties properties[] = {
+	// 		CL_CONTEXT_PROPERTY_USE_CGL_SHAREGROUP_APPLE,
+	// 		(cl_context_properties)shareGroup,
+	// 		// (cl_context_properties)kCGLShareGroup,
+	// 		0
+	// 	};
+	// 	this->context = cl::Context(this->device, properties, nullptr, nullptr, &err);
+	// }
+	// else
+	// 	this->context = cl::Context(this->device, nullptr, nullptr, nullptr, &err);
+	// this->checkError(err, "Create Context");
 
 	// 4. Command Queue on that device
+	exit(0);
 	this->queue = cl::CommandQueue(this->context, this->device, 0, &err);
 	this->checkError(err, "Create Queue");
 }
