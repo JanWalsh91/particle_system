@@ -209,7 +209,6 @@ void ParticleSystem::initSphere() {
 	this->CL->checkError(err, "init: enqueueAcquireGLObjects");
 
 	if (this->optimized) {
-		std::cout << "init optimized sphere" << std::endl;
 		this->CL->getKernel("init_particle_sphere_optimized").setArg(0, this->CL->getBuffer("particles"));
 		this->CL->getKernel("init_particle_sphere_optimized").setArg(1, sizeof(cl_uint), &this->numParticles);
 		err = queue.enqueueNDRangeKernel(this->CL->getKernel("init_particle_sphere_optimized"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);

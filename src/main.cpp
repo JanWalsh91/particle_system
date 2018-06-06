@@ -6,6 +6,9 @@
 
 #include "ParticleSystem.hpp"
 
+void printUsage();
+void printInstructions();
+
 int    main ( int ac, char **av ) {
 
 	std::vector<std::string> args;
@@ -13,6 +16,14 @@ int    main ( int ac, char **av ) {
 	int pcount = 100000;
 	std::string layout = "sphere";
 	bool optimized = false;
+
+	if (ac < 2) {
+		printUsage();
+		return (0);
+	}
+	else {
+		printInstructions();
+	}
 
 	for (int i = 1; i < ac; ++i)
 		args.push_back(av[i]);
@@ -42,10 +53,11 @@ int    main ( int ac, char **av ) {
 	if (optimized) {
 		pcount = std::min(pcount, 3000000);
 	} else {
-		pcount = std::min(pcount, 500000);
+		pcount = std::min(pcount, 700000);
 	}
 
 	try {
+		std::cout << "number of particles: " << pcount << std::endl;
 		ParticleSystem PS;
 		PS.init(pcount, layout, true, optimized, faces);
 		PS.loop();
@@ -56,4 +68,23 @@ int    main ( int ac, char **av ) {
 
 	glfwTerminate();
 	return (0);
+}
+
+void printUsage() {
+	std::cout << "Usage: ./particle_system -p=[number of particles] [-l=[sphere/cube]] [-o]" << std::endl;
+}
+
+void printInstructions() {
+	std::cout << std::endl;
+	std::cout << "=================== INSTRUCTIONS: ===================" << std::endl;
+	std::cout << "Move Camera:\t\t\tUP, DOWN, LEFT, RIGHT" << std::endl;
+	std::cout << "Rotate Camera:\t\t\tW, A, S, D" << std::endl;
+	std::cout << "Pause:\t\t\t\tP" << std::endl;
+	std::cout << "Toggle Mouse to Control Force:\tL" << std::endl;
+	std::cout << "Control Froce Depth:\t\tMouse Wheel" << std::endl;
+	std::cout << "Move Force:\t\t\tMouse Left Click" << std::endl;
+	std::cout << "New Force:\t\t\tN" << std::endl;
+	std::cout << "Next Force:\t\t\tTAB" << std::endl;
+	std::cout << "Reset / Change init config:\tSPACE" << std::endl;
+	std::cout << std::endl;
 }
