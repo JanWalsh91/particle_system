@@ -1,5 +1,5 @@
 
-kernel void update_particle_optimized(global float4 *p, global float *f, int numForces, float deltaTime, float4 camUp, float4 camPos, float4 camDir) {
+kernel void update_particle_optimized(global float4 *p, global float *f, int numForces) {
 	size_t i = get_global_id(0);
 
 	for (int y = 0; y < numForces; ++y) {

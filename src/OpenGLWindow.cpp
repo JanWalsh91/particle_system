@@ -120,6 +120,11 @@ void	OpenGLWindow::framebufferSizeCallback(GLFWwindow *window, int width, int he
 	);
 }
 
+void	OpenGLWindow::deleteBuffers() {
+	const GLuint buffers[] = {VBOs["particles"], VBOs["forces"], VBOs["skybox"]};
+	glDeleteBuffers(3, buffers);
+}
+
 // Getters
 GLFWwindow  *OpenGLWindow::getWindow() {
 	return this->window;

@@ -31,8 +31,8 @@ int    main ( int ac, char **av ) {
 	}
 
 	std::vector<std::string> faces = {
-		"../src/textures/FullMoonRight.png",
 		"../src/textures/FullMoonLeft.png",
+		"../src/textures/FullMoonRight.png",
 		"../src/textures/FullMoonUp.png",
 		"../src/textures/FullMoonDown.png",
 		"../src/textures/FullMoonFront.png",

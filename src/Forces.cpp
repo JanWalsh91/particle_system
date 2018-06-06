@@ -72,8 +72,6 @@ void Forces::nextForce() {
 	printf("Current Force: %d\n", this->currentForce);
 }
 
-// del force
-
 void Forces::delForce(bool forceDel) {
 	if (((int)this->forces.size() > 1 && this->currentForce < (int)this->forces.size()) || forceDel == true) {
 		this->forces.erase(this->forces.begin() + this->currentForce);
@@ -88,7 +86,6 @@ void Forces::toggleLock() {
 	this->updateData();
 }
 
-// update force position
 void Forces::updateData() {
 	GLuint buffSize = sizeof(float) * 7 * this->forces.size();
 	glBindVertexArray(this->VAO);
@@ -97,7 +94,6 @@ void Forces::updateData() {
 }
 
 void Forces::updateForcePosition(Camera &camera, float depth, int x, int y) {
-	// get viewport info
 	GLint viewport[4];
     glGetIntegerv( GL_VIEWPORT, viewport );
 	GLint height = viewport[3];
@@ -132,7 +128,6 @@ void Forces::updateForcePosition(Camera &camera, float depth, int x, int y) {
 	f.position.y = vec.y;
 	f.position.z = vec.z;
 	
-	// update forces data in buffer
 	this->updateData();
 }
 

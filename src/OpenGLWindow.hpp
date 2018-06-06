@@ -11,7 +11,6 @@
 # include <glm/fwd.hpp>
 # include <glm/glm.hpp>
 # include <glm/gtc/matrix_transform.hpp>
-// # define STB_IMAGE_IMPLEMENTATION
 # include <stb_image.h>
 
 # include "Shader.hpp"
@@ -27,7 +26,6 @@ public:
 	~OpenGLWindow( void );
 	OpenGLWindow & operator=( OpenGLWindow const & rhs );
 
-	// void createWidget();
 	void addShaderProgram(std::string name, std::vector<std::string> paths);
 	
 	unsigned int loadSkybox(std::vector<std::string> faces);
@@ -39,6 +37,7 @@ public:
 
 	static void initOpenGL();
 	static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
+	void deleteBuffers();
 
 	// Getters
 	GLFWwindow  *getWindow();

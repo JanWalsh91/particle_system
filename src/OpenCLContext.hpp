@@ -16,16 +16,13 @@ class OpenCLContext {
 		OpenCLContext( bool verbose = false, bool openGLShare = false );
 		~OpenCLContext();
 
-		// Kernel management
 		void		addKernelFromString(std::string kernelCode);
 		void		addKernelFromFile(std::string kernelPath);
 		void		buildProgram();
 		void		setKernel(std::string kernelName);
 
-		// Buffer management
 		void		addBuffer(std::string name, GLuint VBO);
 
-		// OpenCL error checking
 		static void checkError(cl_int error, std::string loc="");
 		
 		// getters

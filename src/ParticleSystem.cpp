@@ -42,15 +42,9 @@ ParticleSystem::ParticleSystem() {
 	);
 }
 
-ParticleSystem::~ParticleSystem() {
-	delete CL;
-	delete GL;
-	delete fps;
-}
+ParticleSystem::~ParticleSystem() {}
 
-/**
-	Initializes particles and buffers based on number of particles and layout
-*/
+//Initializes particles and buffers based on number of particles and layout
 void ParticleSystem::init(int numParticles, std::string layout, bool paused, bool optimized, std::vector<std::string> skyboxFaces) {
 	this->paused = paused;
 	this->optimized = optimized;
@@ -255,13 +249,6 @@ void ParticleSystem::updateParticles() {
 	float deltaTime = this->fps->getDeltaTime();
 	if (this->optimized) {
 		this->CL->getKernel("update_particle_optimized").setArg(2, sizeof(int), &numForces);
-		this->CL->getKernel("update_particle_optimized").setArg(3, sizeof(float), &deltaTime);
-		float camUp[4] = { this->camera.getUp()[0], this->camera.getUp()[1], this->camera.getUp()[2], 1.0f };
-		this->CL->getKernel("update_particle_optimized").setArg(4, sizeof(float) * 4, &camUp);
-		float camPos[4] = { this->camera.getPosition()[0], this->camera.getPosition()[1], this->camera.getPosition()[2], 1.0f };
-		this->CL->getKernel("update_particle_optimized").setArg(5, sizeof(float) * 4, &camPos);
-		float camDir[4] = { this->camera.getFront()[0], this->camera.getFront()[1], this->camera.getFront()[2], 1.0f };
-		this->CL->getKernel("update_particle_optimized").setArg(6, sizeof(float) * 4, &camDir);
 		err = queue.enqueueNDRangeKernel(this->CL->getKernel("update_particle_optimized"), cl::NullRange, cl::NDRange(this->numParticles), cl::NullRange);
 	}
 	else {
@@ -329,6 +316,12 @@ void ParticleSystem::loop() {
 		glfwSwapBuffers(this->GL->getWindow());
 		glfwPollEvents();
 	}
+
+	this->GL->deleteBuffers();
+
+	delete CL;
+	delete GL;
+	delete fps;
 }
 
 void ParticleSystem::processInput() {
