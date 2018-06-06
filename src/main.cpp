@@ -72,6 +72,9 @@ int    main ( int ac, char **av ) {
 
 void printUsage() {
 	std::cout << "Usage: ./particle_system -p=[number of particles] [-l=[sphere/cube]] [-o]" << std::endl;
+	std::cout << "-p= : specify number of particles" << std::endl;
+	std::cout << "-l= : specify layout" << std::endl;
+	std::cout << "-o : use optmized version" << std::endl;
 }
 
 void printInstructions() {
