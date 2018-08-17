@@ -18,7 +18,6 @@ set(CMAKE_TARGET_DEFINITIONS_C
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH
-  "/System/Library/Frameworks/OpenCL.framework"
   "../libs/nanogui/include"
   "../libs/nanogui/ext/glad/include"
   "../libs/nanogui/ext/glfw/include"
@@ -26,6 +25,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   "../libs/nanogui/ext/eigen"
   "../include"
   "../"
+  "/System/Library/Frameworks/OpenCL.framework"
   )
 set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/jwalsh/Documents/42/particle_system/src/Camera.cpp" "/Users/jwalsh/Documents/42/particle_system/build/CMakeFiles/particle_system.dir/src/Camera.cpp.o"
@@ -49,7 +49,6 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/System/Library/Frameworks/OpenCL.framework"
   "../libs/nanogui/include"
   "../libs/nanogui/ext/glad/include"
   "../libs/nanogui/ext/glfw/include"
@@ -57,6 +56,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../libs/nanogui/ext/eigen"
   "../include"
   "../"
+  "/System/Library/Frameworks/OpenCL.framework"
   )
 
 # Targets to which this target links.
