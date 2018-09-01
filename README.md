@@ -11,5 +11,5 @@ Check out some screenshots!
 ![PS_RED](https://github.com/JanWalsh91/particle_system/blob/master/screenshots/PS_RED.png "PS RED")
 ![PS_GREEN](https://github.com/JanWalsh91/particle_system/blob/master/screenshots/PS_GREEN.png "PS GREEN")
 
-And videos! (Comming soon)
+And videos! (Coming soon)
 
